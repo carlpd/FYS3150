@@ -1,0 +1,6 @@
+Vi har sortert alle bilder og data (txt output) i egne mapper for å gjøre det rydiggere. Alle programmer og TeX
+ligger i hovedmappen.
+
+LargestOffDiagTest.cpp: $make LargestOD
+
+	Tester funksjonen max_offdiag_symmetric funksjonen i LargestOffDiag.hpp filen

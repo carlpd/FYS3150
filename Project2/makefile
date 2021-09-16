@@ -1,10 +1,16 @@
-gitcommitall: gitAA gitCAA
+gitcaH: gitAA gitCAA gitget gitP
 
 gitAA:
 	git add --all
 
 gitCAA:
 	git commit -m 'Added by Henrik'
+
+gitget:
+	git pull -m 'Merged henrik'
+
+gitP:
+	git push
 
 LargestOD: LODc LODl LODr
 

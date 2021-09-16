@@ -1,4 +1,5 @@
 #include "LargestOffDiag.hpp"
+
 int main(){
   arma::mat A(4,4, arma::fill::zeros);
   arma::vec c = {0.5, -0.7, -0.7, 0.5};
