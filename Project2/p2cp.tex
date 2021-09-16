@@ -148,8 +148,14 @@ som vi skulle vise. $\square$
 Koden kan finnes i som prob3.cpp.
 \newline Vi konstruerer de analytiske egenverdiene som
 $$
-\lambda_i=d+
+\lambda_i=d+2*a\cos(\frac{i\pi}{N+1})
 $$
+og egenvektorene i en matrise som
+$$
+v_i=[\sin(\frac{i\pi}{N+1}), \sin(\frac{i\pi}{N+1}), (\cdots),$$
+$$ \sin(\frac{ji\pi}{N+1}), (\cdots) \sin(\frac{Ni\pi}{N+1})]^T
+$$
+og konstruerer $A$ som den tridiagonale matrisen og bruker arma::vec til for å finne egenverdiene for å sammenligne med de analytiske verdiene. arma::vec normaliserer egenvektorene også så vi må også normalisere de analytiske egenvektorene og sammenlikner vi nå ser vi at de armadillos egenvektorer og de analytiske egenvektorene stemmer.
 \section{Metode}
 \section{Resultater}
 \section{Diskusjon}
