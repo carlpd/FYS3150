@@ -1,3 +1,11 @@
+gitcommitall: gitAA gitCAA
+
+gitAA:
+	git add --all
+
+gitCAA:
+	git commit -m 'Added by Henrik'
+
 LargestOD: LODc LODl LODr
 
 LODc:

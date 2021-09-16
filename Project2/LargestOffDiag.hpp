@@ -1,5 +1,6 @@
 #include <iostream>
 #include <armadillo>
+#include <cmath>
 
 double max_offdiag_symmetric(const arma::mat& A, int& k, int& l){
   int rows = A.n_rows;
@@ -12,8 +13,8 @@ double max_offdiag_symmetric(const arma::mat& A, int& k, int& l){
   for (int i = 0; i < rows; i++){
     for (int j = i+1; j < cols; j++){
       //Matrisene henter element row-col så blir omvendt av for-løkkene
-      double element = abs(A(i,j));
-      std::cout << i << j;
+      double element = cmath::abs(A(i,j));
+      std::cout << i << j << std::endl;
       if (element > current_highest){
         current_highest = A(i, j);
         //Setter rad-nummeret til k og kolonnenummeret til l
