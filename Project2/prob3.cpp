@@ -1,4 +1,5 @@
 #include <armadillo>
+#include <iostream>
 using namespace arma;
 int main(){
   int n=7;
