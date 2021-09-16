@@ -9,6 +9,7 @@ double u(double y){
 
 int main(){
   //double x[100];
+  n=100;
   double h = 1.0/n;
   std::fstream ofile;
   ofile.open("2tekst.txt");

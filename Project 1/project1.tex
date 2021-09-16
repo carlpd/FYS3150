@@ -156,8 +156,62 @@ $$
 $$
 og vi setter $\tilde{g_{n-1}}= g_{n-1}^*-\frac{c_{n-1} g_n^*}{b_n^*}$ og dette gjør vi videre oppover som $(k-1)-\frac{c_k}{b_{k-1}}(k)$
 Til slutt står vi da bare igjen med $b^*$-ene og disse kan vi da dele på seg selv og vi får en identitetsmatrise.
-Med andre ord får vi en algoritme som:
+Vi kan nå skrive dette som en algoritme. Anta vi har en tridiagonal matrise
+$$
+A=U=\begin{pmatrix}
+u_{1,1}&u_{1,2}&\cdots & u_{1,n} \\
+u_{2,1}&u_{2,2}&\cdots & u_{2,n} \\
+\vdots & \vdots& \ddots & \vdots \\
+u_{n,1} & u{n,2}& \cdots & u{n,n}
+\end{pmatrix}
+$$
+og en som skal løses for vektoren
+$$
+g=h=\begin{pmatrix}
+h_1\\h_2\\\vdots \\ h_n
+\end{pmatrix}
+$$
 
+\begin{algorithm}[H]
+	\caption{Radredusering av tridiagonal matrise}\label{algo:midpoint_rule}
+	\begin{algorithmic}
+		\For{$i = 2, 3, ..., n$} \Comment{Forward substitution, $n-1$ repetisjoner}
+		\State $$t\leftarrow \frac{u_{i,i-1}}{u{_i-1,i}}$$ \Comment{1 FLOP}
+		$$
+		u_{i,i-1}\leftarrow u_{i,i-1}-u_{i-1,i-1} \cdot t
+		$$ \Comment{2 FLOPs}
+		$$
+		u_{i,i}\leftarrow u_{i,i}-u_{i-1,i-1}\cdot t
+		$$ \Comment{2 FLOPs}
+		$$
+		h_i\leftarrow h_i-h_{i-1} t
+		$$ \Comment{2 FLOPs} \\
+		\EndFor
+		\Comment{Til sammen $7\cdot (n-1)$ FLOPs i loopen}
+		\For{$j=n-1,n-2, ... ,1$} \Comment{Backward Substitution, $n-1$ repetisjoner}
+		\State $$k\leftarrow \frac{u_{j,j+1}}{u_{j+1,j}}$$ \Comment{2 FLOPs}
+		$$
+		u_{j,j+1}\leftarrow u_{j,j+1}-u_{j+1,j+1}\cdot k
+		$$ \Comment{2 FLOPs}
+		$$
+		u_{j,j}\leftarrow u_{j,j}-u_{j+1,j}\cdot k
+		$$ \Comment{2 FLOPs}
+		$$
+		h_j\leftarrow h_j-h_{j+1}\cdot k
+		$$ \Comment{2 FLOPs} \\
+		\EndFor
+		\Comment{Til sammen $7\cdot (n-1)$ FLOPs i loopen}
+		\For {$l=1,2,\cdots n$} \Comment{Deler for å få identitetsmatrise, til sammen $n$ repetisjoner}
+		\State $$
+		u_l \leftarrow \frac{u_l}{u_l}$$ \Comment{1 FLOP}
+		$$
+		h_l\leftarrow \frac{h_l}{u_l}
+		$$ \Comment{1 FLOPs} \\
+		\EndFor
+		\Comment{Til sammen $2\cdot n$ FLOPs}
+	\end{algorithmic}
+\end{algorithm}
+Da ser vi at vi til sammen får $2\cdot n+ 2\cdot 7\cdot (n-1)=16n-14$ FLOPs.
 
 
 
