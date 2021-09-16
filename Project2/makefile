@@ -7,7 +7,7 @@ gitCAA:
 	git commit -m 'Added by Henrik'
 
 gitget:
-	git pull -m 'Merged henrik'
+	git pull
 
 gitP:
 	git push
