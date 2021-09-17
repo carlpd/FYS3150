@@ -1,6 +1,13 @@
-#include "Project2H.hpp"
+#include "Project2.hpp"
 
 int main(){
+  /*if (A.is_square() == false){
+    throw std::invalid_argument("A not a square matrix");
+  }
+  int rows = A.n_rows;
+  if (rows < 2){
+    throw std::invalid_argument("A must be larger than 1x1");
+  }*/
   arma::mat A(4,4, arma::fill::zeros);
   arma::vec c = {0.5, -0.7, -0.7, 0.5};
   int rows = A.n_rows;

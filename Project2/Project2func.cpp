@@ -1,15 +1,12 @@
-#include <iostream>
-#include <armadillo>
-#include <stdexcept>
-#include <cmath>
+#include "Project2.hpp"
 
 double max_offdiag_symmetric(const arma::mat& A, int& k, int& l){
-  if (A.is_square() == False){
-    throw std::invalid_argument("A not a square matrix")
+  if (A.is_square() == false){
+    throw std::invalid_argument("A not a square matrix");
   }
   int rows = A.n_rows;
   if (rows < 2){
-    throw std::invalid_argument("A must be larger than 1x1")
+    throw std::invalid_argument("A must be larger than 1x1");
   }
   double current_highest = 0.;
   //Tester kun for den øvre delen av diagonalen siden A er symmetrisk
@@ -29,7 +26,6 @@ double max_offdiag_symmetric(const arma::mat& A, int& k, int& l){
   }
   return current_highest;
 }
-
 // Performs a single Jacobi rotation, to "rotate away"
 // the off-diagonal element at A(k,l).
 // - Assumes symmetric matrix, so we only consider k < l
@@ -40,15 +36,30 @@ void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l){
   //t = tan theta (choosing smallest), s = sin theta, c = cos theta
   double tm = -tau- std::sqrt(1+std::pow(tau, 2));
   double tp = -tau + std::sqrt(1+std::pow(tau,2));
+  if (tau>=0){
+    double t=1/(tau*sqrt(tau*tau+1));
+  }
+  if (tau<0){
+    double t=1/(-tau+sqrt(tau*tau+1));
+  }
   double c=1/sqrt(1+t*t);
   double s=c*t;
-
-}
-
-// Performs a single Jacobi rotation, to "rotate away"
-// the off-diagonal element at A(k,l).
-// - Assumes symmetric matrix, so we only consider k < l
-// - Modifies the input matrices A and R
-void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l){
+  A(k,k)=A(k,k)*c*c+2*A(k,l)*c*s+A(l,l)*s*s;
+  A(l,l)=A(l,l)*c*c+2*A(k,l)*c*s+A(k,k)*s*s;
+  for(int i=0;i<len(A);i++){
+    if (i!=l && i!=k){
+      double aik=A(i,k); //lagrer for to linjer under
+      A(i,k)=A(i,k)*c-A(i,k)*s;
+      A(k,i)=A(i,k)
+      A(l,i)=A(i,l)*c+aik*s;
+      A(l,i)=A(i,l);
+    }
+  }
+  for(int i=0; i<len(A); i++){
+    double rik=R(i,k);
+    double rik=R(i,k);
+    R(i,k)=R(i,k)*c-R(i,l)*s;
+    R(i,l)=R(i,l)+R(i,k)*s
+  }
 
 }
