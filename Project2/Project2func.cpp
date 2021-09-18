@@ -1,6 +1,6 @@
 #include "Project2.hpp"
 
-double max_offdiag_symmetric(const arma::mat& A, int& k, int& l){
+double max_offdiag_symmetric(arma::mat& A, int& k, int& l){
   if (A.is_square() == false){
     throw std::invalid_argument("A not a square matrix");
   }
@@ -38,33 +38,54 @@ void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l){
   double tm = -tau- std::sqrt(1+std::pow(tau, 2));
   double tp = -tau + std::sqrt(1+std::pow(tau,2));
   double t;
-  if (tau>=0){
-    t=1/(tau*sqrt(tau*tau+1));
+  double c;
+  double s;
+  if (A(k,l)!=0){
+    if (tau>0){
+      t=1.0/(tau+sqrt(tau*tau+1.0));
+    }
+    else{
+      t=(-1.0)/(-tau+sqrt(tau*tau+1.0));
+    }
+    c=1.0/sqrt(1.0+t*t);
+    s=c*t;
   }
-  if (tau<0){
-    t=1/(-tau+sqrt(tau*tau+1));
+  else{
+    t=0.0;
+    s=0.0;
+    c=1.0;
   }
-  double c=1/sqrt(1+t*t);
-  double s=c*t;
+  double akk;
+  double all;
+  double aik;
+  double ail;
+  double rik;
+  double ril;
+  akk=A(k,k);
+  all=A(l,l);
   //std::cout<<"Starting transform"<<std::endl;
   //Tranformerer A(m) til A(m+1)
-  A(k,k)=A(k,k)*c*c+2*A(k,l)*c*s+A(l,l)*s*s;
-  A(l,l)=A(l,l)*c*c+2*A(k,l)*c*s+A(k,k)*s*s;
+  A(k,k)=akk*c*c+2*A(k,l)*c*s+all*s*s;
+  A(l,l)=all*c*c+2*A(k,l)*c*s+akk*s*s;
+  A(k,l)=0.0;
+  A(l,k)=0.0;
   for(int i=0;i<A.n_rows;i++){
     if (i!=l && i!=k){
-      double aik=A(i,k); //lagrer for to linjer under
-      A(i,k)=A(i,k)*c-A(i,k)*s;
+      aik=A(i,k); //lagrer for to linjer under
+      ail=A(i,l);
+      A(i,k)=aik*c-ail*s;
       A(k,i)=A(i,k);
-      A(l,i)=A(i,l)*c+aik*s;
+      A(l,i)=ail*c+aik*s;
       A(l,i)=A(i,l);
     }
   }
   //std::cout<<"Went thorugh transform"<<std::endl;
   //Oppdaterer R
   for(int i=0; i<A.n_rows; i++){
-    double rik=R(i,k);
-    R(i,k)=R(i,k)*c-R(i,l)*s;
-    R(i,l)=R(i,l)+R(i,k)*s;
+    rik=R(i,k);
+    ril=R(i,l);
+    R(i,k)=rik*c-ril*s;
+    R(i,l)=c*ril+rik*s;
   }
 }
 // Jacobi method eigensolver:
@@ -82,9 +103,14 @@ void jacobi_eigensolver(arma::mat& A, double eps, arma::vec& eigenvalues, arma::
   double hinum=max_offdiag_symmetric(A, k, l);
   //std::cout<<"Came to while loop"<<std::endl;
   while (eps<abs(hinum) && iterations<maxiter){
+    std::cout<<hinum<<std::endl;
     jacobi_rotate(A,R, k, l);
     hinum=max_offdiag_symmetric(A, k, l);
     iterations++;
+  }
+  std::cout<<hinum<<std::endl;
+  if (eps>abs(hinum)){
+    converged=true;
   }
   for (int i=0; i<N; i++){
     eigenvalues(i)=A(i,i);
