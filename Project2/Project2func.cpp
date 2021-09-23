@@ -20,8 +20,8 @@ double max_offdiag_symmetric(arma::mat& A, int& k, int& l){
       if (element > current_highest){
         current_highest = element;
         //Setter rad-nummeret til k og kolonnenummeret til l
-        k = i;
-        l = j;
+        l = i;
+        k = j;
       }
     }
   }

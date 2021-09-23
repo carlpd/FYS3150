@@ -3,7 +3,7 @@ using namespace arma;
 int main(){
   int n=7;
   int N=(n-1);
-  double h=1.0/N;
+  double h=1.0/n;
   std::cout<<h<<std::endl;
   mat A=mat(N,N).fill(0.);
   double a=-1.0/(h*h);
@@ -25,13 +25,13 @@ int main(){
   bool converged=false;
   int maxiter=std::pow(10, 6);
   double eps=1e-11;
-  eig_sym(eigenvalues, eigenvectors, A);
+  //eig_sym(eigenvalues, eigenvectors, A);
   /*int k;
   int l;
   double hinum=max_offdiag_symmetric(A, k, l);
   mat R=mat(size(A)).eye();
   jacobi_rotate(A, R, k, l);*/
-  //jacobi_eigensolver(A, eps, eigenvalues, eigenvectors, maxiter, iterations, converged);
+  jacobi_eigensolver(A, eps, eigenvalues, eigenvectors, maxiter, iterations, converged);
   //std::cout<<A<<std::endl;
   std::cout<<"eigenvalues"<<eigenvalues<<std::endl;
   std::cout<<"eigenvectors"<<std::endl;
@@ -47,7 +47,7 @@ int main(){
       v(j,i)=sin((j+1)*(i+1)*M_PI*1.0/(1.0*N+1));
     }
   }
-  std::cout<<"aneigval"<<lam<<std::endl;
+  std::cout<<"analytical eigenvalues"<<std::endl<<lam<<std::endl;
   std::cout<<normalise(v)<<std::endl;
   std::cout<<converged<<std::endl;
   return 0;
