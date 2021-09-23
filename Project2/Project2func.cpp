@@ -118,3 +118,38 @@ void jacobi_eigensolver(arma::mat& A, double eps, arma::vec& eigenvalues, arma::
   }
   eigenvectors=R;
 }
+//Problem 7
+arma::mat findthreelowestvals(arma::vec eigenvalues, arma::mat eigenvectors){
+  double a=1e20;
+  int ai;
+  double b=1e20;
+  int bi;
+  double c=1e20;
+  int ci;
+  for (int i=0;i<eigenvalues.n_elem;i++){
+    if (eigenvalues(i)>1e20){
+      throw std::invalid_argument("Eignevalue has to be lower!");
+    }
+    if(a>eigenvalues(i)){
+      a=eigenvalues(i);
+      ai=i;
+    }
+  }
+  for (int i=0;i<eigenvalues.n_elem;i++){
+    if (b>eigenvalues(i)&&i!=ai){
+      b=eigenvalues(i);
+      bi=i;
+    }
+  }
+  for (int i=0;i<eigenvalues.n_elem;i++){
+    if (c>eigenvalues(i)&&i!=ai&&i!=bi){
+      c=eigenvalues(i);
+      ci=i;
+    }
+  }
+  arma::mat o=arma::mat(eigenvectors.n_cols, 3).fill(0.);
+  o.col(0)=eigenvectors.col(ai);
+  o.col(1)=eigenvectors.col(bi);
+  o.col(2)=eigenvectors.col(ci);
+  return o;
+}
