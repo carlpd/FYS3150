@@ -23,6 +23,17 @@ LODl:
 LODr:
 	./LOD.out
 
+runP6: P6c P6l P6r
+
+P6c:
+	g++ -c problem6.cpp Project2func.cpp
+
+P6l:
+	g++ problem6.o Project2func.o -o Pr6.exe -larmadillo
+
+P6r:
+	./Pr6.exe
+
 runP2: P2c P2l P2r
 
 P2c:
