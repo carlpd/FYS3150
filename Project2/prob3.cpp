@@ -9,8 +9,8 @@ int main(){
   int N=(n-1);
   double h=1.0/n;
   mat A=mat(N,N).fill(0.);
-  double a=-1.0/h;
-  double d=2.0/h;
+  double a=-1.0/(h*h);
+  double d=2.0/(h*h);
   vec lam=vec(N).fill(0.);
   mat v=mat(N,N).fill(0.);
   for (int i=0;i<=N-1; i++){

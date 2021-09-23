@@ -8,16 +8,17 @@ double max_offdiag_symmetric(arma::mat& A, int& k, int& l){
   if (rows < 2){
     throw std::invalid_argument("A must be larger than 1x1");
   }
-  double current_highest = 0.;
+  double current_highest = 0.0;
   //Tester kun for den øvre delen av diagonalen siden A er symmetrisk
   //Vil si at i går gjennom alle kolonner
   //Og at j går fra den kolonnens diagonalelement og utover
   for (int i = 0; i < rows; i++){
     for (int j = i+1; j < rows; j++){
       //Matrisene henter element row-col så blir omvendt av for-løkkene
-      double element = std::abs(A(i,j));
-      if ((element > std::abs(current_highest))==1){
-        current_highest = A(i, j);
+      double element = std::fabs(A(i,j));
+      //if ((element > std::fabs(current_highest))==1){
+      if (element > current_highest){
+        current_highest = element;
         //Setter rad-nummeret til k og kolonnenummeret til l
         k = i;
         l = j;
@@ -35,13 +36,13 @@ void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l){
   //Regner ut tau som definert i kompendiet.
   double tau = (A(l,l)-A(k,k))/(2*A(k,l));
   //t = tan theta (choosing smallest), s = sin theta, c = cos theta
-  double tm = -tau- std::sqrt(1+std::pow(tau, 2));
-  double tp = -tau + std::sqrt(1+std::pow(tau,2));
+  //double tm = -tau- std::sqrt(1+std::pow(tau, 2));
+  //double tp = -tau + std::sqrt(1+std::pow(tau,2));
   double t;
   double c;
   double s;
-  if (A(k,l)!=0){
-    if (tau>0){
+  if (A(k,l)!=0.0){
+    if (tau>0.0){
       t=1.0/(tau+sqrt(tau*tau+1.0));
     }
     else{
@@ -65,8 +66,8 @@ void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l){
   all=A(l,l);
   //std::cout<<"Starting transform"<<std::endl;
   //Tranformerer A(m) til A(m+1)
-  A(k,k)=akk*c*c+2*A(k,l)*c*s+all*s*s;
-  A(l,l)=all*c*c+2*A(k,l)*c*s+akk*s*s;
+  A(k,k)=akk*c*c-2.*A(k,l)*c*s+all*s*s;
+  A(l,l)=all*c*c+2.*A(k,l)*c*s+akk*s*s;
   A(k,l)=0.0;
   A(l,k)=0.0;
   for(int i=0;i<A.n_rows;i++){
@@ -102,14 +103,14 @@ void jacobi_eigensolver(arma::mat& A, double eps, arma::vec& eigenvalues, arma::
   int l;
   double hinum=max_offdiag_symmetric(A, k, l);
   //std::cout<<"Came to while loop"<<std::endl;
-  while (eps<abs(hinum) && iterations<maxiter){
-    std::cout<<hinum<<std::endl;
+  while (eps<hinum && iterations<maxiter){
     jacobi_rotate(A,R, k, l);
     hinum=max_offdiag_symmetric(A, k, l);
     iterations++;
+    std::cout<<hinum<<std::endl;
   }
   std::cout<<hinum<<std::endl;
-  if (eps>abs(hinum)){
+  if (eps>hinum){
     converged=true;
   }
   for (int i=0; i<N; i++){
