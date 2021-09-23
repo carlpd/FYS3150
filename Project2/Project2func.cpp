@@ -20,8 +20,8 @@ double max_offdiag_symmetric(arma::mat& A, int& k, int& l){
       if (element > current_highest){
         current_highest = element;
         //Setter rad-nummeret til k og kolonnenummeret til l
-        l = i;
-        k = j;
+        k = i;
+        l = j;
       }
     }
   }
@@ -76,7 +76,7 @@ void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l){
       ail=A(i,l);
       A(i,k)=aik*c-ail*s;
       A(k,i)=A(i,k);
-      A(l,i)=ail*c+aik*s;
+      A(i,l)=ail*c+aik*s;
       A(l,i)=A(i,l);
     }
   }
