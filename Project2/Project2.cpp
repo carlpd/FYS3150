@@ -25,13 +25,13 @@ int main(){
   bool converged=false;
   int maxiter=std::pow(10, 6);
   double eps=1e-11;
-  eig_sym(eigenvalues, eigenvectors, A);
+  //eig_sym(eigenvalues, eigenvectors, A);
   /*int k;
   int l;
   double hinum=max_offdiag_symmetric(A, k, l);
   mat R=mat(size(A)).eye();
   jacobi_rotate(A, R, k, l);*/
-  //jacobi_eigensolver(A, eps, eigenvalues, eigenvectors, maxiter, iterations, converged);
+  jacobi_eigensolver(A, eps, eigenvalues, eigenvectors, maxiter, iterations, converged);
   //std::cout<<A<<std::endl;
   std::cout<<"eigenvalues"<<eigenvalues<<std::endl;
   std::cout<<"eigenvectors"<<std::endl;
