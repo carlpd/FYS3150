@@ -33,7 +33,7 @@ int main(){
     jacobi_eigensolver(A, eps, eigenvalues, eigenvectors, maxiter, iterations, converged);
     std::cout.rdbuf(orig_buf);
     std::cout<<"n = "<<n<< " Iterations = "<<iterations<<std::endl;
-    fs<<"n = "<<n<< " Iterations = "<<iterations<<std::endl;
+    fs<<n<<" "<<iterations<<std::endl;
     std::cout.rdbuf(NULL);
   }
   fs.close();
