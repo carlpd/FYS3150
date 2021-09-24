@@ -18,7 +18,7 @@ int main(){
   }
   A(N-1,N-2)=a;
   A(N-1,N-1)=d;
-  A.print();
+  //A.print();
   vec eigenvalues=arma::vec(N).fill(0.);
   mat eigenvectors;
   int iterations=0;

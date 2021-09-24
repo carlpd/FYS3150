@@ -1,13 +1,14 @@
 #include "Project2.hpp"
 using namespace arma;
 int main(){
+  // n=10; //For a
   int n=101;
   int N=(n-1);
   double h=1.0/n;
-  std::cout<<h<<std::endl;
+  //std::cout<<h<<std::endl;
   mat A=mat(N,N).fill(0.);
   double a=-1.0/(h*h);
-  std::cout<<a<<std::endl;
+  //std::cout<<a<<std::endl;
   double d=2.0/(h*h);
   A(0,0)=d;
   A(0,1)=a;
@@ -18,7 +19,7 @@ int main(){
   }
   A(N-1,N-2)=a;
   A(N-1,N-1)=d;
-  A.print();
+  //A.print();
   vec eigenvalues=arma::vec(N).fill(0.);
   mat eigenvectors;
   int iterations=0;
@@ -33,11 +34,13 @@ int main(){
   jacobi_rotate(A, R, k, l);*/
   jacobi_eigensolver(A, eps, eigenvalues, eigenvectors, maxiter, iterations, converged);
   //std::cout<<A<<std::endl;
-  std::cout<<"eigenvalues"<<eigenvalues<<std::endl;
-  std::cout<<"eigenvectors"<<std::endl;
-  std::cout<<eigenvectors<<std::endl;
+  //std::cout<<"eigenvalues"<<eigenvalues<<std::endl;
+  //std::cout<<"eigenvectors"<<std::endl;
+  //std::cout<<eigenvectors<<std::endl;
+  std::cout<<converged<<std::endl;
   arma::mat low3=findthreelowestvals(eigenvalues,eigenvectors);
   std::ofstream fs;
+  // fs.open("Data/eigenvecs7n100.txt"); //For a
   fs.open("Data/eigenvecs7n100.txt");
   for (int i=0;i<low3.n_rows;i++){
     fs<<low3(i,0)<<" "<<low3(i,1)<<" "<<low3(i,2)<<std::endl;

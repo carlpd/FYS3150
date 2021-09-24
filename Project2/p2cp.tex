@@ -152,13 +152,26 @@ $$
 $$
 og egenvektorene i en matrise som
 $$
-v_i=[\sin(\frac{i\pi}{N+1}), \sin(\frac{i\pi}{N+1}), (\cdots),$$
-$$ \sin(\frac{ji\pi}{N+1}), (\cdots) \sin(\frac{Ni\pi}{N+1})]^T
+v_i=\begin{bmatrix}\sin(\frac{i\pi}{N+1}), \sin(\frac{i\pi}{N+1}), (\cdots), \\
+\sin(\frac{ji\pi}{N+1}), (\cdots) \sin(\frac{Ni\pi}{N+1})
+\end{bmatrix}^T
 $$
-og konstruerer $A$ som den tridiagonale matrisen og bruker arma::vec til for å finne egenverdiene for å sammenligne med de analytiske verdiene. arma::vec normaliserer egenvektorene også så vi må også normalisere de analytiske egenvektorene og sammenlikner vi nå ser vi at de armadillos egenvektorer og de analytiske egenvektorene stemmer.
-\section{Metode}
-\section{Resultater}
-\section{Diskusjon}
+og konstruerer $A$ som den tridiagonale matrisen og bruker arma::eig\_sym til for å finne egenverdiene for å sammenligne med de analytiske verdiene. normalise funksjonen normaliserer egenvektorene også så vi må også normalisere de analytiske egenvektorene og sammenlikner vi nå ser vi at de armadillos egenvektorer og de analytiske egenvektorene stemmer.
+\section*{Problem 4}
+\section*{Problem 5}
+Vi lagde funskjonene i Project2func.cpp og brukte dette sammen med Porject2.cpp til å finne egenverdiene og de tilhørende egenvektorene for $A$ som  en $6\times6$ matrise. Vi sammmenliknet også med de analytiske verdiene vi fikk fra oppgave 3 og de stemte.
+\section*{Problem 6}
+\section{Problem 7}
+\subsection*{a}
+Vi brukte igjen problem7.cpp og Project2func.cpp til å finne egenverdier og egenvektorene slik som i oppgave 5, men denne gangen med $N=10$ og $n=11$. Så brukte skrev vi inn disse egenverdiene i eigenvecs7.txt og leste dem av i Python for å plotte dem i . Vi ser at grafene ikke er så jevne som kommer av at vi bare brukte 12 punkter. Plotter vi før høyere $n$ og $N$ får vi mer nøyaktige grafer.
+\subsection*{b}
+Vi trengte bare å endre fra $n=11$ til $n=101$ i problem7.cpp for å finne løse denne. Vi skrev også datane over i eignevecs7n100.txt, og plottet disse sammen med grafene i a-oppgaven og fikk Figur \ref{p7graf}. Vi ser her at grafene er blitt mye jevnere siden vi har flere punkter og mer nøyaktige verdier, men vi kan fortsatt se de har samme form. Mode 2 for $n=101$ er negativ av $n=11$, men dette er fordi den negative versjonen av en egenvektor er fortsatt en egenvektor så dette gjør ikke en av grafene mer eller mindre korrekt.
+\begin{figure}
+	\label{p7graf}
+	\centering 
+	\includegraphics[scale=0.5]{Images/p7.pdf}
+	\caption{Problem 7 sine grafer av de tre laveste egenvektorene og ytterpunktene for $N=10$ og $N=100$. Vi ser at grafene blir jevnere for $N=100$ enn for $N=10$.}
+\end{figure}
 \section{Conklusjon}
 % acknowledgements (optional)
 \begin{acknowledgments}  % if you disagree with the spelling, blame Americans

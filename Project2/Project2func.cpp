@@ -107,9 +107,9 @@ void jacobi_eigensolver(arma::mat& A, double eps, arma::vec& eigenvalues, arma::
     jacobi_rotate(A,R, k, l);
     hinum=max_offdiag_symmetric(A, k, l);
     iterations++;
-    std::cout<<hinum<<std::endl;
+    //std::cout<<hinum<<std::endl;
   }
-  std::cout<<hinum<<std::endl;
+  //std::cout<<hinum<<std::endl;
   if (eps>hinum){
     converged=true;
   }
@@ -148,6 +148,7 @@ arma::mat findthreelowestvals(arma::vec eigenvalues, arma::mat eigenvectors){
     }
   }
   arma::mat o=arma::mat(eigenvectors.n_cols, 3).fill(0.);
+  eigenvectors=normalise(eigenvectors);
   o.col(0)=eigenvectors.col(ai);
   o.col(1)=eigenvectors.col(bi);
   o.col(2)=eigenvectors.col(ci);
