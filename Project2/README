@@ -3,4 +3,24 @@ ligger i hovedmappen.
 
 LargestOffDiagTest.cpp: $make LargestOD
 
-	Tester funksjonen max_offdiag_symmetric funksjonen i LargestOffDiag.hpp filen
+	Tester funksjonen max_offdiag_symmetric funksjonen i Project2func.cpp filen
+
+Filen Project2.cpp løser med Jacobi rotasjon med funksjonene i Project2func.cpp
+
+Project2.cpp: $make runP2
+
+Problem6.cpp løser matriser med størrelse n=7 til n=100.
+
+Problem6.cpp: $make runP6
+
+Plotter dataene via programmet plotp6.py voia kommandoen:
+
+$python plotp6.py
+
+problem7.cpp skriver eigenvektorene tilhørende de tre laveste eigenverdiene til en fil
+
+problem7.cpp: $make runP7
+
+For å plotte så bruker vi programmet p7.py kjøres via kommandoen
+
+$python p7.py
