@@ -44,3 +44,14 @@ P2l:
 
 P2r:
 	./Pr2.exe
+
+runP7: P7c P7l P2r
+
+P7c:
+	g++ -c problem7.cpp Project2func.cpp
+
+P7l:
+	g++ -o pr7.exe problem7.o Project2func.o -larmadillo
+
+P7r:
+	./pr7.exe
