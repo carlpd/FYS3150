@@ -1,0 +1,195 @@
+\documentclass[reprint,english,notitlepage]{revtex4-1}  % defines the basic parameters of the document
+
+% if you want a single-column, remove reprint
+
+% allows special characters (including æøå)
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+%% note that you may need to download some of these packages manually, it depends on your setup.
+%% I recommend downloading TeXMaker, because it includes a large library of the most common packages.
+
+\usepackage{physics,amssymb}  % mathematical symbols (physics imports amsmath)
+\usepackage{graphicx}         % include graphics such as plots
+\usepackage{xcolor}           % set colors
+\usepackage{hyperref}         % automagic cross-referencing (this is GODLIKE)
+\usepackage{tikz}             % draw figures manually
+\usepackage{listings}         % display code
+\usepackage{subfigure}        % imports a lot of cool and useful figure commands
+\usepackage{float}
+% defines the color of hyperref objects
+% Blending two colors:  blue!80!black  =  80% blue and 20% black
+\hypersetup{ % this is just my personal choice, feel free to change things
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}}
+
+%% Defines the style of the programming listing
+%% This is actually my personal template, go ahead and change stuff if you want
+\lstset{ %
+	inputpath=,
+	backgroundcolor=\color{white!88!black},
+	basicstyle={\ttfamily\scriptsize},
+	commentstyle=\color{magenta},
+	language=Python,
+	morekeywords={True,False},
+	tabsize=4,
+	stringstyle=\color{green!55!black},
+	frame=single,
+	keywordstyle=\color{blue},
+	showstringspaces=false,
+	columns=fullflexible,
+	keepspaces=true}
+
+
+%% USEFUL LINKS:
+%%
+%%   UiO LaTeX guides:        https://www.mn.uio.no/ifi/tjenester/it/hjelp/latex/ 
+%%   mathematics:             https://en.wikibooks.org/wiki/LaTeX/Mathematics
+
+%%   PHYSICS !                https://mirror.hmc.edu/ctan/macros/latex/contrib/physics/physics.pdf
+
+%%   the basics of Tikz:       https://en.wikibooks.org/wiki/LaTeX/PGF/TikZ
+%%   all the colors!:          https://en.wikibooks.org/wiki/LaTeX/Colors
+%%   how to draw tables:       https://en.wikibooks.org/wiki/LaTeX/Tables
+%%   code listing styles:      https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
+%%   \includegraphics          https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
+%%   learn more about figures  https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions
+%%   automagic bibliography:   https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management  (this one is kinda difficult the first time)
+%%   REVTeX Guide:             http://www.physics.csbsju.edu/370/papers/Journal_Style_Manuals/auguide4-1.pdf
+%%
+%%   (this document is of class "revtex4-1", the REVTeX Guide explains how the class works)
+
+
+%% CREATING THE .pdf FILE USING LINUX IN THE TERMINAL
+%% 
+%% [terminal]$ pdflatex template.tex
+%%
+%% Run the command twice, always.
+%% If you want to use \footnote, you need to run these commands (IN THIS SPECIFIC ORDER)
+%% 
+%% [terminal]$ pdflatex template.tex
+%% [terminal]$ bibtex template
+%% [terminal]$ pdflatex template.tex
+%% [terminal]$ pdflatex template.tex
+%%
+%% Don't ask me why, I don't know.
+
+\begin{document}
+\title{Prosjekt 2: Jacobirotasjon}   % self-explanatory
+\author{Henrik Modahl Breitenstein}
+\author{Carl Petter Duedahl}               % self-explanatory
+\date{\today}                             % self-explanatory
+\noaffiliation                            % ignore this
+                            % marks the end of the abstract
+\maketitle                                % creates the title, author, date & abstract
+
+
+% the fundamental components of scientific reports:
+\section*{Problem 1}
+Vi har
+$$
+\gamma \frac{d^2u(x)}{(dx)^2}=-Fu(x)
+$$
+og skal vise at ved skalering blir dette
+$$
+\frac{d^2u(\hat{x})}{(d\hat{x})^2}=-\lambda u(\hat{x})
+$$
+hvor $\hat{x}=\frac{1}{L}$ og $\lambda=\frac{FL^2}{\gamma}$.
+\newline Vi starter med å se at
+$$
+\frac{1}{dx}=\frac{d\hat{x}}{dx}\frac{d}{d\hat{x}}=\frac{d(\frac{x}{L})}{dx}\frac{d}{d\hat{x}}=\frac{1}{L}\frac{d}{d\hat{x}}
+$$
+Så da får vi at
+$$
+\frac{d^2u(x)}{dx^2}=\frac{1}{L^2}\frac{d^2u(\hat{x})}{d\hat{x}^2}
+$$
+som gir oss 
+$$
+\frac{\gamma}{L^2}\frac{d^2u(\hat{x})}{d\hat{x}^2}=-Fu(\hat{x})
+$$
+så flytter vi over og får
+$$
+\frac{d^2u(\hat{x})}{d\hat{x}^2}=-\frac{L^2  F}{\gamma}u(\hat{x})
+$$
+så setter vi inn $\lambda$ og får:
+$$
+\frac{d^2u(\hat{x})}{d\hat{x}^2}=-\lambda{\gamma}u(\hat{x})
+$$
+som vi skulle vise. $\square$
+\section*{Problem 2}
+Vi vet at $UU^T=UU^{-1}=I$ og at $v_jv_i=\delta_{ji}$. Vi skal så vise at for 
+$$
+w_j^Tw_i=\delta_{ji}
+$$
+for å vise at $U$ tar var på ortonormaliteten til $v_i$ under multiplikasjon.
+\newline Vi starter først med
+$$
+w_j=Uv_j
+$$
+og transponerer denne:
+$$
+w_j^T=(Uv_j)^T=v_j^TU^T=v_j^TU^{-1}
+$$
+så tar vi
+$$
+w_j^Tw_i=v_j^TU^{-1}Uv_i=v_j^TIv_i=v_j^Tv_i=\delta_{ji}
+$$
+som vi skulle vise. $\square$
+\section*{Problem 3}
+Koden kan finnes i som prob3.cpp.
+\newline Vi konstruerer de analytiske egenverdiene som
+$$
+\lambda_i=d+2*a\cos(\frac{i\pi}{N+1})
+$$
+og egenvektorene i en matrise som
+$$
+v_i=\begin{bmatrix}\sin(\frac{i\pi}{N+1}), \sin(\frac{i\pi}{N+1}), (\cdots), \\
+\sin(\frac{ji\pi}{N+1}), (\cdots) \sin(\frac{Ni\pi}{N+1})
+\end{bmatrix}^T
+$$
+og konstruerer $A$ som den tridiagonale matrisen og bruker arma::eig\_sym til for å finne egenverdiene for å sammenligne med de analytiske verdiene. normalise funksjonen normaliserer egenvektorene også så vi må også normalisere de analytiske egenvektorene og sammenlikner vi nå ser vi at de armadillos egenvektorer og de analytiske egenvektorene stemmer.
+\section*{Problem 4}
+
+\subsection*{Problem a}
+
+Skriver funkjsonen inn i "Project2func.cpp"
+
+\subsection*{Problem b}
+
+Skriver progremmet "LargestOffDiagTest.cpp" som kan kjøres ved kommandoen
+
+\$make LargestOD
+\section*{Problem 5}
+Vi lagde funskjonene i Project2func.cpp og brukte dette sammen med Porject2.cpp til å finne egenverdiene og de tilhørende egenvektorene for $A$ som  en $6\times6$ matrise. Vi sammmenliknet også med de analytiske verdiene vi fikk fra oppgave 3 og de stemte.
+\section*{Problem 6}
+\subsection*{Problem a}
+Vi kjører programet for $n = 7$ til $n = 100$. Vi får da plottet i \ref{plotit}.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.6]{Images/Iterations.pdf}
+	\caption{"Antallet iterasjoner for forskjellige n. Har testet oss frem til en analytsik funksjon som passer bra til i området."}
+	\label{plotit}
+\end{figure}
+Tenker at algoritmen er så treg fordi når man roterer ut et annet element så kan det hende at et annet element øker. Med mange elementer, selv om de er null, så vil det skje ganske ofte.
+\subsection*{Problem b}
+
+Vi ser at for en tridiagonal matrise så øker antall rotasjoner med ca. $1.8 N^2$. Da er utgangspunktet bare $N-4$ elementer som må roteres ut, som vil si at antall rotasjoner er proporsjonal med $r^2$ hvor $r$ er antall elementer som må roteres ut. I en tett matrise så har vi $N^2 - N$ elementer å rotere ut, så om det følger samme system så vil antall rotasjoner være proporsjonal med $N^4$.
+\section*{Problem 7}
+\subsection*{a}
+Vi brukte igjen problem7.cpp og Project2func.cpp til å finne egenverdier og egenvektorene slik som i oppgave 5, men denne gangen med $N=10$ og $n=11$. Så brukte skrev vi inn disse egenverdiene i eigenvecs7.txt og leste dem av i Python for å plotte dem i . Vi ser at grafene ikke er så jevne som kommer av at vi bare brukte 12 punkter. Plotter vi før høyere $n$ og $N$ får vi mer nøyaktige grafer.
+\subsection*{b}
+Vi trengte bare å endre fra $n=11$ til $n=101$ i problem7.cpp for å finne løse denne. Vi skrev også datane over i eignevecs7n100.txt, og plottet disse sammen med grafene i a-oppgaven og fikk Figur \ref{p7graf}. Vi ser her at grafene er blitt mye jevnere siden vi har flere punkter og mer nøyaktige verdier, men vi kan fortsatt se de har samme form. Mode 2 for $n=101$ er negativ av $n=11$, men dette er fordi den negative versjonen av en egenvektor er fortsatt en egenvektor så dette gjør ikke en av grafene mer eller mindre korrekt.
+\begin{figure}[H]
+	\label{p7graf}
+	\includegraphics[scale=0.4]{Images/p7.pdf}
+	\caption{Problem 7 sine grafer av de tre laveste egenvektorene og ytterpunktene for $N=10$ og $N=100$. Vi ser at grafene blir jevnere for $N=100$ enn for $N=10$.}
+\end{figure}
+
+%% If you want to include figure:
+%\includegraphics[scale=1.0]{filename}
+%% check https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics if you want to know more
+
+\end{document}
