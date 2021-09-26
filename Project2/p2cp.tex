@@ -173,9 +173,10 @@ Vi kjører programet for $n = 7$ til $n = 100$. Vi får da plottet i \ref{plotit
 	\caption{"Antallet iterasjoner for forskjellige n. Har testet oss frem til en analytsik funksjon som passer bra til i området."}
 	\label{plotit}
 \end{figure}
+Tenker at algoritmen er så treg fordi når man roterer ut et annet element så kan det hende at et annet element øker. Med mange elementer, selv om de er null, så vil det skje ganske ofte.
 \subsection*{Problem b}
 
-Vi ser at for en tridiagonal matrise så øker kolpeksiteten med ca. $N^{2.15}$. Da er utgangspunktet bare $2(N-2)$ elementer som må roteres ut. I en tett matrise så har vi ca. $N^2$ elementer å rotere ut, så om det følger samme system så vil kompleksiteten være nær $N^4$.
+Vi ser at for en tridiagonal matrise så øker antall rotasjoner med ca. $1.8 N^2$. Da er utgangspunktet bare $N-4$ elementer som må roteres ut, som vil si at antall rotasjoner er proporsjonal med $r^2$ hvor $r$ er antall elementer som må roteres ut. I en tett matrise så har vi $N^2 - N$ elementer å rotere ut, så om det følger samme system så vil antall rotasjoner være proporsjonal med $N^4$.
 \section*{Problem 7}
 \subsection*{a}
 Vi brukte igjen problem7.cpp og Project2func.cpp til å finne egenverdier og egenvektorene slik som i oppgave 5, men denne gangen med $N=10$ og $n=11$. Så brukte skrev vi inn disse egenverdiene i eigenvecs7.txt og leste dem av i Python for å plotte dem i . Vi ser at grafene ikke er så jevne som kommer av at vi bare brukte 12 punkter. Plotter vi før høyere $n$ og $N$ får vi mer nøyaktige grafer.
