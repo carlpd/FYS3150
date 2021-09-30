@@ -1,5 +1,5 @@
 #include <armadillo>
-#include <iostream>
+
 class Particle{
 public:
   double q; //Charge
@@ -12,5 +12,4 @@ public:
   double B0;
   double V0;
   double d;
-  std::vector<class Particle> parts;
 }
