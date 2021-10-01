@@ -13,4 +13,8 @@ public:
   double V0;
   double d;
   std::vector<class Particle> parts;
+  arma::vec EksF(double V0, double B0, double d, Particle j);
+  arma::vec pij(Particle i, Particle j);
+  arma::vec PF(Particle parts, int j);
+  arma::vec TF(std::vec parts, int j, double B0, double V0, double d);
 }
