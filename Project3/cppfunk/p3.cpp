@@ -9,7 +9,8 @@ double ke=1.38935333e5;
 double Tesla=9.64852558e1;
 double Volt=9.64852558e7;
 //Finner det elektriske feltet
-arma::vec FindE(double V0, arma::vec r, double d){
+//arma::vec FindE(double V0, arma::vec r, double d){
+arma::vec FindE(arma::vec r){
   arma::vec E=arma::vec(3).fill(0.);
   E(0)=V0*x/(d*d);
   E(1)=V0*y/(d*d);
@@ -38,7 +39,8 @@ arma::vec BF(double B0, Particle j){
   return bf;
 }*/
 //Finner den totale kraften fra det eksterne feltet
-arma::vec EksF(double V0, double B0, double d, Particle j){
+//arma::vec EksF(double V0, double B0, double d, Particle j){
+arma::vec EksF(Particle j){
   arma::vec ef=FindE(V0, j.r, d);
   double qp=j.q;
   arma::vec B=FindB(B0);
@@ -53,7 +55,8 @@ arma::vec pij(Particle i, Particle j){
   return fij;
 }
 //Finner den totale kraften på partikkelen fra alle andre partikler
-arma::vec PF(Particle parts, int j){
+//arma::vec PF(Particle parts, int j){
+arma::vec PF(int j){
   arma::vec pf=arma::vec(3).fill(0.);
   for i in range(i=0;i<parts.size(); i++){
     if (parts(i)!=parts(j)){
@@ -63,10 +66,19 @@ arma::vec PF(Particle parts, int j){
   return pf;
 }
 //Finner total kraft
-arma::vec TF(std::vec parts, int j, double B0, double V0, double d){
+//arma::vec TF(std::vec parts, int j, double B0, double V0, double d){
+arma::vec TF(int j){
   Particle jp=parts(j);
   arma::vec eksf=EksF(V0, B0, d, jp);
   arma::vec intf=PF(parts, j);
   arma::vec totf=EksF+PF;
   return totf;
+}
+//Gjør om til neste tidsteg med Euler
+void evolve_Euler(double dt){
+  for (i=0;i<parts.size();i++){
+    tfi=TF(i);
+    parts(i).v=parts(i).v+dt*TF(i)/parts(i).m;
+    parts(i).x=parts(i).x+dt*parts(i).v;
+  }
 }
