@@ -1,0 +1,16 @@
+\documentclass{standalone}
+
+\usepackage{tikz} %and any other packages or tikzlibraries your picture needs
+
+\begin{document}
+
+\begin{tikzpicture}
+
+\draw[thick, ->] (0, 5) -- (10, 5);
+\draw[thick, ->] (5, 0) -- (5, 10);
+\draw[->] (5, 5) -- (7.5, 7.5) node[above, scale=2] {$\vec{A_+}$};
+\draw[->] (5, 5) -- (3.5, 3.5) node[below, scale=2] {$\vec{A_-}$};
+
+\end{tikzpicture}
+
+\end{document} 
