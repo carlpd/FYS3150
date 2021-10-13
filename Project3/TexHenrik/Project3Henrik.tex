@@ -1,31 +1,23 @@
-\documentclass[english,notitlepage]{revtex4-1}  % defines the basic parameters of the document
-%For preview: skriv i terminal: latexmk -pdf -pvc filnavn
-
-
+\documentclass[reprint,english,notitlepage, nofootinbib]{revtex4-1}  % defines the basic parameters of the document
 
 % if you want a single-column, remove reprint
 
 % allows special characters (including æøå)
 \usepackage[utf8]{inputenc}
-%\usepackage[english]{babel}
+\usepackage[english]{babel}
 
 %% note that you may need to download some of these packages manually, it depends on your setup.
 %% I recommend downloading TeXMaker, because it includes a large library of the most common packages.
 
 \usepackage{physics,amssymb}  % mathematical symbols (physics imports amsmath)
-\include{amsmath}
 \usepackage{graphicx}         % include graphics such as plots
 \usepackage{xcolor}           % set colors
 \usepackage{hyperref}         % automagic cross-referencing (this is GODLIKE)
+\usepackage{tikz}             % draw figures manually
+\usepackage{standalone}
 \usepackage{listings}         % display code
 \usepackage{subfigure}        % imports a lot of cool and useful figure commands
-\usepackage{float}
-%\usepackage[section]{placeins}
-\usepackage{algorithm}
-\usepackage[noend]{algpseudocode}
-\usepackage{subfigure}
-\usepackage{tikz}
-\usetikzlibrary{quantikz}
+
 % defines the color of hyperref objects
 % Blending two colors:  blue!80!black  =  80% blue and 20% black
 \hypersetup{ % this is just my personal choice, feel free to change things
@@ -36,17 +28,30 @@
 
 %% Defines the style of the programming listing
 %% This is actually my personal template, go ahead and change stuff if you want
-
+\lstset{ %
+	inputpath=,
+	backgroundcolor=\color{white!88!black},
+	basicstyle={\ttfamily\scriptsize},
+	commentstyle=\color{magenta},
+	language=Python,
+	morekeywords={True,False},
+	tabsize=4,
+	stringstyle=\color{green!55!black},
+	frame=single,
+	keywordstyle=\color{blue},
+	showstringspaces=false,
+	columns=fullflexible,
+	keepspaces=true}
 
 
 %% USEFUL LINKS:
 %%
-%%   UiO LaTeX guides:        https://www.mn.uio.no/ifi/tjenester/it/hjelp/latex/
+%%   UiO LaTeX guides:        https://www.mn.uio.no/ifi/tjenester/it/hjelp/latex/ 
 %%   mathematics:             https://en.wikibooks.org/wiki/LaTeX/Mathematics
 
 %%   PHYSICS !                https://mirror.hmc.edu/ctan/macros/latex/contrib/physics/physics.pdf
 
-%%   the basics of Tikz:       https://en.wikibooks.org/wiki/LaTeX/PGF/Tikz
+%%   the basics of Tikz:       https://en.wikibooks.org/wiki/LaTeX/PGF/TikZ
 %%   all the colors!:          https://en.wikibooks.org/wiki/LaTeX/Colors
 %%   how to draw tables:       https://en.wikibooks.org/wiki/LaTeX/Tables
 %%   code listing styles:      https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
@@ -59,140 +64,352 @@
 
 
 %% CREATING THE .pdf FILE USING LINUX IN THE TERMINAL
-%%
+%% 
 %% [terminal]$ pdflatex template.tex
 %%
 %% Run the command twice, always.
 %% If you want to use \footnote, you need to run these commands (IN THIS SPECIFIC ORDER)
-%%
+%% 
 %% [terminal]$ pdflatex template.tex
 %% [terminal]$ bibtex template
 %% [terminal]$ pdflatex template.tex
 %% [terminal]$ pdflatex template.tex
 %%
 %% Don't ask me why, I don't know.
+\setlength{\parindent}{0pt}
 \graphicspath{{../Images/}}
 \begin{document}
-
-\title{Title of the document}      % self-explanatory
-\author{Your name(s) here}          % self-explanatory
+\title{This is a Very Important Title!}   % self-explanatory
+\author{Person McSomething}               % self-explanatory
 \date{\today}                             % self-explanatory
-\noaffiliation                            % ignore this, but keep it.
+\noaffiliation                            % ignore this
+\begin{abstract}                          % marks the beginning of the abstract
+This abstract is abstract.                % the body of the abstract
+\end{abstract}                            % marks the end of the abstract
+\maketitle                                % creates the title, author, date & abstract
+
+If you want to learn more about using \LaTeX, you should check UiO's official tutorials:
+\url{https://www.mn.uio.no/ifi/tjenester/it/hjelp/latex/}
+
+If you are familiar with \LaTeX\ and you want to learn more about the REVTeX4-1 document class, check:
+\url{http://www.physics.csbsju.edu/370/papers/Journal_Style_Manuals/auguide4-1.pdf}
 
 
-\maketitle 
-    
-\textit{List a link to your github repository here!}
+% the fundamental components of scientific reports:
+\section{Introdukson}
 
-\section*{Problem 1}
+Alt materiale består av små partikkler. For å kunne teste teorier eksperementelt og kunne finne nye egenskaper ved partikkler, så vil man måtte kunne kontrollere bevegelsen til en partikkel. 
+
+Gauss' lov forteller oss at divergensen til det elektriske feltet $\mathbf{E}$ i et lukket volum, i vakuum, er definert av ladningene i volumet. For en ladningtetthet $\rho$ og permitiviteten i vakuum, $\varepsilon_0$, så har vi
+
+\begin{equation}
+\label{gauss}
+\nabla{\mathbf{E}} = \frac{\rho}{\varepsilon_0} \; .
+\end{equation} 
+
+Så for å fange en partikkel innenfor et lukket området, vil det ikke være mulig å ha et eksternt felt som peker inn mot en partikkel fra lle kanter, siden partikkelen da må være positiv for å gjøre den totale divergensen null. En løsning ble gitt av Hans George Dehemelt, som tok inspirasjon fra F. M. Penning, og har navngitt instrumentet for en Penning felle \footnote{\url{https://en.wikipedia.org/wiki/Penning_trap}}. Fellen går ut på å bruke både et elektrisk og magnetisk felt for å få ladde partikkler til å gå i sirkulærliknende baner. Penning fellen er spesielt nyttig til pressisjonsmåling, og den brukes for eksempel ved CERN for å holde antiprotoner. Diagrammet i figur ref{fig:Pen} viser skjemtaisk hvordan en Penning felle er konstruert\footnote{\url{https://en.wikipedia.org/wiki/Penning_trap\#/media/File:Penning_Trap.svg}}. 
 
 \begin{figure}
-\includegraphics[scale=0.5]{tex.png}
+\centering
+\includegraphics[scale=0.27]{penning.png}
+\caption{En skjematisk illustrasjon av en Penning felle. Diagrammet er et snitt av fellen hvor den nedre og øvre elektrodene, $a$, er positive, og den tredje elektroden, $b$ er en sirkulær negativt ladd elektrode. I midten er det en positiv ladd partikkel. Bildet er hentet fra Wikipedia Commons}
+\label{fig:Pen}
 \end{figure}
 
-\subsection*{Problem a}
-Write a solution for problem 1a here.
+For å kunne gjøre beregninger så trenger man å vite hvordan partikkler med forskjellige egeneksaper vil oppføre seg i en Penning felle. I teorikapittelet ser vi på hvordan vi kan finne den analytiske løsningen for én partikkel. Vi skal videre se i metode delen hvordan vi kan numerisk regne ut banene til et flerpartikkel system. I resultat og diskusjonsdelen så ser vi på hva vi kom fram til og hva resultatene betyr, som opsummeres og kontrektiseres i konklusjonsdelen.
 
-\subsection*{Problem b}
-Write a solution for problem 1b here.
+\section{Teori}   % (optional)
+Det elektriske feltet $\mathbf{E}$ og det elektriske potensialet $\mathbf{B}$ relaterer til hverandre som følgende:
 
-\section*{Problem 2}
-We write equations using the LaTeX \texttt{equation} (or \texttt{align}) environments. Here is an equation with numbering
-\begin{equation}\label{eq:newton}
-    \vb{F} = \dv{\vb{p}}{t},
+\begin{equation}\label{E}
+\mathbf{E} = - \nabla{\mathbf{V}}
 \end{equation}
-and here is one without numbering:
 
-\section*{Problem 5}
-\subsection{Problem b}
-Av $A\vec{v}=\vec{g}$ vil vi finne alle verdier mellom grensebetingelsene $u(0)=u(1)=0$. $\vec{v*}$ er den samme som $\vec{v}$ men vi har lagt til $v_0$ og $v_{n+1}$ som er grensebetingelsene.
+Om vi har et elektirsk felt $E$ og et magnetisk felt $\mathbf{B}$ så vil kraften på en ladd partikkel, $\mathbf{F}$, være gitt ved Lorentz kraften:
 
-\section{Problem 6}
-\section*{a}
-Vi har nå en vektor
+\begin{equation}\label{F}
+\mathbf{F} = q\mathbf{E} + q\mathbf{v}\times \mathbf{B} \; ,
+\end{equation}
+
+hvor $q$ er ladningen til partikkelen. 
+
+En ladd partikkel danner sitt eget elektriske felt. For flere ladde partikkeler så vil hver partikkel bidra til det totale elektirske feltet:
+
+\begin{equation}\label{Esum}
+\mathbf{E} = k_e \sum_{j=1}^{n} q_j \frac{\mathbf{r} - \mathbf{r}_j}{\left | \mathbf{r} - \mathbf{r}_j \right |^3} 
+\end{equation}
+
+Partikklene vil også bidra til det totale magnetfeltet, men siden \tiny{${\left |\vec{B}_p \right | \approx \left | \frac{\vec{E_p}}{c} \right |}$} \normalsize{}, hvor $c$ er lyshastigheten, ignorer vi bidragene til magnetfeltet fra partikklene.   
+
+En Penning felle kan bli vist skjematisk som vist i \ref{fig:Pen}
+
+For en ideel Penning felle så er det elektriske feltet definert:
+
+\begin{equation}\label{V}
+V(x,y,z) = \frac{V_0}{2d^2}\left (2z^2 - x^2 -y^2 \right ) \; ,
+\end{equation}
+
+hvor $V_0$ er størrelsen til det elektriske potensialet påført elektrodene. $d$ er den karakteristiske dimensjonen og er definert:
+
+\begin{equation}\label{d}
+d = \sqrt{z_0^2 + r_0^2/2}
+\end{equation}
+
+I figur \ref{fig:Pen} så kan man se at kraften i y-retningen vil kanselere hverandre. Siden det elektriske feltet kurver ut mot ringen, så kan man se at feltet kun har xy-komponent i midtlinjen av penningfellen. Siden vi da kun trenger å videre begrense bevegelsen i xy-retning, så bruker vi et magnetfelt:
+
+\begin{equation}\label{B}
+\mathbf{B} = B_0\hat{e}_z = \left ( 0, 0, B_0 \right ) \;
+\end{equation}
+
+Via newtons andre lov så kan vi vise at bevegelsen for en enekelt partikkel vil være gitt av differensiallikningene \ref{eq:dif1}, \ref{eq:dif2} og \ref{eq:dif3}, refer til appendix \ref{moteg} for utreging. 
+
+\begin{equation} \label{eq:dif1}
+\ddot{x} - \omega_0 \dot{y} - \frac{1}{2}\omega_z^2 x = 0 \; ,
+\end{equation}
+
+\begin{equation}\label{eq:dif2}
+\ddot{y} + \omega_0 \dot{x} - \frac{1}{2}\omega_z^2 y = 0 \; ,
+\end{equation}
+
+\begin{equation}\label{eq:dif3}
+\ddot{z} + \omega_z^2 z = 0 \; ,
+\end{equation}
+
+hvor
+
+
+$$\omega_0 = \frac{|q|B_0}{m}$$
+
+$$ \omega_z = \sqrt{\frac{2|q|V_0}{md^2}}$$
+
+De to første likningene, \ref{eq:dif1} og \ref{eq:dif2}, er avhengig av hverandre, så vi kombinerer de i
+
 $$
-\vec{v}=\begin{pmatrix}
-v_1 \\ v_2 \\ \vdots \\ v_n
-\end{pmatrix}
+f(t) = x(t) + iy(t) \; ,
 $$
-og en $n\cross n$-matrise
+
+Hvor vi da får 
+
+\begin{equation}\label{fxy}
+\ddot{f} + i\omega_0 \dot{f} - \frac{1}{2} \omega_z^2 f = 0 \; .
+\end{equation}
+
+Se appendix \ref{utfxy} for utregning. 
+\section{Metode}
+\section{Resultater}
+\section{Diskusjon}
+\section{Conklusjon}
+% acknowledgements (optional)
+\begin{acknowledgments}  % if you disagree with the spelling, blame Americans
+I would like thank myself for writing this beautiful document.
+\end{acknowledgments}
+
+
+%% When it comes to the bibliography I personally generate it using BibLaTeX. (see the link above if you're interested)
+%% You're obviously allowed to create the references section however you like.
+%% I'll keep it simple here.
+\section*{References}  % the asterisk (*) after \section makes the section numbering go away
+\begin{itemize}
+\item[-]Reference 1
+\item[-]Reference 2
+\end{itemize}
+
+\newpage
+%% if you want to include an appendix, this is how you do it
+\appendix
+\section{Utregning av enkeltspartikkelens bevegelseslikning}
+\label{moteq}
+Vi har posisjonsvektoren $\mathbf{r}$
+
+$$\mathbf{r} = \begin{bmatrix}
+x \\ y \\ z 
+\end{bmatrix}$$
+
+Newtons andre lov git oss at endringen i posisjonen er gitt ved
+
+$$m \ddot{\mathbf{r}} = \sum_i \mathbf{F_i} \; .$$
+Kreftene på partikkelen er Lorentz kraften.
+$$m \ddot{\mathbf{r}} = q \mathbf{E} + q \dot{\mathbf{r}} \times\mathrm{B} \; .$$
+
+Bruker at $\mathbf{E} = -\nabla{V}$ og setter inn
+
+$$m \ddot{\mathbf{r}} = q \nabla{V} + q \dot{\mathbf{r}} \times\mathrm{B} \; .$$
+
+Finner gradienten
+
+$$\nabla{V} = \left ( \frac{\partial V}{\partial x}, \; \frac{\partial V}{\partial y}, \; \frac{\partial V}{\partial z} \right ) \; .$$
+
+Hvor
+
+$$ \frac{\partial V}{\partial x} = -\frac{V_0}{d^2}x$$
+$$ \frac{\partial V}{\partial y} = - \frac{V_0}{d^2}y$$
+$$ \frac{\partial V}{\partial z} = - \frac{2V_0}{d^2}z$$
+
+Løser kryssproduktet
+
+$$\dot{\mathbf{r}} \times \mathbf{B} = (B_0 \dot{y})\hat{i} - (B_0\dot{x})\hat{j} = B_0 \begin{bmatrix}
+\dot{y} \\ -\dot{x} \\ 0
+\end{bmatrix}$$
+
+Vi setter inn
+
+$$ m \begin{bmatrix} \ddot{x} \\ \ddot{y} \\ \ddot{z} \end{bmatrix} = q \frac{V_0}{d^2} \begin{bmatrix}
+x \\ y \\ -2z 
+\end{bmatrix} + q B_0 \begin{bmatrix}
+\dot{y} \\ -\dot{x} \\ 0
+\end{bmatrix}$$
+
+$$\begin{bmatrix} \ddot{x} \\ \ddot{y} \\ \ddot{z} \end{bmatrix} = \frac{qV_0}{md^2} \begin{bmatrix}
+x \\ y \\ -2z 
+\end{bmatrix} + \frac{qB_0}{m} \begin{bmatrix}
+\dot{y} \\ -\dot{x} \\ 0
+\end{bmatrix}$$ 
+
+Innfører 
+
+$$\omega_0 = \frac{|q|B_0}{m}$$
+
+$$ \omega_z = \sqrt{\frac{2|q|V_0}{md^2}}$$
+
+Som gir oss
+
+$$\begin{bmatrix} \ddot{x} \\ \ddot{y} \\ \ddot{z} \end{bmatrix} = \frac{1}{2}\omega_z^2 \begin{bmatrix}
+x \\ y \\ -2z 
+\end{bmatrix} + \omega_0 \begin{bmatrix}
+\dot{y} \\ -\dot{x} \\ 0
+\end{bmatrix}$$ 
+
+Som tilsvarer likningene
+
 $$
-\textbf{A}=\begin{Bmatrix}
-b_1 & c_2 & 0 & 0 & \cdots & 0 &0 \\
-a_2 & b_2 & c_2 & 0 & \cdots &0 &0 \\
-0 & a_3 & b_3 & c_3 & \cdots & 0 &0 \\
-\vdots & \vdots&\vdots&\vdots&\ddots & \vdots & \vdots\\
-0& \cdots &  \cdots&\cdots&\cdots& a_n & b_n
-\end{Bmatrix}
+\ddot{x} - \omega_0 \dot{y} - \frac{1}{2}\omega_z^2 x = 0 \; ,
 $$
-Matrisemultipliserer vi disse får vi
+$$\ddot{y} + \omega_0 \dot{x} - \frac{1}{2}\omega_z^2 y = 0 \; ,
 $$
-\textbf{A}\vec{v}=
-\begin{matrix}
-(I)&b_1 v_1 &+ c_1 v_2 & &&=g_1 \\
-(II) &a_2 v_1&+b_2v_2&+c_3 v_3 &&=g_2\\
-(III)& & a_3v_2 &+b_3v_3 &+ c_3 v_4 &=g_3\\
-\vdots&&&&&\\
-(n)&&&a_n v_{n-1}&+b_n v_n&=g_n\\
- 
-\end{matrix}
-$$ Herfra skal vi radredusere og starter med å ta $(II)-\frac{a_2}{b_1}(I)$ slik at vi får $$\begin{matrix}
-(II*) & 0&b_2-\frac{c_1\cdot a_2}{b_1}& c_2 &\cdots & g_2-g_1\frac{a_2}{b_1}
-\end{matrix}$$
-og vi ser da at $a_2$ går bort. Vi kan også sette $b_2^*\equiv b_2-\frac{a_2 \cdot c_1}{b_1}$ og $g_2^*\equiv g_2-g_1\frac{a_2}{b_1}$. Da har vi mellom $(II^*)$ og $(III)$ noe som ser ganske likt ut som det vi hadde mellom $(I)$ og $(II)$. Derfor gjør vi det samme som vi gjorde før og tar $(III)-\frac{a_3}{b_2^*}(II)^*$ og får 
+$$\ddot{z} + \omega_z^2 z = 0 \; .
 $$
-\begin{matrix}
-(III)^* & 0 &0& b_3-\frac{c_2\cdot a_3}{b_2^*}&c_3 & g_3-g_1\frac{a_3}{b_2^*}
-\end{matrix}
+\section{Utregning av $f(t)$ fra differensiallikningene og dens egeneskaper}\label{utfxy}
+
+Vi har 
+
 $$
-og vi kan igjen definere $b_3^*=b_3-\frac{c_2\cdot a_3}{b_2^*}$ og $g_3^*=g_3-g_1\frac{a_3}{b_2^*}$. Og vi kan da fortsette med dette nedover som $(k)-\frac{a_{k}}{b_{k-1}^*}(k-1)^*$. Så har vi fjernet $a$-ene så da må vi fjerne $c$-ene. Vi starter nå på siste og neste siste rad, altså $(n)^*$ og $(n-1)^*$ som nå er
+\ddot{x} - \omega_0 \dot{y} - \frac{1}{2}\omega_z^2 x = 0 \; ,
 $$
-\begin{matrix}
-(n-1)^* & 0& \cdots & b_{n-1}^* &c_{n-1}&g_{n-1}^* \\
-(n)^* & 0 & \cdots & 0 & b_{n}^*& g_{n-1}^*
-\end{matrix}
+$$\ddot{y} + \omega_0 \dot{x} - \frac{1}{2}\omega_z^2 y = 0 \; .
 $$
-så hvis vi da tar $(n-1)^*-\frac{c_{n-1}}{b_n^*}(n)^*$ får vi
-$$
-\begin{matrix}
-\tilde{(n-1)} & 0 & \cdots & b_{n-1}^* & 0 & g_{n-1}^*-\frac{c_{n-1} g_n^*}{b_n^*}
-\end{matrix}
-$$
-og vi setter $\tilde{g_{n-1}}= g_{n-1}^*-\frac{c_{n-1} g_n^*}{b_n^*}$ og dette gjør vi videre oppover som $(k-1)-\frac{c_k}{b_{k-1}}(k)$
-Til slutt står vi da bare igjen med $b^*$-ene og disse kan vi da dele på seg selv og vi får en identitetsmatrise.
-Med andre ord får vi en algoritme som:
+
+Ved å skalere den ene likningen med $i$ så får vi
+
+$$\ddot{x} - \omega_0 \dot{y} - \frac{1}{2}\omega_z^2 x = 0 \; ,$$
+
+$$i\ddot{y} + i\omega_0 \dot{x} - i\frac{1}{2}\omega_z^2 y = 0 \; ,$$
+
+$$ \ddot{x} - \omega_0 \dot{y} - \frac{1}{2}\omega_z^2 x -i\ddot{y} - i\omega_0 \dot{x} + i\frac{1}{2}\omega_z^2 y = 0 \; .$$
+
+Vi setter de sammen og får
 
 
+$$(\ddot{x} + i\ddot{y}) + i\omega_0(\dot{x} + \dot{y}) - \frac{1}{2}\omega_z^2(x+iy) ) = 0 \; .$$
+  
+Som er det samme som
+
+$$\ddot{f} + i\omega_0 \dot{f} - \frac{1}{2}\omega_z^2f = 0 \; .$$
+
+Den generelle løsningen av $f$ er
+
+$$f(t) =A_+e^{-i\omega_+ t} + A_-e^{-i\omega_- t} \; ,$$
+
+hvor
+
+$$\omega_{\pm} = \frac{\omega_0 \pm \sqrt{\omega_0^2 - 2\omega_z^2}}{2} \; .$$
+
+Funkjsonen $f$ vil ha et maksimum når begge leddene går i samme retning, som man kan se i \ref{tikzsame}. 
+
+\begin{figure}
+\scalebox{0.7}{\input{Tikz/Rplus.tex}}
+\caption{Ledd $A_+$ og $A_-$ som vektorer for å se loggikken bak $f$ sine grenser.}
+\label{tikzsame}
+\end{figure}
+
+Vi kan da skrive at makismumet $R_+$ er
+
+$$R_+ = |A_+ + A_-| = A_+ + A_- \; .$$
+
+På samme måte så vil minimummet være når leddene til $f$ går i motsatte retninger, som vist i \ref{tikzops}. 
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{Tikz/rminus.tex}}
+\caption{Ledd $A_+$ og $A_-$ som vektorer for å se loggikken bak $f$ sine grenser.}
+\label{tikzops}
+\end{figure}
+
+som vil si at
+
+$$R_- = |A_+ - A_-|$$
 
 
+%% all \section commands following \appendix are automatically taken as appendices
 
+%% Note that \label{appendix} command on line 115. What this does is setup a reference point for LaTeX that you can
+%% access wherever you want using \ref{appendix}.
+%% You can place labels on most environments such as equations, figures, tables, etc.
 
+\clearpage
+Note that this document is written in the two-column format. If you want to display a large equation, a large figure, or whatever, in one-column format, you can do this like so:
+\onecolumngrid
+\vspace{1cm} % some extra space
+This text and this equation are both in one-column format.
 
+\footnote{This equation is actually from quantum mechanics. ``It's called Schrödinger's Time-Dependent Wave Equation'', named after the awesome Austrian physicist Erwin Rudolf Josef Alexander Schrödinger. Yep, the ``Schrödinger's cat'' guy. Pretty cool dude actually, check his wiki page: \url{https://en.wikipedia.org/wiki/Erwin_Schrodinger}. He was physics' no. 1 Ladies' man if there ever was one. Anyway, you will learn more about this equation in FYS2140. You can also find it printed on a glass wall in the UiO Physics Building (it really is that important).}
 
+\begin{equation}\label{equation}
+\frac{-\hbar^2}{2m}\laplacian{\Psi}+V\Psi=i\hbar\pdv{t}\Psi
+\end{equation}
+Note that the equation numbering (this: \ref{equation}) follows the appendix as this text is technically inside Appendix \ref{appendix}. If you want a detailed listing of (almost) every available math command, check: \url{https://en.wikibooks.org/wiki/LaTeX/Mathematics}.
+\vspace{1cm} % some extra space
+\twocolumngrid
+And now we're back to two-column format. It's really easy to switch between the two. It's recommended to keep the two-column format, because it is easier to read, it's not very cluttered, etc. Pro Tip: You should also get used to working with REVTeX because it is really helpful in FYS2150.
 
+One last thing, this is a code listing:
+\begin{lstlisting}
+This will be displayed with a cool programming font!
+\end{lstlisting}
+You can add extra arguments using optional parameters:
+\begin{lstlisting}[morekeywords={cool}]
+This will be displayed with a cool programming font!
+\end{lstlisting}
+You can also list code from a file using \texttt{lstinputlisting}. If you're interested, check \url{https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings}.
 
-Sometimes it is useful to refer back to a previous equation, like we're demonstrating here for equation \ref{eq:newton}.
+This is a basic table:
+\begin{table}[h]  % h = "here"  , h! = here!
+\caption{This is a nice table}\label{table}
+\begin{tabular}{|c|c|c|} % note that & separates columns while \\ separates the rows
+\hline                    % creates a horizontal line (try removing it)
+Hey & Hey & Hey  \\
+\hline
+Hello & Hello & Hello \\
+\hline
+Bye & Bye & Bye \\
+\hline
+\end{tabular}
+\end{table}\\
+You can a detailed description of tables here: \url{https://en.wikibooks.org/wiki/LaTeX/Tables}.
 
-We can include figures using the \texttt{figure} environment. Whenever we include a figure or table, we \textit{must} make sure to actually refer to it in the main text, e.g.\ something like this: ``In figure \ref{fig:rel_err} we show \ldots''. 
+I'm not going to delve into Tikz in any level detail, but here's a quick picture:
+\begin{figure}[h]
+\centering  % places the tikz image in the center of the text column
+\begin{tikzpicture}
+\draw[->] (0,0) -- (2,0) node [pos=1.0,below] {\(x\)};
+\draw[->] (0,0) -- (0,2) node [pos=1.0,left] {\(y\)};
+\draw (0,0) -- (1.5,1.5) node [pos=1.0,above] {\(f(x)\)};
+\end{tikzpicture}
+\caption{This is great caption}\label{figure}
+\end{figure}\\
+If you want to know more, check: \url{https://en.wikibooks.org/wiki/LaTeX/PGF/TikZ}.
 
-Also, note the LaTeX code we used to get correct quotation marks in the previous sentence. (Simply using the \texttt{"} key on your keyboard will give the wrong result.) Figures should preferably be vector graphics (e.g.\ a \texttt{.pdf} file) rather than raster graphics (e.g.\ a \texttt{.png} file).
-
-By the way, don't worry too much about where LaTeX decides to place your figures and tables --- LaTeX knows more than we do about proper document layout. As long as you label all your figures and tables and refer to them in the text, it's all good. Of course, in some cases it can be worth trying to force a specific placement, to avoid the figure/table appearing many pages away from the main text discussing it, but this isn't something you should spend time on until the very end of the writing process.
-
-
-Next up is a table, created using the \texttt{table} and \texttt{tabular} environments. We refer to it by table \ref{tab:output_table}.
-\begin{table}%[h!]
-    \centering
-    \begin{tabular}{c@{\hspace{1cm}} c}
-        \hline
-        Number of points & Output \\
-        \hline
-        10 &  0.3086\\
-        100 &  0.2550\\
-        \hline
-    \end{tabular}\caption{Write a descriptive caption here, explaining the content of your table.}\label{tab:output_table}
-\end{table}
-
-Finally, we can list algorithms by using the \texttt{algorithm} environment, as demonstrated here for algorithm \ref{algo:midpoint_rule}.
+%% If you want to include figure:
+%\includegraphics[scale=1.0]{filename}
+%% check https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics if you want to know more
 
 \end{document}
