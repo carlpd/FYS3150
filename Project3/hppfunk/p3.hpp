@@ -12,6 +12,9 @@ class Particle{
 class PenningTrap
 {
   public:
+    double ke=1.38935333e5;
+    double Tesla=9.64852558e1;
+    double Volt=9.64852558e7;
     double B0;
     double V0;
     double d;
@@ -26,6 +29,7 @@ class PenningTrap
     arma::vec PF(int j);
     arma::vec TF(int j);
     void evolve_Euler(double dt);
+    void evolve_RK4(double dt);
 };
 /*
 arma::vec EksF(double V0, double B0, double d, Particle j);
