@@ -107,7 +107,7 @@ Gauss' lov forteller oss at divergensen til det elektriske feltet $\mathbf{E}$ i
 \nabla{\mathbf{E}} = \frac{\rho}{\varepsilon_0} \; .
 \end{equation} 
 
-Så for å fange en partikkel innenfor et lukket området, vil det ikke være mulig å ha et eksternt felt som peker inn mot en partikkel fra lle kanter, siden partikkelen da må være positiv for å gjøre den totale divergensen null. En løsning ble gitt av Hans George Dehemelt, som tok inspirasjon fra F. M. Penning, og har navngitt instrumentet for en Penning felle \footnote{\url{https://en.wikipedia.org/wiki/Penning_trap}}. Fellen går ut på å bruke både et elektrisk og magnetisk felt for å få ladde partikkler til å gå i sirkulærliknende baner. Penning fellen er spesielt nyttig til pressisjonsmåling, og den brukes for eksempel ved CERN for å holde antiprotoner. Diagrammet i figur ref{fig:Pen} viser skjemtaisk hvordan en Penning felle er konstruert\footnote{\url{https://en.wikipedia.org/wiki/Penning_trap\#/media/File:Penning_Trap.svg}}. 
+Så for å fange en partikkel innenfor et lukket området, vil det ikke være mulig å ha et eksternt felt som peker inn mot en partikkel fra lle kanter, siden partikkelen da må være positiv for å gjøre den totale divergensen null. En løsning ble gitt av Hans George Dehemelt, som tok inspirasjon fra F. M. Penning, og har navngitt instrumentet for en Penning felle \footnote{\url{https://www.imperial.ac.uk/media/imperial-college/research-centres-and-groups/ion-trapping/public/PwTCP_chap1.pdf}}. Fellen går ut på å bruke både et elektrisk og magnetisk felt for å få ladde partikkler til å gå i sirkulærliknende baner. Penning fellen er spesielt nyttig til pressisjonsmåling, og den brukes for eksempel ved CERN for å holde antiprotoner. Diagrammet i figur ref{fig:Pen} viser skjemtaisk hvordan en Penning felle er konstruert\footnote{\url{https://en.wikipedia.org/wiki/Penning_trap\#/media/File:Penning_Trap.svg}}. 
 
 \begin{figure}
 \centering
@@ -194,7 +194,79 @@ Hvor vi da får
 \ddot{f} + i\omega_0 \dot{f} - \frac{1}{2} \omega_z^2 f = 0 \; .
 \end{equation}
 
-Se appendix \ref{utfxy} for utregning. 
+Se appendix \ref{utfxy} for utregning. Den generelle løsningen er da:
+
+\begin{equation}\label{fsolve}
+f = A_+e^{-i\omega_+t} + A_-e^{-i\omega_-t} \; ,
+\end{equation}
+
+hvor
+
+$$\omega_{\pm} = \frac{\omega_0 \pm \sqrt{\omega_0^2-2\omega_z^2}}{2} \; .$$
+
+Siden $$\omega_{\pm}$$ skal være relle tall, så har vi restriksjonen
+
+$$\omega_0^2-2\omega_z^2 \geq 0$$
+$$\frac{|q|^2B_0^2}{m^2} \geq \frac{2|q|V_0}{md^2}$$
+
+Som gir oss
+
+\begin{equation}
+\frac{|q|B_0^2d^2}{2mV_0^2} \geq 1 \; .
+\end{equation}
+
+Og vi kan vise at maksimumet til $f(t)$ er gitt ved
+
+\begin{equation}\label{fmaks}
+R_+ = A_+ + A_- \; ,
+\end{equation}
+
+og at minimumet er gitt ved
+
+\begin{equation}\label{fmin}
+R_- = \left | A_+ - A_- \right | \; .
+\end{equation}
+
+Se appendix \ref{utfxy} for forklaring. 
+
+Vi tenker oss initalverdiene
+
+$$x_0 = x_0$$
+$$\dot{x}(0) = 0$$
+$$y_0 = 0$$
+$$\dot{y}(0) = v_0$$
+$$z(0) = z_0$$
+$$\dot{z}(0) = 0$$
+
+Da får vi at
+
+\begin{equation}
+\label{Aplus}
+A_+ = \frac{v_0+\omega_-x_0}{\omega_--\omega_+} \; ,
+\end{equation}
+
+og
+
+\begin{equation}
+\label{Amin}
+A_- = -\frac{v_0+\omega_+x_0}{\omega_--\omega_+}
+\end{equation}
+
+Videre så kan vi finne den analytiske løsningen for den tredje differensiallikningen Eq:\ref{eq:dif3}. Ved å sette
+
+$$\omega_z^2z(t) = - \frac{\mathrm{d}^2}{\mathrm{d}t^2}z(t) \; ,$$
+
+med initialverdiene 
+
+$$z(0) = z_0$$
+$$\dot{z}(0) = 0$$
+
+så har vi at
+
+$$z(t) = \frac{z_0}{2}e^{-i\omega_zt} + \frac{z_0}{2}e^{i\omega_zt} \; .$$
+
+Referer til appendix app:\ref{utZ} for utregning.
+
 \section{Metode}
 \section{Resultater}
 \section{Diskusjon}
@@ -347,6 +419,76 @@ På samme måte så vil minimummet være når leddene til $f$ går i motsatte re
 som vil si at
 
 $$R_- = |A_+ - A_-|$$
+
+\section{Utregning av analytiske løsninger til differensialikingnene}
+
+Vi starter med
+
+$$f = A_+e^{-i\omega_+t} + A_-e^{-i\omega_-t}$$
+
+Og har at
+
+$$x_0 = x_0$$
+$$\dot{x}(0) = 0$$
+$$y_0 = 0$$
+$$\dot{y}(0) = v_0$$
+
+Det vil si
+
+$$\Re(f(0)) = x_0$$
+$$x_0 = A_+ + A_-$$
+
+Og vi har
+
+$$\dot{f}(0) = -i\omega_+A_+ - i\omega_-A_-$$
+$$\Im(\dot(f)(0)) = v_0$$
+$$v_0 = -\omega_+A_+ - \omega_-A_-$$
+
+Stokker om
+
+$$A_- = x_0 - A_+$$
+
+Og setter inn
+
+$$v_0 = -\omega_+A_+-\omega_-(x_0-A_+)$$
+$$v_0 = -\omega_+A_+-\omega_-x_0+\omega_-A_+$$
+$$v_0 = (\omega_--\omega_+)A_+ - \omega_-x_0)$$
+$$A_+ = \frac{v_0+\omega_-x_0}{\omega_--\omega_+}$$
+
+Og vi har
+
+$$A_- = x_0 - A_+$$
+$$A_- = x_0 - \frac{v_0+\omega_-x_0}{\omega_--\omega_+}$$
+$$A_- = \frac{x_0(\omega_--\omega_+)-v_0-\omega_-x_0}{\omega_--\omega_+}$$
+$$A_- = -\frac{v_0+\omega_+x_0}{\omega_--\omega_+}$$
+
+Videre så har vi initalverdiene
+
+$$z(0) = z_0$$
+$$\dot{z}(0) = 0$$
+
+Vi starter da med
+
+$$\omega_z^2z(t) = -\frac{\mathrm{d}^2}{\mathrm{d}t^2} z(t)$$
+
+Som har den generelle løsningen
+
+$$z(t) = c_1e^{-i\omega_zt} + c_2e^{i\omega_zt}$$
+
+Bruker så initialverdiene
+
+$$z(0) = c_1 + c_2 \Rightarrow z_0 = c_1 + c_2$$
+
+$$\dot{z}(0) = -ic_1\omega_z + i\omega_zc_2 \Rightarrow c_1 = c_2$$
+
+Som gir at
+
+$$c_1 = \frac{z_0}{2}$$
+$$c_2 = \frac{z_0}{2}$$
+
+Og vi får løsningen
+
+$$z(t) = \frac{z_0}{2}e^{-i\omega_zt} + \frac{z_0}{2}e^{i\omega_zt}$$
 
 
 %% all \section commands following \appendix are automatically taken as appendices
