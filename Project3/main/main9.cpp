@@ -12,8 +12,8 @@ int main(){
   double m1=20.0;
   arma::vec pr1=arma::vec(3).fill(0.);
   arma::vec pv1=arma::vec(3).fill(0.);
-  pr1={1.0, -1.0, 0.0};
-  pv1={-1.0, 0.0, 0.0};
+  pr1={1.0, 0.0, 1.0};
+  pv1={0.0, 1.0, 0.0};
   Particle p1(q1, m1, pr1, pv1);
   //Particle first_particle(q,m,r,v);
   //PenningTrap.add_particle(first_particle);
@@ -47,8 +47,8 @@ int main(){
   // Lager noen partikler
   arma::vec pr2=arma::vec(3).fill(0.);
   arma::vec pv2=arma::vec(3).fill(0.);
-  pr2={-1.0, -1.0, 0.0};
-  pv2={1.0, 0.0, 0.0};
+  pr2={-1.0, 0.0, 0.0};
+  pv2={1.0, 1.0, 1.0};
   Particle p2(q1,m1, pr2, pv2);
   part2.add_particle(p1);
   part2.add_particle(p2);
