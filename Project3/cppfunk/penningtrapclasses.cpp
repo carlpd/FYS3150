@@ -108,7 +108,7 @@ arma::vec PenningTrap::PF(int j){
 //Finner total kraft
 //arma::vec TF(std::vec parts, int j, double B0, double V0, double d){
 arma::vec PenningTrap::TF(int j){
-  if(parts.size()==1){
+  if(parts.size()==1 || partint==false){
     Particle jp=parts[j];
     //std::cout<<"Her3"<<std::endl;
     arma::vec eksf=EksF(jp);
@@ -148,22 +148,26 @@ void PenningTrap::evolve_Euler(double dt){
   }
 }
 void PenningTrap::evolve_RK4(double dt){
+  std::vector<arma::vec> Fo;
+  for (int i=0; i<parts.size();i++){
+    Fo.push_back(TF(i));
+  }
   for (int i=0; i<parts.size();i++){
     arma::vec rold=parts[i].r ;
     arma::vec vold=parts[i].v;
-    arma::vec vk1=dt*TF(i)/parts[i].m;
+    arma::vec vk1=dt*Fo[i]/parts[i].m;
     arma::vec rk1=dt*parts[i].v ;
     parts[i].v=vold+vk1/2.0;
     parts[i].r=rold+rk1/2.0;
-    arma::vec vk2=dt* TF(i)/parts[i].m;
+    arma::vec vk2=dt* Fo[i]/parts[i].m;
     arma::vec rk2=dt*parts[i].v;
     parts[i].v=vold+vk2/2.0;
     parts[i].r=rold+rk2/2.0;
-    arma::vec vk3=dt* TF(i)/parts[i].m;
+    arma::vec vk3=dt* Fo[i]/parts[i].m;
     arma::vec rk3=dt*parts[i].v;
     parts[i].v=vold+vk3;
     parts[i].r=rold+rk3;
-    arma::vec vk4=dt* TF(i)/parts[i].m;
+    arma::vec vk4=dt* Fo[i]/parts[i].m;
     arma::vec rk4=dt*parts[i].v;
     parts[i].v=vold+(vk1+2*vk2+2*vk3+vk4)/6;
     parts[i].r=rold+(rk1+2*rk2+2*rk3+rk4)/6;

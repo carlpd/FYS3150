@@ -20,6 +20,7 @@ class PenningTrap
     double d;
     std::vector<class Particle> parts;
     PenningTrap(double B_in, double V_in, double d_in, std::vector<class Particle> parts_in);
+    bool partint=true;
     void add_particle(Particle vals);
     void add_randomparticle();
     arma::vec FindE(arma::vec r);
