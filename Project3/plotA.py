@@ -27,3 +27,10 @@ y = np.imag(f)
 
 plt.plot(x, y)
 plt.show()
+
+from mpl_toolkits import mplot3d
+
+fig = plt.figure()
+ax = plt.axes(projection='3d')
+ax.plot(t, x, y)
+plt.show()
