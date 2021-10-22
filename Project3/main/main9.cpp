@@ -26,7 +26,7 @@ int main(){
   //test.add_particle(p2);
   //test.add_particle(p3);
   double tmax=100;
-  double dt=0.001;
+  double dt=0.01;
   int N=(int)(tmax/dt);
   arma::vec t=arma::linspace(0, tmax, N );
   std::ofstream r1;
@@ -58,7 +58,7 @@ int main(){
   std::ofstream v2;
   v2.open("../Txtfiler/v2noint.txt");
   for(int i=0; i<N; i++){
-    std::cout<<t(i)<<std::endl;
+    //std::cout<<t(i)<<std::endl;
     r2<<t(i)<<" "<<part2.parts[0].r(0) <<" "<< part2.parts[0].r(1)<<" "<<part2.parts[0].r(2)<<" "<<part2.parts[1].r(0) <<" "<< part2.parts[1].r(1)<<" "<<part2.parts[1].r(2)<<std::endl;
     v2<<t(i)<<" "<<part2.parts[0].v(0) <<" "<< part2.parts[0].v(1)<<" "<<part2.parts[0].v(2)<<" "<<part2.parts[1].v(0) <<" "<< part2.parts[1].v(1)<<" "<<part2.parts[1].v(2)<<std::endl;
     part2.evolve_RK4(dt);

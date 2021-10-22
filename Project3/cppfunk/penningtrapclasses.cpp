@@ -84,9 +84,9 @@ arma::vec PenningTrap::EksF(Particle j){
 //Finner kraften mellom to partikler
 arma::vec PenningTrap::pij(Particle i, Particle j){
   double dist=arma::norm(i.r-j.r);
-  std::cout<<dist<<std::endl;
+  //std::cout<<dist<<std::endl;
   //arma::vec fij=ke*j.q *(i.r-j.r)/std::pow(std::sqrt(i.r(0)-j.r(0)+i.r(1)-j.r(1)+i.r(2)-j.r(2)), 3);
-  arma::vec fij=ke*j.q *(i.r-j.r)/std::pow(dist, 3);
+  arma::vec fij=ke*j.q *(j.r-i.r)/std::pow(dist, 3);
   return fij;
 }
 
@@ -101,6 +101,7 @@ arma::vec PenningTrap::PF(int j){
       pf=pf+pij(parts[i], parts[j]);
     }
   }
+  std::cout<<pf<<std::endl;
   //std::cout<<"PF"<<pf<<std::endl;
   return pf;
 }
