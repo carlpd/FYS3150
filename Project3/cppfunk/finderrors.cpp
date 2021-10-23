@@ -47,7 +47,7 @@ arma::vec analytical(double t, Particle p1){
 
 void makeRK4txt(Particle p1, double dt){
   std::vector<class Particle> parts;
-  PenningTrap part=PenningTrap(B0, V0, dt, parts);
+  PenningTrap part=PenningTrap(B0, V0, td, parts);
   part.add_particle(p1);
   double tmax=100;
   int N=(int)(tmax/dt);
