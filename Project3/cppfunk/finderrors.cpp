@@ -45,7 +45,7 @@ arma::vec analytical(double t, Particle p1){
   return rn;
 }
 
-void makeRK4txt(Particle p1, double dt){
+void makeRK4txt(Particle p1, double dt ,int i){
   std::vector<class Particle> parts;
   PenningTrap part=PenningTrap(B0, V0, td, parts);
   part.add_particle(p1);
@@ -53,7 +53,7 @@ void makeRK4txt(Particle p1, double dt){
   int N=(int)(tmax/dt);
   arma::vec t=arma::linspace(0, tmax, N );
   std::ofstream er; //RungeKutta 4
-  er.open("../Txtfiler/errdt"+std::to_string(dt)+"RK4.txt");
+  er.open("../Txtfiler/err"+std::to_string(i)+"RK4.txt");
   er<<"#"<<"time"<<" "<<"Analytical x"<<" "<<"Analytical y"<<" "<<"Analytical z"<<" "<<"Numerical x"<<" "<<"Numerical y"<<" "<<"Numerical z"<<" "<<"Absolute Error"<<" "<<"Relative Error"<<std::endl;
   for(int i=0;i<t.size();i++){
     arma::vec num=part.parts[0].r;
@@ -65,15 +65,15 @@ void makeRK4txt(Particle p1, double dt){
   }
   er.close();
 }
-void makeEulertxt(Particle p1, double dt){
+void makeEulertxt(Particle p1, double dt, int i){
   std::vector<class Particle> parts;
-  PenningTrap part=PenningTrap(B0, V0, dt, parts);
+  PenningTrap part=PenningTrap(B0, V0, td, parts);
   part.add_particle(p1);
   double tmax=100;
   int N=tmax/dt;
   arma::vec t=arma::linspace(0, tmax, N );
   std::ofstream er;
-  er.open("../Txtfiler/errdt"+std::to_string(dt)+"Euler.txt");
+  er.open("../Txtfiler/err"+std::to_string(i)+"Euler.txt");
   er<<"#"<<"time"<<" "<<"Analytical x"<<" "<<"Analytical y"<<" "<<"Analytical z"<<" "<<"Numerical x"<<" "<<"Numerical y"<<" "<<"Numerical z"<<" "<<"Absolute Error"<<" "<<"Relative Error"<<std::endl;
   for(int i=0;i<t.size();i++){
     arma::vec num=part.parts[0].r;
