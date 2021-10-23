@@ -9,7 +9,11 @@ int main(){
   double q1=1.0;
   double m1=20.0;
   Particle p{q1,m1,pr1,pv1};
-  double dt=0.001;
-  makeRK4txt(p, dt);
+  for(int i=0; i<6; i++){
+    double dt=std::pow(10.0, (-1.0*i));
+    std::cout<<dt<<std::endl;
+    makeEulertxt(p, dt, i);
+    makeRK4txt(p, dt, i);
+  }
   return 0;
 }
