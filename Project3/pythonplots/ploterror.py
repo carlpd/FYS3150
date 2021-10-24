@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 dtmax=0
-dtmin=4 #En under minste
+dtmin=5 #En under minste
 maxEu=np.zeros(dtmin)
 maxRK=np.zeros(dtmin)
 """
@@ -52,7 +52,16 @@ for i in range(dtmax+1, dtmin):
     a2=(10**(-i))/(10**(-i-1))
     rerrEu+=np.log(a1)/np.log(a2)
 rerrEU=rerrEu/4
-print(rerrEu)
+print("rerrEu", rerrEu)
+rerrRK=0
+for i in range(dtmax+1, dtmin):
+    print(maxRK[i])
+    a1=maxRK[i]/maxRK[i-1]
+    print(a1)
+    a2=(10**(-i))/(10**(-i-1))
+    rerrRK+=np.log(a1)/np.log(a2)
+rerrRK=rerrRK/4
+print("rerrRK4", rerrRK)
 """
 t, ax, ay, az, nx, ny, nz, ae, re =np.loadtxt("..//Txtfiler/errdt0.001000RK4.txt", unpack=True)
 t2, ax2, ay2, az2, nx2, ny2, nz2, ae2, re2 =np.loadtxt("..//Txtfiler/errdt0.100000RK4.txt", unpack=True)
