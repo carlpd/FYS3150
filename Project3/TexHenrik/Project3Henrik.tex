@@ -17,7 +17,9 @@
 \usepackage{standalone}
 \usepackage{listings}         % display code
 \usepackage{subfigure} 
-\usepackage{float}       % imports a lot of cool and useful figure commands
+\usepackage{float} 
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}      % imports a lot of cool and useful figure commands
 
 % defines the color of hyperref objects
 % Blending two colors:  blue!80!black  =  80% blue and 20% black
@@ -81,13 +83,13 @@
 \graphicspath{{../Images/}}
 \begin{document}
 \title{Felle for ladede partikkler}   % self-explanatory
-\author{Henrik Modahl Breitenstein}               % self-explanatory
+\author{Henrik Modahl Breitenstein}
 \author{Carl Petter Duedahl}
 \date{\today}                             % self-explanatory
 \noaffiliation                            % ignore this
 \begin{abstract}                          % marks the beginning of               
 	
-Vi ser på analytiske og numeriske løsninger av bevegelsesbanene til en- og flerprtikkelsystem i en penningfelle, med og uten Coloumb krefter mellom partikkelene. Vi ser på presisjonen til Forward-Euler og Runge Kutta 4 i situasjonen. I tillegg ser vi på hvordan systemet oppfører seg når man påfører et tidsvarierende elektrisk felt. Vi finner stabile baner når det ikke er interaksjoner partikler, og kaotiske baner med Coloumb krefter. Vi fant at RK4 har divergerende feil for $h < 1$ og Forward-Euler hadde divergerende feil for $h < 10^{-3}$. For tidsvarierende elektirsk felt så finner vi at systemet har resonansfrekvenser rundt $\omega_v = 0,2 \; MHz$, $\omega_v = 0,3 \; MHz$ og $\omega_v = 0,6 \; MHz$, hvor en stor andel av partikkelene har sluppet ut etter 500 $\mu s$.
+Vi ser på analytiske og numeriske løsninger av bevegelsesbanene til en- og flerpartikkelsystem i en penningfelle, med og uten Coloumb krefter mellom partiklene. Vi ser på presisjonen til Forward-Euler og Runge Kutta 4 i situasjonen av et ènpartikkelsystem. Vi ser også på hvordan systemet vil være med to partikler som kan påvirke hverandre med ladningen sin. I tillegg ser vi på hvordan systemet oppfører seg når man påfører et tidsvarierende elektrisk felt. Vi finner stabile baner når det ikke er interaksjoner mellom partiklene, og kaotiske baner med Coloumb krefter. Vi fant at RK4 har divergerende feil for $h < 1$ og Forward-Euler hadde divergerende feil for $h < 10^{-3}$. Vi kom fram til at simuleringene av énpartikkel og topartikkelsystemene sansynligvis er riktige, slev om vi fikk et ganske forskjellig system for to partikler enn én partikkel. For tidsvarierende elektirsk felt så finner vi at systemet har resonansfrekvenser rundt $\omega_v = 0,2 \; MHz$, $\omega_v = 0,3 \; MHz$ og $\omega_v = 0,6 \; MHz$, hvor en stor andel av partikkelene har sluppet ut etter 500 $\mu s$.
 	
 \end{abstract}                            % marks the end of the abstract
 \maketitle                                % creates the title, author, date & abstract
@@ -96,16 +98,16 @@ Vi ser på analytiske og numeriske løsninger av bevegelsesbanene til en- og fle
 % the fundamental components of scientific reports:
 \section{Introdukson}
 
-Alt materiale består av små partikkler. For å kunne teste teorier eksperementelt og kunne finne nye egenskaper ved partikkler, så vil man måtte kunne kontrollere bevegelsen til en partikkel. 
+Alt materiale består av små partikkler. For å kunne teste teorier eksperimentelt og for å kunne finne nye egenskaper ved partikkler, så vil man måtte kunne kontrollere bevegelsen til en partikkel. 
 
-Gauss' lov forteller oss at divergensen til det elektriske feltet $\mathbf{E}$ i et lukket volum, i vakuum, er definert av ladningene i volumet. For en ladningtetthet $\rho$ og permitiviteten i vakuum, $\varepsilon_0$, så har vi
+Gauss' lov forteller oss at divergensen til det elektriske feltet $\mathbf{E}$ i et lukket volum, i vakuum, er definert av ladningene i volumet. For en ladningtetthet $\rho$ og permitiviteten i vakuum, $\varepsilon_0$, så har vi:
 
 \begin{equation}
 \label{gauss}
 \nabla{\mathbf{E}} = \frac{\rho}{\varepsilon_0} \; .
 \end{equation} 
 
-Så for å fange en partikkel innenfor et lukket området, vil det ikke være mulig å ha et eksternt felt som peker inn mot en partikkel fra alle kanter, siden partikkelen da må være positiv for å gjøre den totale divergensen null. En løsning ble gitt av Hans George Dehemelt, som tok inspirasjon fra F. M. Penning, og har navngitt instrumentet for en Penning felle \footnote{\url{https://www.imperial.ac.uk/media/imperial-college/research-centres-and-groups/ion-trapping/public/PwTCP_chap1.pdf}}. Fellen går ut på å bruke både et elektrisk og magnetisk felt for å få ladde partikkler til å gå i baner inne i et lukket området. Penning fellen er spesielt nyttig til pressisjonsmåling, og den brukes for eksempel ved CERN for å holde antiprotoner vekk fra normal materie. Diagrammet i figur \autoref{fig:Pen} viser skjemtaisk hvordan en Penning felle er konstruert\footnote{\url{https://en.wikipedia.org/wiki/Penning_trap\#/media/File:Penning_Trap.svg}}. 
+Så for å fange en partikkel innenfor et lukket område, vil det ikke være mulig å ha et eksternt felt som peker inn mot en partikkel fra alle kanter, siden partikkelen da må være positiv for å gjøre den totale divergensen null. En løsning ble gitt av Hans George Dehemelt, som tok inspirasjon fra F. M. Penning, og har navngitt instrumentet for en Penning felle \footnote{\url{https://www.imperial.ac.uk/media/imperial-college/research-centres-and-groups/ion-trapping/public/PwTCP_chap1.pdf}}. Fellen går ut på å bruke både et elektrisk og magnetisk felt for å få ladde partikkler til å gå i baner inne i et lukket området. Penning fellen er spesielt nyttig til pressisjonsmåling, og den brukes for eksempel ved CERN for å holde antiprotoner vekk fra normal materie. Diagrammet i \autoref{fig:Pen} viser skjemtaisk hvordan en Penning felle er konstruert\footnote{\url{https://en.wikipedia.org/wiki/Penning_trap\#/media/File:Penning_Trap.svg}}. 
 
 \begin{figure}
 \centering
@@ -137,7 +139,7 @@ En ladd partikkel danner sitt eget elektriske felt. For flere ladde partikkeler 
 \mathbf{E} = k_e \sum_{j=1}^{n} q_j \frac{\mathbf{r} - \mathbf{r}_j}{\left | \mathbf{r} - \mathbf{r}_j \right |^3} 
 \end{equation}
 
-Partikklene vil også bidra til det totale magnetfeltet, men siden \tiny{${\left |\vec{B}_p \right | \approx \left | \frac{\vec{E_p}}{c} \right |}$} \normalsize{}, hvor $c$ er lyshastigheten, ignorer vi bidragene til magnetfeltet fra partikklene.   
+Partiklene vil også bidra til det totale magnetfeltet, men siden \tiny{${\left |\vec{B}_p \right | \approx \left | \frac{\vec{E_p}}{c} \right |}$} \normalsize{}, hvor $c$ er lyshastigheten, ignorer vi bidragene til magnetfeltet fra partikklene.   
 
 En Penning felle kan bli vist skjematisk som vist i \autoref{fig:Pen}
 
@@ -153,7 +155,7 @@ hvor $V_0$ er størrelsen til det elektriske potensialet påført elektrodene. $
 d = \sqrt{z_0^2 + r_0^2/2}
 \end{equation}
 
-I figur \autoref{fig:Pen} så kan man se at kreftene i z-retningen vil kanselere hverandre. Siden det elektriske feltet kurver ut mot ringen, så kan man se at feltet kun har xy-komponent i midtlinjen av penningfellen. Siden vi da kun trenger å videre begrense bevegelsen i xy-retning, så bruker vi et magnetfelt definert ved:
+I \autoref{fig:Pen} så kan man se at kreftene i z-retningen vil kanselere hverandre. Siden det elektriske feltet kurver ut mot ringen, så kan man se at feltet kun har xy-komponent i midtlinjen av penningfellen. Siden vi da kun trenger å videre begrense bevegelsen i xy-retning, så bruker vi et magnetfelt definert ved:
 
 \begin{equation}\label{B}
 \mathbf{B} = B_0\hat{e}_z = \left ( 0, 0, B_0 \right ) \;
@@ -265,13 +267,26 @@ $$z(t) = z_0 \cos{(\omega_zt)} \; .$$
 
 Referer til appendix \ref{DiffA} for utregning.
 
+Legger vi til flere partikler i systemet som kan påvirke hverandre med Coloumb krefter, så får vi en bevegelse som ser slik ut:
+$$
+\ddot{x}_i -\omega_{0,i} \ddot{y}_i-\frac{1}{2}\omega_{z,i}^2x_i-k_e\frac{q_e}{m_i}\sum_{j\neq i}q_j\frac{x_i-x_j}{|\vec{r}_i-\vec{r}_j|^3}=0
+$$
+$$
+\ddot{y}_i -\omega_{0,i} \ddot{x}_i-\frac{1}{2}\omega_{z,i}^2y_i-k_e\frac{q_e}{m_i}\sum_{j\neq i}q_j\frac{y_i-y_j}{|\vec{r}_i-\vec{r}_j|^3}=0
+$$
+$$
+\ddot{z}_i+w_{z,i}^20z_i-k_e\frac{q_e}{m_i}\sum_{j\neq i}q_j\frac{z_i-z_j}{|\vec{r}_i-\vec{r}_j|^3}=0
+$$
+Som det vil bli forklart dypere hvordan i Metode-delen skal vi bruke to numeriske metoder for å simulere banen. Den ene er Eulers meotde og den andre er Runge Kutta 4. For Forward-Euler vil vi ha en feilorden på $O(h^3)$, og Runge Kutta 4 har en feilorden på $O(h^4)$
+
+
 \section{Metode}
 
 \subsection*{Analytisk}
 
 Først så definerer vi initialverdiene
 
-$$ x_0 = 1 \; , \; y_0 = 0 \; , \; z_0 = $$
+$$ x_0 = 1 \; , \; y_0 = 0 \; , \; z_0 = 1$$
 $$ \dot{x}_0 = 0 \; , \; \dot{y}_0 = v_0 = 1 \; , \; \dot{z}_0 = 0$$
 
 Og verdiene
@@ -280,12 +295,133 @@ $$ m = 20 \; , \; B_0 = 9.65 \cdot 10^1 \; , \; V_0 = 9.65 \cdot 10^8 $$
 
 For å ha noe å sammenlikne de numeriske resultatene med så trenger vi å skissere de analytiske løsningene. Vi setter inn verdiene vi har satt og ser på bevegelsen i xy-retning. 
 
+\subsection*{Ènpartikkelsystemet}
+Vi starter først med et enpartikkelsystem. Vi setter partikkelen i samme posisjon som i den analytiske delen, altså
+$$
+\vec{r}(0)=\begin{bmatrix}
+x_0 \\ 0 \\0
+\end{bmatrix}
+$$
+og
+$$
+\vec{v}=\begin{bmatrix}
+0\\v_0\\0
+\end{bmatrix}
+$$
+hvor vi setter $x_0=1\mu m$ og $v_0=1\frac{\mu m}{\mu s}$ for enkelhetsskyld. Vi bruker så at det elektriske feltet kan skrives som
+$$
+\vec{E}=\begin{Bmatrix}
+V0\frac{x}{d^2} \\V_0 \frac{y}{d^2}\\-2V_0 \frac{z}{d^2}
+\end{Bmatrix}
+$$
+
+og det magnetiske feltet er $\vec{B}=(0,0,B_0)$. Vi vet også at den eksterne kraften er gitt som
+$$
+\vec{F}_{eks}=q\vec{E}+q\vec{v}\cross \vec{B}
+$$
+og slik kan vi regne ut den eksterne kraften.
+Så skal vi bruke dette som kraften når vi bruker de numeriske metodene.
+Vi starter med Eulers metode som er ganske rett fram:
+\begin{algorithm}[H]
+	\begin{algorithmic}
+		\State Some maths, e.g $f(x) = x^2$. 
+		\For{$i = 0, 1, ..., N-1$}
+		\State $$
+		r_{i+1}\leftarrow r_i+v_i \cdot h
+		$$
+		\State $$
+		v_{i+1}\leftarrow v_i+\frac{F(r_i, v_i)}{m}\cdot h
+		$$
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+hvor $h$ er lengden på tidssteget. \newline
+Runge Kutta 4 er litt mer komplisert:
+\begin{algorithm}[H]
+	\begin{algorithmic}
+		\State Some maths, e.g $f(x) = x^2$. 
+		\For{$i = 0, 1, ..., N-1$}
+		\State $$
+		R\leftarrow r_i
+		$$$$
+		V\leftarrow v_i
+		$$$$
+		vk_1\leftarrow h\cdot F(r_i, v_i)
+		$$$$
+		rk_1\leftarrow h\cdot v_i
+		$$$$
+		v_{i+1}\leftarrow V+vk1/2.0
+		$$$$
+		r_{i+1}\leftarrow R+rk1/2.0
+		$$
+		$$
+		vk_2\leftarrow h\cdot \frac{F(r_{i+1},v_{i+1})}{m}
+		$$$$
+		rk_2\leftarrow h\cdot v_{i+1}
+		$$
+		$$
+		v_{i+1}\leftarrow V+vk_2/2
+		$$$$
+		r_{i+1}=R+rk_2/2
+		$$
+		$$
+		vk_3\leftarrow h\cdot F(r_{i+1}, v_{i+1})/m
+		$$$$
+		rk_3\leftarrow h\cdot v_{i+1}
+		$$
+		$$
+		v_{i+1}\leftarrow V+vk_3$$$$
+		r_{i+1}\leftarrow R+rk_3
+		$$
+		$$
+		vk_4\leftarrow h\cdot  F(r_{i+1}, v_{i+1})/m$$$$
+		rk_4=h\cdot v_{i+1}
+		$$
+		$$
+		v_{i+1}=V+(vk_1+2vk_2+2vk_3+vk_4)/6$$$$
+		r_{i+1}=R+(rk_1+2rk_2+2rk_3+rk_4)/6;
+		$$
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+Vi vil så teste om $\omega_z=\frac{2qV_0}{md^2}$ er den samme i den numeriske som den analytiske. Vi tester dette ved å vite at $\omega_z$ er vinkelhastigheten til hasitgheten i $z$-retning som gir oss $\omega_z=\frac{2\pi}{T}=2\pi f$ hvor $f$ er frekvensen. Så da regner vi ut $f=\frac{\omega_z}{2\pi}$ og ganger dette med $100\mu s$ for å finne antall perioder den analytiske løsningen har over tidsrommet. Så plotter vi hasithgeten i z-retingen og teller antall perioder og sammnenlikner. \newline 
+Vi finner så hva som blir feilen i systemet vårt. Vi kan regne den analytiske løsningen av systemet vårt $\vec{r}_a$ som forklart tidligere. Så har vi vår numeriske løsning $\vec{r}_n$ regnet ut som over. Vi har så den absolutte feilen gitt ved
+$$
+err_{abs}=|\vec{r}_{a}-\vec{r}_{n}|
+$$
+og den relative feilen er da
+$$
+err_{re}=\frac{err_{abs}}{|\vec{r}|}
+$$
+Så gjør vi dette for hvert tidssteg slik at
+$$
+err_{re_i}=\frac{|\vec{r}_{a_i}-\vec{r}_{n_i}|}{|\vec{r}_{a_i}|}
+$$
+Vi gjør dette med $h=10^{-i}$ hvor $i=0,1,2,3,4$ og finner ulike grafer for feilene med både Euler og Runge Kutta 4.
+\subsection*{Topartikkelsystemet}
+I simulasjonene for topartikkelsystemet vil vi kun bruke Runge Kutta 4. Vi setter en ny partikkel i posisjonen $\vec{r}_2=\begin{pmatrix}
+-1\\0\\0
+\end{pmatrix}
+$ og hastigheten $v_2=\begin{pmatrix}
+1\\1\\1
+\end{pmatrix}$
+\newline Så bruker vi samme metode som i ènpartikkelsystemet med Runge Kutta 4 på de to partiklene.
+\newline  Så skal vi legge til en partikkelkraft mellom partiklene. Kraften på partikkel $j$ fra alle andre partiler $i$ er gitt ved
+$$
+\vec{Fp}_{ji}=k_e q_j \sum_{i\neq j} q_i \frac{\vec{r_j}-\vec{r_i}}{|\vec{r}_j-\vec{r}_i|^3}
+$$
+som vi da legger til i kraften for hver partikkel. I vårt tilfelle vil $i$ bare være den andre partikkelen, men det blir nyttig å gjøre det slik for når vi har 100 partikler senere. Totalkraften på en partikkel blir da
+$$
+\vec{F}_i=\vec{F}_{Eks_i}+\vec{Fp}_i
+$$
+Så bruker vi Runge Kutta 4 med denne nye kraften.
+
 \subsection*{Tidsvarierende Spenning}
 
 Videre så ser vi på hvordan en tidsvarierende elektrisk felt vil påvirke partikklene. Vi definerer feltet som følgende:
 
 \begin{equation}\label{Vt}
-\mathbf{V}(t)=\mathbf{V}_0(1+f\cos{(\omega_vt)} \; ,
+\mathbf{V}(t)=\mathbf{V}_0(1+f\cos{(\omega_vt)}) \; ,
 \end{equation}
 
 hvor $f$ er amplituden og $\omega_v$ er frekvensen. Med den oscilerende spenningen, så ser vi på hvor mange partikkler som fortsatt er fanget i penningfellen etter $500 \mu s$. Vi bruker amplitudene $f = {0.1, 0.4, 0.7}$ og frekvensene i området $\omega_v = \left [0.2 \; MHz, 2.5 \; MHz \right ]$ med et mellomrom på $0,02 \; MHz$. Vi ser så på om Coloumb kreftene mellom partikklene påvirker hvor mange partikkler som er igjen i fellen.
@@ -301,6 +437,111 @@ Vi tegner bevegelsen angitt av den anaylitske løsningen i \autoref{Fig:Analytic
 \includegraphics[scale=0.5]{../Images/AnalyticA.pdf}
 \caption{Illustrasjon av den analytiske banen til én enkelt partikkel i systemet.}
 \label{Fig:Analytic}
+\end{figure}
+
+\subsection*{Énpartikkelsystemet}
+Vi fikk at i ènpartikkelsystemet så ble posisjonene som gitt i figurene \autoref{Fig:r1x}, \autoref{Fig:r1y} og \autoref{Fig:r1z}.
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/r1x.pdf}
+	\caption{Posisjonen i x-retning for en partikkel alene i systemet.}
+	\label{Fig:r1x}
+\end{figure}
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/r1y.pdf}
+	\caption{Posisjonen i y-retning for en partikkel alene i systemet.}
+	\label{Fig:r1y}
+\end{figure}
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/r1z.pdf}
+	\caption{Posisjonen i z-retning for en partikkel alene i systemet.}
+	\label{Fig:r1z}
+\end{figure}
+Av den analytiske løsningen var $\omega_z=\frac{2qV_0}{md^2}$ som med våre verdier gir $\omega_z=0,982Hz$. Da får vi at antall perioder over $100 \mu s$ blir litt over rundt femten og en halv. Vi ser på grafen, teller antall perioder og får sånn ca. femten og en halv der også.
+Hastigheten fra den numeriske løsningen ble som i \autoref{Fig:v1z}.
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/vz.pdf}
+	\caption{Hastigheten i z-retning for en partikkel alene i fella.}
+	\label{Fig:v1z}
+\end{figure}
+De relative feilene for Eulers metode over tiden ble seende ut som i \autoref{Fig:errEu}, mens de relative feilene for Runge-Kutta 4 er den relative feilen gitt i \autoref{Fig:errRK4}
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/RelerrEu.pdf}
+	\caption{De relative feilene over tiden for ulike tidssteg ved bruke av Eulers metode}
+	\label{Fig:errEu}
+\end{figure}
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/RelerrRK4.pdf}
+	\caption{De relative feilene over tiden for ulike tidssteg ved å bruke Runge Kutta 4}
+	\label{Fig:errRK4}
+\end{figure}
+For Eulers metode fikk vi at konvergesraten ble $err_{Rate_{Eu}}=66,658$, mens for Runge Kutta 4 fikk $err_{Rate_{RK4}}=13,009$.
+\subsection*{To-partikkelsystemet}
+Partiklene uten interaksjon vil se ut som i \autoref{Fig:r2noint} i xy-planet.
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/xypartnoint.pdf}
+	\caption{To partikler som ikke gir forveksler kraft med hverandre i feltet}
+	\label{Fig:r2noint}
+\end{figure}
+Partiklene med interaksjon ble derimot seende ut som på \autoref{Fig:r2int} i xy-planet
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/xypartint.pdf}
+	\caption{To partikler i feltet som også kan virke på hverandre.}
+	\label{Fig:r2int}
+\end{figure}
+
+I tre dimensjoner vil banene se ut som i \autoref{Fig:3dnoint} uten partikkelinteraksjon, mens banene med partikkelinteraksjon vil se ut som de i \autoref{Fig:3dint}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{../pythonplots/3dr2noint.pdf}
+	\caption{Partiklenes baner i 3 dimensjoner uten partikkelinteraksjon.}
+	\label{Fig:3dnoint}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{../pythonplots/3dr2int.pdf}
+	\caption{Partikelenes baner i 3 dimensjoner med partikkelinteraksjon.}
+	\label{Fig:3dint}
+\end{figure}
+Fasediagrammene til partiklene uten påvirkning ble seende ut som \autoref{Fig:fasenoint1} for den første partikkelen og \autoref{Fig:fasenoint2} for den andre partikkelen. Fasediagrammene til partiklene med påvirkning fra den andre partikkelen ble som i \autoref{Fig:faseint1} for den første partikkelen og \autoref{faseint2} for den andre.
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/xnoint1.pdf}
+	\includegraphics[scale=0.4]{../pythonplots/ynoint1.pdf}
+	\includegraphics[scale=0.4]{../pythonplots/znoint1.pdf}
+	\caption{Fasediagrammene for partikkel 1 i x, y og z-retning uten partikkelkrefter. Verdiene er skalert i mikrometer og mikrometer per mikrosekund}
+	\label{Fig:fasenoint1}
+\end{figure}
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/xnoint2.pdf}
+	\includegraphics[scale=0.4]{../pythonplots/ynoint2.pdf}
+	\includegraphics[scale=0.4]{../pythonplots/znoint2.pdf}
+	\caption{Fasediagrammene for partikkel 2 i x, y og z-retning uten partikkelkrefter. Verdiene er skalert i mikrometer og mikrometer per mikrosekund}
+	\label{Fig:fasenoint2}
+\end{figure}
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/xint1.pdf}
+	\includegraphics[scale=0.4]{../pythonplots/yint1.pdf}
+	\includegraphics[scale=0.4]{../pythonplots/zint1.pdf}
+	\caption{Fasediagrammene for partikkel 1 i x, y og z-retning med partikkelkraft. Verdiene er skalert i mikrometer og mikrometer per mikrosekund}
+	\label{Fig:faseint1}
+\end{figure}
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/xint2.pdf}
+	\includegraphics[scale=0.4]{../pythonplots/yint2.pdf}
+	\includegraphics[scale=0.4]{../pythonplots/zint2.pdf}
+	\caption{Fasediagrammene for partikkel 2 i x, y og z-retning med partikkelkraft. Verdiene er skalert i mikrometer og mikrometer per mikrosekund}
+	\label{Fig:faseint2}
 \end{figure}
 
 \subsection*{Tidsvarierende spenning}
@@ -345,17 +586,23 @@ Vi ser at for amplitudene $f = 0,1$, $f = 0,4$ og $f=0,7$ så faller antall part
 \label{Fig:TrappedC}
 \end{figure}
 
-Vi ser at frekvensområdet som gjør at partikkler slipper fri er større når coloumb kreftene er tatt med, i \autoref{Fig:TrappedC}, enn med uten interaksjone rmellom partikklene, som sett i\autoref{Fig:TrappedZ}.
+Vi ser at frekvensområdet som gjør at partikkler slipper fri er større når coloumb kreftene er tatt med, i \autoref{Fig:TrappedC}, enn med uten interaksjoner mellom partikklene, som sett i\autoref{Fig:TrappedZ}.
 
 \section{Diskusjon}
 
-\subsection*{Forskjellen mellom FE og RK4}
 
-I den relative feilen \autoref{Rel Euler} så ser vi den ikk er stabil for tidssteg høyere enn $h = 10^{-3} \mu s$. Den relative feilen for RK4 lar oss gå helt opp til $h = 10^{-1}$. Det vil si at Runge Kutta 4 er en mer stabil metode enn Forward-Euler i dette systemet, noe som var forventet ettersom Forward-Euler klarer seg dårlig i oscilerende systemer. Runge Kutta 4 skal ha en global feil som skalerer med $\mathrm{O}(h^4)$ og Euler sin feil skalerer med $\mathrm{O}(h^3)$, som stemmer overens med resultatene ved at Euler ender opp med å divergere ved lavere $h$ enn ved Runge Kutta 4. Konvergensfaktoren for Runge kutta 4 er også mindre enn for Euler. Begge har en konvergensfaktor større enn 1, trolig grunnet at vi har med tidssteg hvor begge har en divergerende feil. Fjerner vi det største tidssteget så får vi at $err_{Rate_{RK4}} < 1$, som passer med at den da kun har konvergerende relative feil.
+\subsection*{Énpartikkelsystemet}
+
+ Vi ser at $\omega_z$ for den numeriske løsningen er ved øymål lik den analytiske $\omega_z$ som forsterker troen på at simuleringen vår er en god tilnærming. \newline
+I den relative feilen så ser vi den ikke er stabil for tidssteg høyere enn $h = 10^{-3} \mu s$. Den relative feilen for RK4 lar oss gå helt opp til $h = 10^{-1}$. Det vil si at Runge Kutta 4 er en mer stabil metode enn Forward-Euler i dette systemet, noe som var forventet ettersom Forward-Euler klarer seg dårlig i oscilerende systemer. Runge Kutta 4 skal ha en global feil som skalerer med $\mathrm{O}(h^4)$ og Euler sin feil skalerer med $\mathrm{O}(h^3)$, som stemmer overens med resultatene ved at Euler ender opp med å divergere ved lavere $h$ enn ved Runge Kutta 4. Konvergensfaktoren for Runge kutta 4 er også mindre enn for Euler. Begge har en konvergensfaktor større enn 1, trolig grunnet at vi har med tidssteg hvor begge har en divergerende feil. Fjerner vi det største tidssteget så får vi at $err_{Rate_{RK4}} < 1$, som passer med at den da kun har konvergerende relative feil.
+\subsection*{Topartikkelsystemet}
+Vi ser at når partikkelene ikke påvirker hverandre følger de baner som likner enpartikkelsystemet, som kan tyde på at denne simuleringen fungerer. Man kan tross alt se på de to partiklene som to uavhengige énpartikkelsystemer. Når vi skrur på interaksjonen derimot, så ser vi noe ganske annet. Vi kan fortsatt se noen tendenser til et liknende mønster, for eksempel at det fortsatt er sirkelbevegelse inni en større sirkelbevegelse, men vi ser også at partiklene har mye større baner enn før. Dette kan være fordi partiklene startet kun noen mikrometer nærme hverandre og partikkelkraften mellom dem har derfor blitt veldig sterk og skutt dem ut i større baner. Her har de kanskje blitt langt fra hverandre og kreftene mellom dem har blitt mindre. Da vil de eksterne kreftene ha mer å si igjen og de begynner å likne mer på énpartikkelsystemer igjen. Da vil de også gå i baner igjen, men større baner enn før, som stemmer med figuren siden vi gikk fra en bane med radius på rundt $1\mu m$ til en bane med radius rundt $10\mu m$.
+\newline Vi ser av fasediagrammet at i et systemet uten interaksjon mellom partiklene så er ser det ut til å være et system av sirkler. Det gir mening siden også partikkelen danner sirkler over $xy$-planet. I $z$-retning er den mer sirkulær som gir mening siden denne kun er en cosinus funksjon. Når vi legger på partikkelinteraksjon får vi derimot mindre regelrette diagrammer. Hasitgheten og posisjonen går også fra $1.5m/s$ og $1\mu m$ til $60m/s$ og $20\mu m$. Dette samstemmer med hva vi så i $xy$-planet hvor partikkelen gikk fort langt ut fordi de var veldig nærme hverandre i starten og hadde stor påvirkning på hverandre.
+
 
 \subsection*{Tidsvariernde Spenning}
 
-Grunnen til at partikklene flykter fra fellen ved noen frekvenser og ikke andre er at det danner seg en resonans i bevegelsen. Det vil si at partikklene får en større og større amplitude i bevegelsesbanen, som til slutt gjør at partikkelen kommer seg ut av fellen. Om vi ser på hvordan resonansefrekvensene endrer seg med amplituden så lister vi de opp på nytt:
+Grunnen til at partiklene flykter fra fellen ved noen frekvenser og ikke andre er at det danner seg en resonans i bevegelsen. Det vil si at partikklene får en større og større amplitude i bevegelsesbanen, som til slutt gjør at partikkelen kommer seg ut av fellen. Om vi ser på hvordan resonansefrekvensene endrer seg med amplituden så lister vi de opp på nytt:
 
 $$\omega_{R1} = 0,6 \; MHz$$
 $$\omega_{R2} = 0,3 \; MHz $$
@@ -375,8 +622,12 @@ Med Coloumb kreftene så er det tydelig at de gjør det lettere for partikklene 
 
 \section{Konklusjon}
 
-Vi har sett på analytiske og numeriske bergninger av banen til partikler i en penningfelle. For én-partikkel system så har vi fått god overenstemmelse mellom analytisk og numeriske metoder. De numeriske metodene vi har brukt er Runge Kutta 4 og Forward Euler, og vi har funnet at i denne situasjonen så divergerer feilen raskere med Forward Euler enn med Runge Kutta 4, hvor RK4 sin konvergerings rate er ca. $13$ og Forward Euler har en konvergerings rate på ca. $66$, noe som stemmer bra med metodenes teoretiske globale feil. --- Ved å sette på et elektrisk felt som varierer med tiden, så har vi funnet resonansfrekvensene $\omega_v = 0,2 \; MHz$, $\omega_v = 0,3 \; MHz$ og $\omega_v =  0,6 \; MHz$, hvor en større andel av partikkelene slipper unna fellen. 
+Vi har sett på analytiske og numeriske beregninger av banen til partikler i en penningfelle. For én-partikkel system så har vi fått god overenstemmelse mellom analytisk og numeriske metoder. De numeriske metodene vi har brukt er Runge Kutta 4 og Forward Euler, og vi har funnet at i denne situasjonen så divergerer feilen raskere med Forward Euler enn med Runge Kutta 4, hvor RK4 sin konvergerings rate er ca. $13$ og Forward Euler har en konvergerings rate på ca. $66$, noe som stemmer bra med metodenes teoretiske globale feil. For topartikkelsystemet var det vanskeligere å analysere bevegelsen siden den ikke lenger var så forutsigbar med interaksjoner. Uten partikkelinteraskjoner var det mer som to énpartikkelsystemer, men med partikkelinteraksjoner ble det annerledes. Likevel var partiklene ganske nærme hverandre i starten og de fikk seg fort en ganske mye større bane så de fikk en ganske stor akselerasjon fra hverandres elektriske kraft og skjøt ut i en større bane. Dette kan tyde på at vi har en god simulasjon, men uheldige initialverdier. Ved å sette på et elektrisk felt som varierer med tiden, så har vi funnet resonansfrekvensene $\omega_v = 0,2 \; MHz$, $\omega_v = 0,3 \; MHz$ og $\omega_v =  0,6 \; MHz$, hvor en større andel av partikkelene slipper unna fellen. 
 
+\newpage
+\section*{Referanser}
+
+Vi har kodene i Github repositoriet: \url{https://github.com/carlpd/FYS3150/tree/main/Project3}
 \newpage
 \appendix
 \section{Utregning av enkeltspartikkelens bevegelseslikning}\label{ap:moteq}
