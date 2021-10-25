@@ -97,8 +97,85 @@ If you are familiar with \LaTeX\ and you want to learn more about the REVTeX4-1 
 \section{Introdukson}
 
 \section{Teori}   % (optional)
+Legger vi til flere partikler i systemet som kan påvirke hverandre med Coloumb krefter, så får vi en bevegelse som ser slik ut:
+$$
+\ddot{x}_i -\omega_{0,i} \ddot{y}_i-\frac{1}{2}\omega_{z,i}^2x_i-k_e\frac{q_e}{m_i}\sum_{j\neq i}q_j\frac{x_i-x_j}{|\vec{r}_i-\vec{r}_j|^3}=0
+$$
+$$
+\ddot{y}_i -\omega_{0,i} \ddot{x}_i-\frac{1}{2}\omega_{z,i}^2y_i-k_e\frac{q_e}{m_i}\sum_{j\neq i}q_j\frac{y_i-y_j}{|\vec{r}_i-\vec{r}_j|^3}=0
+$$
+$$
+\ddot{z}_i+w_{z,i}^20z_i-k_e\frac{q_e}{m_i}\sum_{j\neq i}q_j\frac{z_i-z_j}{|\vec{r}_i-\vec{r}_j|^3}=0
+$$
+Som det vil bli forklart dypere hvordan i Metode-delen skal vi bruke to numeriske metoder for å simulere banen. Den ene er Eulers meotde og den andre er Runge Kutta 4. For Euler-Cromer vil vi ha en feilorden av orden $O(h^)$
 \section{Metode}
+\subsection*{Enpartikkelsystemet}
+Vi starter først med et enpartikkelsystem. Vi setter partikkelen i samme posisjon som i den analytiske delen, altså
+$$
+\vec{r}(0)=\begin{bmatrix}
+x_0 \\ 0 \\0
+\end{bmatrix}
+$$
+og
+$$
+\vec{v}=\begin{bmatrix}
+0\\v_0\\0
+\end{bmatrix}
+$$
+hvor vi setter $x_0=1\mu m$ og $v_0=1\frac{\mu m}{\mu s}$ for enkelhetsskyld. Vi bruker så at det elektriske feltet kan skrives som
+$$
+\vec{E}=\begin{Bmatrix}
+V0\frac{x}{d^2} \\V_0 \frac{y}{d^2}\\-2V_0 \frac{z}{d^2}
+\end{Bmatrix}
+$$
+
+og det magnetiske feltet er $\vec{B}=(0,0,B_0)$. Vi vet også at den eksterne kraften er gitt som
+$$
+\vec{F}_{eks}=q\vec{E}+q\vec{v}\cross \vec{B}
+$$
+og slik kan vi regne ut den eksterne kraften.
+Så skal vi bruke dette som kraften når vi bruker de numeriske metodene.
+Vi starter med Eulers metode som er ganske rett fram:
+
+
+Sett inn metoder for Euler og Runge-Kutta her
+
+
+
+
 \section{Resultater}
+
+\subsection*{Énpartikkelsystemet}
+Vi fikk at i ènpartikkelsystemet så ble posisjonene som gitt i figur \ref{r1pos}.
+\begin{figure}
+	\label{r1pos}
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/r1pos.pdf}
+	\caption{Posisjonene fordelt i x,y og z-retning for en partikkel alene i systemet.}
+\end{figure}
+Av den analytiske løsningen var $\omega_z=\frac{2qV_0}{md^2}$ som med våre verdier gir $\omega_z=0,982Hz$.
+Hastigheten fra den numeriske løsningen ble som i figur \ref{v1z}.
+\begin{figure}
+	\label{v1z}
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/vz.pdf}
+	\caption{Hastigheten i z-retning for en partikkel alene i fella.}
+\end{figure}
+\subsection*{To-partikkelsystemet}
+Partiklene uten interaksjon vil se ut som i figur \ref{r2noint} i xy-planet.
+\begin{figure}
+	\label{r2noint}
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/xypartnoint.pdf}
+	\caption{To partikler som ikke gir forveksler kraft med hverandre i feltet}
+\end{figure}
+Partiklene med interaksjon ble derimot seende ut som på figur \ref{r2int} i xy-planet
+\begin{figure}
+	\label{r2int}
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/xypartint.pdf}
+	\caption{To partikler i feltet som også kan virke på hverandre.}
+\end{figure}
 \section{Diskusjon}
 \section{Conklusjon}
 % acknowledgements (optional)

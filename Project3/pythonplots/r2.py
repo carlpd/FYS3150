@@ -1,10 +1,18 @@
 import numpy as np
 import matplotlib.pyplot as plt
 t, x1, y1,z1, x2, y2, z2=np.loadtxt("../Txtfiler/r2noint.txt", unpack=True)
+plt.title("To partikler i feltet uten partikkelkraft")
 plt.plot(x1,y1)
 plt.plot(x2, y2)
+plt.xlabel("x-posisjon i mikrometer")
+plt.ylabel("y-posisjon i mikrometer")
+plt.savefig("xypartnoint.pdf")
 plt.show()
 t, x1, y1, z1 , x2, y2, z2=np.loadtxt("../Txtfiler/r2int.txt", unpack=True)
+plt.title("To partikler i feltet med partikkelkraft")
 plt.plot(x1,y1)
 plt.plot(x2, y2)
+plt.xlabel("x-posisjon i mikrometer")
+plt.ylabel("y-posisjon i mikrometer")
+plt.savefig("xypartint.pdf")
 plt.show()

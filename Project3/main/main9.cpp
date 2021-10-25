@@ -30,18 +30,18 @@ int main(){
   int N=(int)(tmax/dt);
   arma::vec t=arma::linspace(0, tmax, N );
   std::ofstream r1;
-  std::ofstream wz1;
+  std::ofstream v1;
   r1.open("../Txtfiler/r1.txt");
-  wz1.open("../Txtfiler/wz1.txt");
+  v1.open("../Txtfiler/v1.txt");
   for(int i=0; i<N; i++){
     std::cout<<t(i)<<std::endl;
     r1<<t(i)<<" "<<part1.parts[0].r(0) <<" "<< part1.parts[0].r(1)<<" " <<part1.parts[0].r(2)<<std::endl;
-    double wz=part1.parts[0].m *part1.parts[0].v(2);
-    wz1<<t(i)<<" "<<wz<<std::endl;
+    double vz=part1.parts[0].v(2);
+    v1<<t(i)<<" "<<vz<<std::endl;
     part1.evolve_RK4(dt);
   }
   r1.close();
-  wz1.close();
+  v1.close();
   std::vector<class Particle> tparts2;
   PenningTrap part2=PenningTrap(tB0, tV0, td, tparts2);
   // Lager noen partikler

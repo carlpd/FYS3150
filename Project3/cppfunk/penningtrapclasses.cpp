@@ -137,8 +137,8 @@ void PenningTrap::evolve_Euler(double dt){
     arma::vec tfi=TF(i);
     //std::cout<<"tfi"<<tfi<<std::endl;
     //std::cout<<"Her2"<<std::endl;
-    parts[i].v=parts[i].v+tfi*dt/parts[i].m;
     parts[i].r=parts[i].r+parts[i].v*dt;
+    parts[i].v=parts[i].v+tfi*dt/parts[i].m;
     //std::cout<<parts[i].r<<std::endl;
     //std::cout<<parts[i].v*dt<<std::endl;
     //arma::vec a=parts[i].r+parts[i].v*dt;

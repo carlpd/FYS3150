@@ -10,6 +10,7 @@ double q=1.0;
 double m=20.0;
 double abserr(arma::vec an, arma::vec num){
   double aber=arma::norm(an-num, 2);
+  aber=std::abs(aber);
   /*
   arma::vec aber=arma::vec(num.size()).fill(0.0);
   for(int i=0; i<num.size(); i++){
@@ -20,7 +21,7 @@ double abserr(arma::vec an, arma::vec num){
 }
 double relerr(arma::vec an, arma::vec num){
   double aber=abserr(an, num);
-  double reerr=aber/arma::norm(an,2);
+  double reerr=aber/std::abs(arma::norm(an,2));
   return reerr;
 }
 arma::vec analytical(double t, Particle p1){
