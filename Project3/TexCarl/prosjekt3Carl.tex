@@ -161,6 +161,20 @@ Hastigheten fra den numeriske løsningen ble som i figur \ref{v1z}.
 	\includegraphics[scale=0.4]{../pythonplots/vz.pdf}
 	\caption{Hastigheten i z-retning for en partikkel alene i fella.}
 \end{figure}
+De relative feilene for Eulers metode over tiden ble seende ut som i figur \ref{errEu}, mens de relative feilene for Runge-Kutta 4 er gitt i figur \ref{errRK4}
+\begin{figure}
+	\label{errEu}
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/RelerrEu.pdf}
+	\caption{De relative feilene over tiden for ulike tidssteg ved bruke av Eulers metode}
+\end{figure}
+\begin{figure}
+	\label{errRK4}
+	\centering 
+	\includegraphics[scale=0.4]{../pythonplots/RelerrRK4.pdf}
+	\caption{De relative feilene over tiden for ulike tidssteg ved å bruke Runge Kutta 4}
+\end{figure}
+
 \subsection*{To-partikkelsystemet}
 Partiklene uten interaksjon vil se ut som i figur \ref{r2noint} i xy-planet.
 \begin{figure}
@@ -176,7 +190,23 @@ Partiklene med interaksjon ble derimot seende ut som på figur \ref{r2int} i xy-
 	\includegraphics[scale=0.4]{../pythonplots/xypartint.pdf}
 	\caption{To partikler i feltet som også kan virke på hverandre.}
 \end{figure}
+I tre dimensjoner vil banene se ut som i figur \ref{3dnoint} uten partikkelinteraksjon, mens banene med partikkelinteraksjon vil se ut som de i figur \ref{3dint}.
+\begin{figure}
+	\label{3dnoint}
+	\centering
+	\includegraphics[scale=0.4]{../pythonplots/3dr2noint.pdf}
+	\caption{Partiklenes baner i 3 dimensjoner uten partikkelinteraksjon.}
+\end{figure}
+\begin{figure}
+	\label{3dint}
+	\centering
+	\includegraphics[scale=0.4]{../pythonplots/3dr2int.pdf}
+	\caption{Partikelenes baner i 3 dimensjoner med partikkelinteraksjon.}
+\end{figure}
 \section{Diskusjon}
+\subsection*{Énpartikkelsystemet}
+Vi ser at når for små tidsteg som $h=10^{-3}$ og $h=10^{-4}$, så fungerer både Eulers metode og Runge Kutta 4 ganske bra. Når vi derimot beveger oss fra $h=10^{-2}$ og oppover blir Euler mer og mer unøyaktig og feilen stiger lineært med tiden. Dette er fordi Euler ikke er god på å rette seg i oscillerende systemer.
+\newline Runge-Kutta 4 derimot er 
 \section{Conklusjon}
 % acknowledgements (optional)
 \begin{acknowledgments}  % if you disagree with the spelling, blame Americans
