@@ -15,7 +15,7 @@ M10c:
 	g++ -O3 -c main/main10.cpp cppfunk/penningtrapclasses10.cpp
 
 M10l:
-	g++ -O3 main10.o peningtrapclasses10.o -o main10.exe -larmadillo
+	g++ -O3 main10.o penningtrapclasses10.o -o main10.exe -larmadillo
 
 M10r:
 	./main10.exe
