@@ -1,4 +1,4 @@
-#include "../hppfunk/p3.hpp"
+#include "../hppfunk/p3ny.hpp"
 #include <iostream>
 #include <cmath>
 /*
@@ -34,27 +34,26 @@ void PenningTrap::add_particle(Particle vals){
 }
 
 void PenningTrap::add_randomparticle(){
-  double rq=1.0;
-  double rm=1.0;
-  arma::vec rr=arma::vec(3).randu();
-  rr=rr-arma::vec(3).fill(0.5);
-  rr=rr*d*2;
-  arma::vec rv=arma::vec(3).randu();
-  rv=rv-arma::vec(3).fill(0.5);
-  rv=rv*d;
-  Particle vals(rq, rm, rr, rv);
+  arma::vec r = arma::vec(3).randn() * 0.1 * d;
+  arma::vec v = arma::vec(3).randn() * 0.1 * d;
+  Particle vals=Particle(1.0, 20.0, r, v);
   parts.push_back(vals);
 }
 //Finner kraften fra det elektriske feltet på partikkelen
 arma::vec PenningTrap::FindEVt(arma::vec r, double t){
-  arma::vec E=arma::vec(3).fill(0.);
-  double x=r(0);
-  double y=r(1);
-  double z=r(2);
-  E(0)=V0*(1+pf*std::cos(poV*t))*x/(d*d);
-  E(1)=V0*(1+pf*std::cos(poV*t))*y/(d*d);
-  E(2)=-2*V0*(1+pf*std::cos(poV*t))*z/(d*d);
-  return E;
+    arma::vec E=arma::vec(3).fill(0.);
+  if (arma::norm(r, 2)>d){
+    return E;
+  }
+  else{
+    double x=r(0);
+    double y=r(1);
+    double z=r(2);
+    E(0)=V0*(1+pf*std::cos(poV*t))*x/(d*d);
+    E(1)=V0*(1+pf*std::cos(poV*t))*y/(d*d);
+    E(2)=-2*V0*(1+pf*std::cos(poV*t))*z/(d*d);
+    return E;
+  }
 }
 
 
@@ -86,9 +85,9 @@ arma::vec PenningTrap::EksF(Particle j, double t){
 //Finner kraften mellom to partikler
 arma::vec PenningTrap::pij(Particle i, Particle j){
   double dist=arma::norm(i.r-j.r);
-  std::cout<<dist<<std::endl;
+  //std::cout<<dist<<std::endl;
   //arma::vec fij=ke*j.q *(i.r-j.r)/std::pow(std::sqrt(i.r(0)-j.r(0)+i.r(1)-j.r(1)+i.r(2)-j.r(2)), 3);
-  arma::vec fij=ke*j.q *(i.r-j.r)/std::pow(dist, 3);
+  arma::vec fij=ke*j.q *(j.r-i.r)/std::pow(dist, 3);
   return fij;
 }
 
@@ -173,4 +172,15 @@ void PenningTrap::evolve_RK4(double dt, double t){
     parts[i].v=vold+(vk1+2*vk2+2*vk3+vk4)/6;
     parts[i].r=rold+(rk1+2*rk2+2*rk3+rk4)/6;
   }
+}
+
+//Finner hvor mange partikkler som er inne i Penning Trap
+int PenningTrap::KeptInside(){
+  int Inside = 0;
+  for (int i=0; i<parts.size(); i++){
+    if (arma::norm(parts[i].r, 2) < d){
+      Inside++;
+    }
+  }
+  return Inside;
 }
