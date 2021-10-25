@@ -25,7 +25,8 @@ m=20.0
 d=1e4
 wz=np.sqrt(2*q*V0/(m*d**2))
 print("Analytisk w_z=", wz)
-print("Perioder på 100 mikrsekunder =", wz*100)
+f=wz/(2*np.pi)
+print("Antall topppunkter er", f*100)
 t, vz=np.loadtxt("../Txtfiler/v1.txt", unpack=True)
 plt.title("Hastighet i z-retning")
 plt.xlabel("Tid i mikrosekunder")
