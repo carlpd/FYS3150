@@ -1,0 +1,72 @@
+Dette er en sammeling av numeriske og analytiske bergninger av partikkler i en penningfelle.
+
+Forklaringer av filer: mappe: fil: forklaring 
+
+cppfunk:
+
+	finderrors.cpp: Funksjoner for å finne feilen til de forksjellige numeriske metodene brukt
+	
+	penningtrapclasses.cpp: Classes for partikkel og penningtrap
+	
+	penningtrapclasses10.cpp: Classes for partikkel og penningtrap varierende spenning
+
+hppfunk:
+	
+	finderrors.hpp: Headerfile for finderrors.cpp
+	
+	p3.hpp: Header for penningtrapclasses.cpp
+	
+	p3ny.hpp: Header for penningtrapclasses10.cpp
+
+images: Bilder og illustrasjoner
+
+main:
+	findingerrors.cpp: Finner feilen til de forskjellige numeriske metodene brukt.
+	
+	main9.cpp: Finner banene til partikkler, skriver ut banen til den første partikklen i en tekstfil og hastigheten i z-retning til en annen tekstfil.
+	
+	main10.cpp: Finner andelen partikkler som er igjen etter 500 mikrosekunder med forskjellige amplituder og vinkelhastigheter. Skriver det ut til Trapped.txt.
+	
+	mainColoumbTrapped.cpp: Finner andelen partikkler som er igjen etter 500 mikrosekunder hvor man tar med Coloumbinteraksjoner mellom partikklene.
+
+Out10:
+	plotTrapped.py: Plotter dataene fra Trapped.txt, TrappedZoomed.txt og TrappedColoumb.txt
+	
+	Trapped.txt: Andelen partikkler etter 500 mikrosekunder
+	
+	TrappedZoomed.txt: Andelen partikkler etter 500 mikrosekunder innenfor et mindre frekvensområde
+	
+	TrappedColoumb.txt: Andelen partikkler etter 500 mikrosekunder innenfor et mindre frekvensområde med Coloumbinteraksjoner mellom partikklene.
+ 
+pythonplots:
+
+	phaseplot.py: Skriver ut fasediagrammet til en partikkel i penningfellen
+
+	plot3d.py: Plotter partikkelbevegelse i 3 dimensjoner
+
+	plotA.py: Plotter den analytiske og numeriske bergnede banen i ett plot
+
+	ploterror.py: Plotter feilen til algoritmene brukt
+
+	r1.py: Skriver ut x, y, z og hastigheten i z-retning til en partikkel for hvert tidssteg. I tillegg så regner den ut den analytiske o_z og antall perioder. 
+
+	r2.py: Skriver ut xy-banen for to partikkler uten interaksjoner.
+
+Tex: Tex-filer
+
+Txtfiler: Output filer fra forskjellige programmer
+
+Kjøre filer:
+
+Python:
+
+Alle python-scripts kjøres i terminalen via: $python 'file.py'
+
+findingerrors.cpp: $make RunError
+
+main9.cpp: $make RunMain9
+
+main10.cpp: $make RunMain10
+
+mainCloumbTrapped.cpp: $make ColTrap
+

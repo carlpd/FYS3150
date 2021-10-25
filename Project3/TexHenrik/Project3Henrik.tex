@@ -16,7 +16,8 @@
 \usepackage{tikz}             % draw figures manually
 \usepackage{standalone}
 \usepackage{listings}         % display code
-\usepackage{subfigure}        % imports a lot of cool and useful figure commands
+\usepackage{subfigure} 
+\usepackage{float}       % imports a lot of cool and useful figure commands
 
 % defines the color of hyperref objects
 % Blending two colors:  blue!80!black  =  80% blue and 20% black
@@ -79,20 +80,17 @@
 \setlength{\parindent}{0pt}
 \graphicspath{{../Images/}}
 \begin{document}
-\title{This is a Very Important Title!}   % self-explanatory
-\author{Person McSomething}               % self-explanatory
+\title{Felle for ladede partikkler}   % self-explanatory
+\author{Henrik Modahl Breitenstein}               % self-explanatory
+\author{Carl Petter Duedahl}
 \date{\today}                             % self-explanatory
 \noaffiliation                            % ignore this
-\begin{abstract}                          % marks the beginning of the abstract
-This abstract is abstract.                % the body of the abstract
+\begin{abstract}                          % marks the beginning of               
+	
+Vi ser på analytiske og numeriske løsninger av bevegelsesbanene til en- og flerprtikkelsystem i en penningfelle, med og uten Coloumb krefter mellom partikkelene. Vi ser på presisjonen til Forward-Euler og Runge Kutta 4 i situasjonen. I tillegg ser vi på hvordan systemet oppfører seg når man påfører et tidsvarierende elektrisk felt. Vi finner stabile baner når det ikke er interaksjoner partikler, og kaotiske baner med Coloumb krefter. Vi fant at RK4 har divergerende feil for $h < 1$ og Forward-Euler hadde divergerende feil for $h < 10^{-3}$. For tidsvarierende elektirsk felt så finner vi at systemet har resonansfrekvenser rundt $\omega_v = 0,2 \; MHz$, $\omega_v = 0,3 \; MHz$ og $\omega_v = 0,6 \; MHz$, hvor en stor andel av partikkelene har sluppet ut etter 500 $\mu s$.
+	
 \end{abstract}                            % marks the end of the abstract
 \maketitle                                % creates the title, author, date & abstract
-
-If you want to learn more about using \LaTeX, you should check UiO's official tutorials:
-\url{https://www.mn.uio.no/ifi/tjenester/it/hjelp/latex/}
-
-If you are familiar with \LaTeX\ and you want to learn more about the REVTeX4-1 document class, check:
-\url{http://www.physics.csbsju.edu/370/papers/Journal_Style_Manuals/auguide4-1.pdf}
 
 
 % the fundamental components of scientific reports:
@@ -107,7 +105,7 @@ Gauss' lov forteller oss at divergensen til det elektriske feltet $\mathbf{E}$ i
 \nabla{\mathbf{E}} = \frac{\rho}{\varepsilon_0} \; .
 \end{equation} 
 
-Så for å fange en partikkel innenfor et lukket området, vil det ikke være mulig å ha et eksternt felt som peker inn mot en partikkel fra lle kanter, siden partikkelen da må være positiv for å gjøre den totale divergensen null. En løsning ble gitt av Hans George Dehemelt, som tok inspirasjon fra F. M. Penning, og har navngitt instrumentet for en Penning felle \footnote{\url{https://www.imperial.ac.uk/media/imperial-college/research-centres-and-groups/ion-trapping/public/PwTCP_chap1.pdf}}. Fellen går ut på å bruke både et elektrisk og magnetisk felt for å få ladde partikkler til å gå i sirkulærliknende baner. Penning fellen er spesielt nyttig til pressisjonsmåling, og den brukes for eksempel ved CERN for å holde antiprotoner. Diagrammet i figur ref{fig:Pen} viser skjemtaisk hvordan en Penning felle er konstruert\footnote{\url{https://en.wikipedia.org/wiki/Penning_trap\#/media/File:Penning_Trap.svg}}. 
+Så for å fange en partikkel innenfor et lukket området, vil det ikke være mulig å ha et eksternt felt som peker inn mot en partikkel fra alle kanter, siden partikkelen da må være positiv for å gjøre den totale divergensen null. En løsning ble gitt av Hans George Dehemelt, som tok inspirasjon fra F. M. Penning, og har navngitt instrumentet for en Penning felle \footnote{\url{https://www.imperial.ac.uk/media/imperial-college/research-centres-and-groups/ion-trapping/public/PwTCP_chap1.pdf}}. Fellen går ut på å bruke både et elektrisk og magnetisk felt for å få ladde partikkler til å gå i baner inne i et lukket området. Penning fellen er spesielt nyttig til pressisjonsmåling, og den brukes for eksempel ved CERN for å holde antiprotoner vekk fra normal materie. Diagrammet i figur \autoref{fig:Pen} viser skjemtaisk hvordan en Penning felle er konstruert\footnote{\url{https://en.wikipedia.org/wiki/Penning_trap\#/media/File:Penning_Trap.svg}}. 
 
 \begin{figure}
 \centering
@@ -116,7 +114,7 @@ Så for å fange en partikkel innenfor et lukket området, vil det ikke være mu
 \label{fig:Pen}
 \end{figure}
 
-For å kunne gjøre beregninger så trenger man å vite hvordan partikkler med forskjellige egeneksaper vil oppføre seg i en Penning felle. I teorikapittelet ser vi på hvordan vi kan finne den analytiske løsningen for én partikkel. Vi skal videre se i metode delen hvordan vi kan numerisk regne ut banene til et flerpartikkel system. I resultat og diskusjonsdelen så ser vi på hva vi kom fram til og hva resultatene betyr, som opsummeres og kontrektiseres i konklusjonsdelen.
+For å kunne gjøre beregninger så trenger man å vite hvordan partikkler vil oppføre seg i en Penning felle. I teorikapittelet ser vi på hvordan vi kan finne den analytiske løsningen for én partikkel. Vi skal videre se i metode delen hvordan vi skal numerisk regne ut banene til et flerpartikkel system. I resultat og diskusjonsdelen så ser vi på hva vi kom fram til og hva resultatene betyr, som opsummeres og konkretiseres i konklusjonsdelen.
 
 \section{Teori}   % (optional)
 Det elektriske feltet $\mathbf{E}$ og det elektriske potensialet $\mathbf{B}$ relaterer til hverandre som følgende:
@@ -133,7 +131,7 @@ Om vi har et elektirsk felt $E$ og et magnetisk felt $\mathbf{B}$ så vil krafte
 
 hvor $q$ er ladningen til partikkelen. 
 
-En ladd partikkel danner sitt eget elektriske felt. For flere ladde partikkeler så vil hver partikkel bidra til det totale elektirske feltet:
+En ladd partikkel danner sitt eget elektriske felt. For flere ladde partikkeler så vil hver partikkel bidra til det totale elektriske feltet:
 
 \begin{equation}\label{Esum}
 \mathbf{E} = k_e \sum_{j=1}^{n} q_j \frac{\mathbf{r} - \mathbf{r}_j}{\left | \mathbf{r} - \mathbf{r}_j \right |^3} 
@@ -141,7 +139,7 @@ En ladd partikkel danner sitt eget elektriske felt. For flere ladde partikkeler 
 
 Partikklene vil også bidra til det totale magnetfeltet, men siden \tiny{${\left |\vec{B}_p \right | \approx \left | \frac{\vec{E_p}}{c} \right |}$} \normalsize{}, hvor $c$ er lyshastigheten, ignorer vi bidragene til magnetfeltet fra partikklene.   
 
-En Penning felle kan bli vist skjematisk som vist i \ref{fig:Pen}
+En Penning felle kan bli vist skjematisk som vist i \autoref{fig:Pen}
 
 For en ideel Penning felle så er det elektriske feltet definert:
 
@@ -155,13 +153,13 @@ hvor $V_0$ er størrelsen til det elektriske potensialet påført elektrodene. $
 d = \sqrt{z_0^2 + r_0^2/2}
 \end{equation}
 
-I figur \ref{fig:Pen} så kan man se at kraften i y-retningen vil kanselere hverandre. Siden det elektriske feltet kurver ut mot ringen, så kan man se at feltet kun har xy-komponent i midtlinjen av penningfellen. Siden vi da kun trenger å videre begrense bevegelsen i xy-retning, så bruker vi et magnetfelt:
+I figur \autoref{fig:Pen} så kan man se at kreftene i z-retningen vil kanselere hverandre. Siden det elektriske feltet kurver ut mot ringen, så kan man se at feltet kun har xy-komponent i midtlinjen av penningfellen. Siden vi da kun trenger å videre begrense bevegelsen i xy-retning, så bruker vi et magnetfelt definert ved:
 
 \begin{equation}\label{B}
 \mathbf{B} = B_0\hat{e}_z = \left ( 0, 0, B_0 \right ) \;
 \end{equation}
 
-Via newtons andre lov så kan vi vise at bevegelsen for en enekelt partikkel vil være gitt av differensiallikningene \ref{eq:dif1}, \ref{eq:dif2} og \ref{eq:dif3}, refer til appendix \ref{moteg} for utreging. 
+Via newtons andre lov så kan vi vise at bevegelsen for en enekelt partikkel vil være gitt av differensiallikningene \eqref{eq:dif1}, \eqref{eq:dif2} og \eqref{eq:dif3}, refer til appendix \ref{ap:moteq} for utreging. 
 
 \begin{equation} \label{eq:dif1}
 \ddot{x} - \omega_0 \dot{y} - \frac{1}{2}\omega_z^2 x = 0 \; ,
@@ -182,7 +180,7 @@ $$\omega_0 = \frac{|q|B_0}{m}$$
 
 $$ \omega_z = \sqrt{\frac{2|q|V_0}{md^2}}$$
 
-De to første likningene, \ref{eq:dif1} og \ref{eq:dif2}, er avhengig av hverandre, så vi kombinerer de i
+De to første likningene, \eqref{eq:dif1} og \eqref{eq:dif2}, er avhengig av hverandre, så vi kombinerer de i
 
 $$
 f(t) = x(t) + iy(t) \; ,
@@ -252,7 +250,7 @@ og
 A_- = -\frac{v_0+\omega_+x_0}{\omega_--\omega_+}
 \end{equation}
 
-Videre så kan vi finne den analytiske løsningen for den tredje differensiallikningen Eq:\ref{eq:dif3}. Ved å sette
+Videre så kan vi finne den analytiske løsningen for den tredje differensiallikningen \eqref{eq:dif3}. Ved å sette
 
 $$\omega_z^2z(t) = - \frac{\mathrm{d}^2}{\mathrm{d}t^2}z(t) \; ,$$
 
@@ -263,11 +261,13 @@ $$\dot{z}(0) = 0$$
 
 så har vi at
 
-$$z(t) = \frac{z_0}{2}e^{-i\omega_zt} + \frac{z_0}{2}e^{i\omega_zt} \; .$$
+$$z(t) = z_0 \cos{(\omega_zt)} \; .$$
 
-Referer til appendix app:\ref{utZ} for utregning.
+Referer til appendix \ref{DiffA} for utregning.
 
 \section{Metode}
+
+\subsection*{Analytisk}
 
 Først så definerer vi initialverdiene
 
@@ -278,31 +278,109 @@ Og verdiene
 
 $$ m = 20 \; , \; B_0 = 9.65 \cdot 10^1 \; , \; V_0 = 9.65 \cdot 10^8 $$
 
-For å ha noe å sammenlikne de numeriske resultatene med så trenger vi å skissere de analytiske løsningene. Vi setter inn verdiene vi har satt og ser på bevegelsen i xy-retning 
+For å ha noe å sammenlikne de numeriske resultatene med så trenger vi å skissere de analytiske løsningene. Vi setter inn verdiene vi har satt og ser på bevegelsen i xy-retning. 
+
+\subsection*{Tidsvarierende Spenning}
+
+Videre så ser vi på hvordan en tidsvarierende elektrisk felt vil påvirke partikklene. Vi definerer feltet som følgende:
+
+\begin{equation}\label{Vt}
+\mathbf{V}(t)=\mathbf{V}_0(1+f\cos{(\omega_vt)} \; ,
+\end{equation}
+
+hvor $f$ er amplituden og $\omega_v$ er frekvensen. Med den oscilerende spenningen, så ser vi på hvor mange partikkler som fortsatt er fanget i penningfellen etter $500 \mu s$. Vi bruker amplitudene $f = {0.1, 0.4, 0.7}$ og frekvensene i området $\omega_v = \left [0.2 \; MHz, 2.5 \; MHz \right ]$ med et mellomrom på $0,02 \; MHz$. Vi ser så på om Coloumb kreftene mellom partikklene påvirker hvor mange partikkler som er igjen i fellen.
 
 \section{Resultater}
+
+\subsection*{Det analytiske}
+
+Vi tegner bevegelsen angitt av den anaylitske løsningen i \autoref{Fig:Analytic}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{../Images/AnalyticA.pdf}
+\caption{Illustrasjon av den analytiske banen til én enkelt partikkel i systemet.}
+\label{Fig:Analytic}
+\end{figure}
+
+\subsection*{Tidsvarierende spenning}
+
+I \autoref{Fig:Trapped01}, \autoref{Fig:Trapped04} og \autoref{Fig:Trapped07} så har vi tegnet grafene for hvor mange partikkler som er igjen i fellen etter 500 mikrosekunder. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{../Images/0Trapped.pdf}
+\caption{Antall partikkler som er fanget etter 500 mikroseunder for frekvenser mellom $0,2 \; MHz$ og $2,5 \; MHz$. Amplituden til den tidsvarierende spenningen er $0,1$. Partikklene har blitt gitt en tilfelidg startsposisjon og hastighet.}
+\label{Fig:Trapped01}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{../Images/1Trapped.pdf}
+\caption{Antall partikkler som er fanget etter 500 mikroseunder for frekvenser mellom $0,2 \; MHz$ og $2,5 \; MHz$. Amplituden til den tidsvarierende spenningen er $0,4$. Partikklene har blitt gitt en tilfelidg startsposisjon og hastighet.}
+\label{Fig:Trapped04}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{../Images/2Trapped.pdf}
+\caption{Antall partikkler som er fanget etter 500 mikroseunder for frekvenser mellom $0,2 \; MHz$ og $2,5 \; MHz$. Amplituden til den tidsvarierende spenningen er $0,7$. Partikklene har blitt gitt en tilfelidg startsposisjon og hastighet.}
+\label{Fig:Trapped07}
+\end{figure}
+
+Vi ser at for amplitudene $f = 0,1$, $f = 0,4$ og $f=0,7$ så faller antall partikkler igjen etter 500 mikrosekunder rundt frekvensen $0,6 \; MHz$. Ved mer nøyaktig avlesning så får vi at bunnen til grafen er på $\omega_v \approx 0,627 \; Mhz$. For amplitudene $f=0,4$ og $f=0,7$ så ser vi at frekvensrommet hvor partikkler slipper løs blir større, og at det danner seg nye områder rundt frekvensen $\omega_v = 0,3$ for $f=0,4$ og $\omega_v = 0,3$ og $\omega_v=0,2$ for $f=0,7$. I \autoref{Fig:TrappedZ} så er grafen for amplituden $f = 0,4$ tegnet opp i frekvensområdet $\omega_v = [0.5, 0.9]$, hvor interasksjoner mellom partikklene fortsatt er ignorert. I \autoref{Fig:TrappedC} så har vi tegnet opp det samme området, men tatt med Coloumb kreftene mellom partikklene. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{../Images/TrappedZoomed.pdf}
+\caption{Antall partikkler som er fanget etter 500 mikroseunder for frekvenser mellom $0,5 \; MHz$ og $0,9 \; MHz$. Amplituden til den tidsvarierende spenningen er $0,4$. Partikklene har blitt gitt en tilfelidg startsposisjon og hastighet. Interaksjoner mellom partikklene er ikke tatt med i bergningene.}
+\label{Fig:TrappedZ}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{../Images/TrappedColoumb.pdf}
+\caption{Antall partikkler som er fanget etter 500 mikroseunder for frekvenser mellom $0,5 \; MHz$ og $0,9 \; MHz$. Amplituden til den tidsvarierende spenningen er $0,4$. Partikklene har blitt gitt en tilfelidg startsposisjon og hastighet. Coloumb kreftene mellom partikklene er tatt med i bergningene.}
+\label{Fig:TrappedC}
+\end{figure}
+
+Vi ser at frekvensområdet som gjør at partikkler slipper fri er større når coloumb kreftene er tatt med, i \autoref{Fig:TrappedC}, enn med uten interaksjone rmellom partikklene, som sett i\autoref{Fig:TrappedZ}.
+
 \section{Diskusjon}
-\section{Conklusjon}
-% acknowledgements (optional)
-\begin{acknowledgments}  % if you disagree with the spelling, blame Americans
-I would like thank myself for writing this beautiful document.
-\end{acknowledgments}
+
+\subsection*{Forskjellen mellom FE og RK4}
+
+I den relative feilen \autoref{Rel Euler} så ser vi den ikk er stabil for tidssteg høyere enn $h = 10^{-3} \mu s$. Den relative feilen for RK4 lar oss gå helt opp til $h = 10^{-1}$. Det vil si at Runge Kutta 4 er en mer stabil metode enn Forward-Euler i dette systemet, noe som var forventet ettersom Forward-Euler klarer seg dårlig i oscilerende systemer. Runge Kutta 4 skal ha en global feil som skalerer med $\mathrm{O}(h^4)$ og Euler sin feil skalerer med $\mathrm{O}(h^3)$, som stemmer overens med resultatene ved at Euler ender opp med å divergere ved lavere $h$ enn ved Runge Kutta 4. Konvergensfaktoren for Runge kutta 4 er også mindre enn for Euler. Begge har en konvergensfaktor større enn 1, trolig grunnet at vi har med tidssteg hvor begge har en divergerende feil. Fjerner vi det største tidssteget så får vi at $err_{Rate_{RK4}} < 1$, som passer med at den da kun har konvergerende relative feil.
+
+\subsection*{Tidsvariernde Spenning}
+
+Grunnen til at partikklene flykter fra fellen ved noen frekvenser og ikke andre er at det danner seg en resonans i bevegelsen. Det vil si at partikklene får en større og større amplitude i bevegelsesbanen, som til slutt gjør at partikkelen kommer seg ut av fellen. Om vi ser på hvordan resonansefrekvensene endrer seg med amplituden så lister vi de opp på nytt:
+
+$$\omega_{R1} = 0,6 \; MHz$$
+$$\omega_{R2} = 0,3 \; MHz $$
+$$\omega_{R3} = 0,2 \; MHz $$
+
+Og våre basisfrekvenser for systemet:
+
+$$\omega_z \approx 0,0155 \; MHz$$
+$$\omega_- \approx 2,5 \cdot 10^{-5} \; MHz$$
+$$\omega_+ \approx 4,8 MHz$$
+
+Vi kan da se at vi kan bygge opp resonansfrekvensen $\omega_{R1}$ ved at
+
+$$\omega_{R1} = 0,6 \approx 40 \cdot \omega_z$$
+
+Med Coloumb kreftene så er det tydelig at de gjør det lettere for partikklene å flykte. Grunnen til dette kan være at om en partikkel kommer seg mot kanten av fellen så vil de andre partikklene påføre en kraft utover. Det kan da føre til at det er flere tilfeller hvor en partikkel klarer å gå over kanten. 
+
+\section{Konklusjon}
 
 
-%% When it comes to the bibliography I personally generate it using BibLaTeX. (see the link above if you're interested)
-%% You're obviously allowed to create the references section however you like.
-%% I'll keep it simple here.
-\section*{References}  % the asterisk (*) after \section makes the section numbering go away
-\begin{itemize}
-\item[-]Reference 1
-\item[-]Reference 2
-\end{itemize}
 
 \newpage
-%% if you want to include an appendix, this is how you do it
 \appendix
-\section{Utregning av enkeltspartikkelens bevegelseslikning}
-\label{moteq}
+\section{Utregning av enkeltspartikkelens bevegelseslikning}\label{ap:moteq}
+
 Vi har posisjonsvektoren $\mathbf{r}$
 
 $$\mathbf{r} = \begin{bmatrix}
@@ -407,7 +485,7 @@ hvor
 
 $$\omega_{\pm} = \frac{\omega_0 \pm \sqrt{\omega_0^2 - 2\omega_z^2}}{2} \; .$$
 
-Funkjsonen $f$ vil ha et maksimum når begge leddene går i samme retning, som man kan se i \ref{tikzsame}. 
+Funkjsonen $f$ vil ha et maksimum når begge leddene går i samme retning, som man kan se i \autoref{tikzsame}. 
 
 \begin{figure}
 \scalebox{0.7}{\input{Tikz/Rplus.tex}}
@@ -419,7 +497,7 @@ Vi kan da skrive at makismumet $R_+$ er
 
 $$R_+ = |A_+ + A_-| = A_+ + A_- \; .$$
 
-På samme måte så vil minimummet være når leddene til $f$ går i motsatte retninger, som vist i \ref{tikzops}. 
+På samme måte så vil minimummet være når leddene til $f$ går i motsatte retninger, som vist i \autoref{tikzops}. 
 
 \begin{figure}
 \centering
@@ -432,7 +510,7 @@ som vil si at
 
 $$R_- = |A_+ - A_-|$$
 
-\section{Utregning av analytiske løsninger til differensialikingnene}
+\section{Utregning av analytiske løsninger til differensialikingnene}\label{DiffA}
 
 Vi starter med
 
@@ -453,7 +531,7 @@ $$x_0 = A_+ + A_-$$
 Og vi har
 
 $$\dot{f}(0) = -i\omega_+A_+ - i\omega_-A_-$$
-$$\Im(\dot(f)(0)) = v_0$$
+$$\Im(\dot{f}(0)) = v_0$$
 $$v_0 = -\omega_+A_+ - \omega_-A_-$$
 
 Stokker om
@@ -502,11 +580,18 @@ Og vi får løsningen
 
 $$z(t) = \frac{z_0}{2}e^{-i\omega_zt} + \frac{z_0}{2}e^{i\omega_zt}$$
 
+Som vi kan skrive som
+
+$$z(t) = \frac{z_0}{2}(\cos{(\omega_zt) - i\sin{(\omega_zt)}}) +  \frac{z_0}{2}(\cos{(\omega_zt) + i\sin{(\omega_zt)}})$$
+
+Som til slutt blir
+
+$$z(t) = z_0 \cos{(\omega_zt)}$$
 
 %% all \section commands following \appendix are automatically taken as appendices
 
 %% Note that \label{appendix} command on line 115. What this does is setup a reference point for LaTeX that you can
-%% access wherever you want using \ref{appendix}.
+%% access wherever you want using \autoref{appendix}.
 %% You can place labels on most environments such as equations, figures, tables, etc.
 
 \clearpage
@@ -520,7 +605,7 @@ This text and this equation are both in one-column format.
 \begin{equation}\label{equation}
 \frac{-\hbar^2}{2m}\laplacian{\Psi}+V\Psi=i\hbar\pdv{t}\Psi
 \end{equation}
-Note that the equation numbering (this: \ref{equation}) follows the appendix as this text is technically inside Appendix \ref{appendix}. If you want a detailed listing of (almost) every available math command, check: \url{https://en.wikibooks.org/wiki/LaTeX/Mathematics}.
+Note that the equation numbering (this: \autoref{equation}) follows the appendix as this text is technically inside Appendix \autoref{appendix}. If you want a detailed listing of (almost) every available math command, check: \url{https://en.wikibooks.org/wiki/LaTeX/Mathematics}.
 \vspace{1cm} % some extra space
 \twocolumngrid
 And now we're back to two-column format. It's really easy to switch between the two. It's recommended to keep the two-column format, because it is easier to read, it's not very cluttered, etc. Pro Tip: You should also get used to working with REVTeX because it is really helpful in FYS2150.

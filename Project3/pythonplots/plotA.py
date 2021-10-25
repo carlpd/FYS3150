@@ -23,6 +23,9 @@ oz = np.sqrt(2*abs(q)*V0/(m*d**2))
 o0 = abs(q)*B0/m
 oP = (o0+np.sqrt(o0**2-2*oz**2))/2
 oM = (o0-np.sqrt(o0**2-2*oz**2))/2
+print(f'oz = {oz}')
+print(f'om = {oM}')
+print(f'op = {oP}')
 AP = (v0 + oM*x0)/(oM-oP)
 AM = (-1)*(v0 + oP*x0)/(oM-oP)
 
@@ -48,5 +51,8 @@ from mpl_toolkits import mplot3d
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
+ax.set_xlabel('x [μm]')
+ax.set_ylabel('y [μm]')
+#ax.set_zlabel('z [μm]')
 ax.plot(x, y, z)
 plt.show()
