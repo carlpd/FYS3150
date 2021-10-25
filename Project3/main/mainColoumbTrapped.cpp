@@ -11,17 +11,16 @@ int main(){
   double q1=1.0;
   double m1=20.0;
   arma::vec vf = arma::vec(3).fill(0.);
-  vf={0.1, 0.4, 0.7};
+  vf={0.4};
   double dOv = 0.02;
-  int NoV = 2.3/dOv;
-  arma::vec vOv = arma::linspace(0.2, 2.5, NoV);
-
+  int NoV = 35;
+  arma::vec vOv = arma::linspace(0.5, 0.9, NoV);
   double tmax=500;
   double dt=0.01;
   int N=(int)(tmax/dt);
   arma::vec t=arma::linspace(0, tmax, N );
   std::ofstream Inside;
-  std::string file = "Out10/Trapped.txt";
+  std::string file = "Out10/TrappedZoomed.txt";
   Inside.open(file);
 
   for (auto f : vf){
@@ -30,7 +29,8 @@ int main(){
       //Initialiserer PenningTrap
       std::vector<class Particle> tparts;
       PenningTrap Trap=PenningTrap(tB0, tV0, f, oV, td, tparts);
-
+      //Coloumb interaksjoner
+      Trap.partint = false;
       //Fyller penning trap med tilfeldioge partikler
       int RanParticles = 100;
       for (int i=0; i<RanParticles; i++){

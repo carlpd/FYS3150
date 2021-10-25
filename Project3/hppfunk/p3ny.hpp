@@ -12,6 +12,8 @@ class Particle{
 class PenningTrap
 {
   public:
+    double pf;
+    double poV;
     double ke=1.38935333e5;
     double Tesla=9.64852558e1;
     double Volt=9.64852558e7;
@@ -19,18 +21,18 @@ class PenningTrap
     double V0;
     double d;
     std::vector<class Particle> parts;
-    PenningTrap(double B_in, double V_in, double d_in, std::vector<class Particle> parts_in);
-    bool partint=true;
+    PenningTrap(double B_in, double V_in, double f, double oV, double d_in, std::vector<class Particle> parts_in);
+    bool partint=false;
     void add_particle(Particle vals);
     void add_randomparticle();
-    arma::vec FindE(arma::vec r);
+    arma::vec FindEVt(arma::vec r, double t);
     arma::vec FindB(double B0);
-    arma::vec EksF(Particle j);
+    arma::vec EksF(Particle j, double t);
     arma::vec pij(Particle i, Particle j);
     arma::vec PF(int j);
-    arma::vec TF(int j);
-    void evolve_Euler(double dt);
-    void evolve_RK4(double dt);
+    arma::vec TF(int j, double t);
+    void evolve_Euler(double dt, double t);
+    void evolve_RK4(double dt, double t);
     int KeptInside();
 };
 /*

@@ -26,8 +26,13 @@ arma::vec EF(double V0, double d, Particle j){
 //Finner det magnetiske feltet i gitt i teksten
 arma::vec FindB(double B0){
   arma::vec B=arma::vec(3).fill(0.);
-  B(3)=B0;
-  return B;
+  if (arma::norm(r, 2)>d){
+    return B;
+  }
+  else{
+    B(3)=B0;
+    return B;
+  }
 }
 //Finner den magnetiske kraften
 /*
