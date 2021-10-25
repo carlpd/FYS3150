@@ -47,7 +47,7 @@ plt.savefig("relerrRK4.pdf")
 plt.show()
 print(maxEu)
 rerrEu=0
-for i in range(dtmax+1, dtmin):
+for i in range(dtmin, dtmax+1, -1):
     print(maxEu[i])
     a1=maxEu[i]/maxEu[i-1]
     print(a1)
@@ -56,12 +56,12 @@ for i in range(dtmax+1, dtmin):
 rerrEU=rerrEu/4
 print("rerrEu", rerrEu)
 rerrRK=0
-for i in range(dtmax+1, dtmin):
+for i in range(dtmin, dtmax+1, -1):
     print(maxRK[i])
     a1=maxRK[i]/maxRK[i-1]
     print(a1)
     a2=(10**(-i))/(10**(-i-1))
-    rerrRK+=np.log(a1)/np.log(a2)
+    rerrRK+=np.log10(a1)/np.log(a2)
 rerrRK=rerrRK/4
 print("rerrRK4", rerrRK)
 """
