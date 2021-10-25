@@ -86,7 +86,7 @@ arma::vec PenningTrap::pij(Particle i, Particle j){
   double dist=arma::norm(i.r-j.r);
   //std::cout<<dist<<std::endl;
   //arma::vec fij=ke*j.q *(i.r-j.r)/std::pow(std::sqrt(i.r(0)-j.r(0)+i.r(1)-j.r(1)+i.r(2)-j.r(2)), 3);
-  arma::vec fij=ke*j.q *(j.r-i.r)/std::pow(dist, 3);
+  arma::vec fij=ke*i.q *(j.r-i.r)/std::pow(dist, 3);
   return fij;
 }
 
@@ -98,7 +98,7 @@ arma::vec PenningTrap::PF(int j){
   for (int i=0;i<parts.size(); i++){
     //if (parts[i].r(0)!=parts[j].r(0)&&parts[i].r(1)!=parts[j].r(1)&&parts[i].r(2)!=parts[j].r(2)){
     if (i!=j){
-      pf=pf+pij(parts[i], parts[j]);
+      pf=pf+j.q*pij(parts[i], parts[j]);
     }
   }
   std::cout<<pf<<std::endl;
