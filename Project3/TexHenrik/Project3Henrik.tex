@@ -375,7 +375,7 @@ Med Coloumb kreftene så er det tydelig at de gjør det lettere for partikklene 
 
 \section{Konklusjon}
 
-
+Vi har sett på analytiske og numeriske bergninger av banen til partikler i en penningfelle. For én-partikkel system så har vi fått god overenstemmelse mellom analytisk og numeriske metoder. De numeriske metodene vi har brukt er Runge Kutta 4 og Forward Euler, og vi har funnet at i denne situasjonen så divergerer feilen raskere med Forward Euler enn med Runge Kutta 4, hvor RK4 sin konvergerings rate er ca. $13$ og Forward Euler har en konvergerings rate på ca. $66$, noe som stemmer bra med metodenes teoretiske globale feil. --- Ved å sette på et elektrisk felt som varierer med tiden, så har vi funnet resonansfrekvensene $\omega_v = 0,2 \; MHz$, $\omega_v = 0,3 \; MHz$ og $\omega_v =  0,6 \; MHz$, hvor en større andel av partikkelene slipper unna fellen. 
 
 \newpage
 \appendix
@@ -595,60 +595,5 @@ $$z(t) = z_0 \cos{(\omega_zt)}$$
 %% You can place labels on most environments such as equations, figures, tables, etc.
 
 \clearpage
-Note that this document is written in the two-column format. If you want to display a large equation, a large figure, or whatever, in one-column format, you can do this like so:
-\onecolumngrid
-\vspace{1cm} % some extra space
-This text and this equation are both in one-column format.
-
-\footnote{This equation is actually from quantum mechanics. ``It's called Schrödinger's Time-Dependent Wave Equation'', named after the awesome Austrian physicist Erwin Rudolf Josef Alexander Schrödinger. Yep, the ``Schrödinger's cat'' guy. Pretty cool dude actually, check his wiki page: \url{https://en.wikipedia.org/wiki/Erwin_Schrodinger}. He was physics' no. 1 Ladies' man if there ever was one. Anyway, you will learn more about this equation in FYS2140. You can also find it printed on a glass wall in the UiO Physics Building (it really is that important).}
-
-\begin{equation}\label{equation}
-\frac{-\hbar^2}{2m}\laplacian{\Psi}+V\Psi=i\hbar\pdv{t}\Psi
-\end{equation}
-Note that the equation numbering (this: \autoref{equation}) follows the appendix as this text is technically inside Appendix \autoref{appendix}. If you want a detailed listing of (almost) every available math command, check: \url{https://en.wikibooks.org/wiki/LaTeX/Mathematics}.
-\vspace{1cm} % some extra space
-\twocolumngrid
-And now we're back to two-column format. It's really easy to switch between the two. It's recommended to keep the two-column format, because it is easier to read, it's not very cluttered, etc. Pro Tip: You should also get used to working with REVTeX because it is really helpful in FYS2150.
-
-One last thing, this is a code listing:
-\begin{lstlisting}
-This will be displayed with a cool programming font!
-\end{lstlisting}
-You can add extra arguments using optional parameters:
-\begin{lstlisting}[morekeywords={cool}]
-This will be displayed with a cool programming font!
-\end{lstlisting}
-You can also list code from a file using \texttt{lstinputlisting}. If you're interested, check \url{https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings}.
-
-This is a basic table:
-\begin{table}[h]  % h = "here"  , h! = here!
-\caption{This is a nice table}\label{table}
-\begin{tabular}{|c|c|c|} % note that & separates columns while \\ separates the rows
-\hline                    % creates a horizontal line (try removing it)
-Hey & Hey & Hey  \\
-\hline
-Hello & Hello & Hello \\
-\hline
-Bye & Bye & Bye \\
-\hline
-\end{tabular}
-\end{table}\\
-You can a detailed description of tables here: \url{https://en.wikibooks.org/wiki/LaTeX/Tables}.
-
-I'm not going to delve into Tikz in any level detail, but here's a quick picture:
-\begin{figure}[h]
-\centering  % places the tikz image in the center of the text column
-\begin{tikzpicture}
-\draw[->] (0,0) -- (2,0) node [pos=1.0,below] {\(x\)};
-\draw[->] (0,0) -- (0,2) node [pos=1.0,left] {\(y\)};
-\draw (0,0) -- (1.5,1.5) node [pos=1.0,above] {\(f(x)\)};
-\end{tikzpicture}
-\caption{This is great caption}\label{figure}
-\end{figure}\\
-If you want to know more, check: \url{https://en.wikibooks.org/wiki/LaTeX/PGF/TikZ}.
-
-%% If you want to include figure:
-%\includegraphics[scale=1.0]{filename}
-%% check https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics if you want to know more
 
 \end{document}
