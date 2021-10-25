@@ -5,7 +5,9 @@
 % allows special characters (including æøå)
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
 %% note that you may need to download some of these packages manually, it depends on your setup.
 %% I recommend downloading TeXMaker, because it includes a large library of the most common packages.
 
@@ -136,13 +138,74 @@ $$
 og slik kan vi regne ut den eksterne kraften.
 Så skal vi bruke dette som kraften når vi bruker de numeriske metodene.
 Vi starter med Eulers metode som er ganske rett fram:
-
-
-Sett inn metoder for Euler og Runge-Kutta her
-
-
-
-
+\begin{algorithm}[H]
+	\begin{algorithmic}
+		\State Some maths, e.g $f(x) = x^2$. 
+		\For{$i = 0, 1, ..., N-1$}
+		\State $$
+		r_{i+1}\leftarrow r_i+v_i \cdot h
+		$$
+		\State $$
+		v_{i+1}\leftarrow v_i+\frac{F(r_i, v_i)}{m}\cdot h
+		$$
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+Runge Kutta 4 er litt mer komplisert:
+\begin{algorithm}[H]
+	\begin{algorithmic}
+		\State Some maths, e.g $f(x) = x^2$. 
+		\For{$i = 0, 1, ..., N-1$}
+		\State $$
+		R\leftarrow r_i
+		$$$$
+		V\leftarrow v_i
+		$$$$
+		vk_1\leftarrow h\cdot F(r_i, v_i)
+		$$$$
+		rk_1\leftarrow h\cdot v_i
+		$$$$
+		v_{i+1}\leftarrow V+vk1/2.0
+		$$$$
+		r_{i+1}\leftarrow R+rk1/2.0
+		$$
+		$$
+		vk_2\leftarrow h\cdot \frac{F(r_{i+1},v_{i+1})}{m}
+		$$$$
+		rk_2\leftarrow h\cdot v_{i+1}
+		$$
+		$$
+		v_{i+1}\leftarrow V+vk_2/2
+		$$$$
+		r_{i+1}=R+rk_2/2
+		$$
+		$$
+		vk_3\leftarrow h\cdot F(r_{i+1}, v_{i+1})/m
+		$$$$
+		rk_3\leftarrow h\cdot v_{i+1}
+		$$
+		$$
+		v_{i+1}\leftarrow V+vk_3$$$$
+		r_{i+1}\leftarrow R+rk_3
+		$$
+		$$
+		vk_4\leftarrow h\cdot  F(r_{i+1}, v_{i+1})/m$$$$
+		rk_4=h\cdot v_{i+1}
+		$$
+		$$
+		v_{i+1}=V+(vk_1+2vk_2+2vk_3+vk_4)/6$$$$
+		r_{i+1}=R+(rk_1+2rk_2+2rk_3+rk_4)/6;
+		$$
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+\subsection*{Topartikkelsystemet}
+I simulasjonene for topartikkelsystemet vil vi kun bruke Runge Kutta 4. Vi setter en ny partikkel i posisjonen $\vec{r}_2=\begin{pmatrix}
+-1\\0\\0
+\end{pmatrix}
+$ og hastigheten $v_2=\begin{pmatrix}
+1\\1\\1
+\end{pmatrix}$
 \section{Resultater}
 
 \subsection*{Énpartikkelsystemet}
@@ -162,13 +225,13 @@ Hastigheten fra den numeriske løsningen ble som i figur \ref{v1z}.
 	\caption{Hastigheten i z-retning for en partikkel alene i fella.}
 \end{figure}
 De relative feilene for Eulers metode over tiden ble seende ut som i figur \ref{errEu}, mens de relative feilene for Runge-Kutta 4 er gitt i figur \ref{errRK4}
-\begin{figure}
+\begin{figure}[H]
 	\label{errEu}
 	\centering 
 	\includegraphics[scale=0.4]{../pythonplots/RelerrEu.pdf}
 	\caption{De relative feilene over tiden for ulike tidssteg ved bruke av Eulers metode}
 \end{figure}
-\begin{figure}
+\begin{figure}[H]
 	\label{errRK4}
 	\centering 
 	\includegraphics[scale=0.4]{../pythonplots/RelerrRK4.pdf}
@@ -206,7 +269,9 @@ I tre dimensjoner vil banene se ut som i figur \ref{3dnoint} uten partikkelinter
 \section{Diskusjon}
 \subsection*{Énpartikkelsystemet}
 Vi ser at når for små tidsteg som $h=10^{-3}$ og $h=10^{-4}$, så fungerer både Eulers metode og Runge Kutta 4 ganske bra. Når vi derimot beveger oss fra $h=10^{-2}$ og oppover blir Euler mer og mer unøyaktig og feilen stiger lineært med tiden. Dette er fordi Euler ikke er god på å rette seg i oscillerende systemer.
-\newline Runge-Kutta 4 derimot er 
+\newline Runge-Kutta 4 derimot er holder seg ganske nærme null for alle testene av tidsteg utenom $h=1$, som gir mening siden $h$ burde være mindre enn 1 for at det skal konvergere.
+\subsection*{Topartikkelsystemet}
+Vi ser at når partikkelene ikke påvirker hverandre følger de baner som likner enpartikkelsystemet, som kan tyde på at denne simuleringen fungerer. Man kan tross alt se på de to partiklene som to uavhengige énpartikkelsystemer. Når vi skrur på interaksjonen derimot, så ser vi noe ganske annet. Vi kan fortsatt se noen tendenser til et liknende mønster, for eksempel at det fortsatt er sirkelbevegelse inni en større sirkelbevegelse, men vi ser også at partiklene har mye større baner enn før. Dette kan være fordi partiklene startet kun noen mikrometer nærme hverandre og partikkelkraften mellom dem har derfor blitt veldig sterk og skutt dem ut i større baner. Her har de kanskje blitt langt fra hverandre og kreftene mellom dem har blitt mindre. Da vil de eksterne kreftene ha mer å si igjen og de begynner å likne mer på énpartikkelsystemer igjen. Da vil de også gå i baner igjen, men større baner enn før, som stemmer med figuren siden vi gikk fra en bane med radius på rundt $1\mu m$ til en bane med radius rundt $10\mu m$.
 \section{Conklusjon}
 % acknowledgements (optional)
 \begin{acknowledgments}  % if you disagree with the spelling, blame Americans
