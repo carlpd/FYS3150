@@ -13,10 +13,10 @@ int finddeltaeps(int i, int j){
   int delep=0;
   int a=(i+L)%L;
   int b=(j+L)%L;
-  delep+=s(a,b)*s(a-1,b);
-  delep+=s(a,b)*s(a+1,b);
-  delep+=s(a,b)*s(a,b+1);
-  delep+=s(a,b)*s(a,b-1);
+  delep+=s(i,j)*s(i-1,j);
+  delep+=s(i,j)*s((i+1+L)%L,j);
+  delep+=s(i,j)*s(i,(i+1+L)%L);
+  delep+=s(i,j)*s(i,j-1);
   delep=delep/N;
   return delep;
 }
