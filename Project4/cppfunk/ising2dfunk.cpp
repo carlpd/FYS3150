@@ -1,15 +1,15 @@
-arma_rng::set_seed(4832) //Endre til bedre random
-arma::mat makerandomspins(int L){
+#inclde "../classes/ising2d.hpp"
+arma::mat Ising2d::makerandomspins(){
   arma::mat S=arma::mat(L,L).randi(0,1);
   S=S*2 -1;
   return S;
 }
-arma::mat makeallupspins(int L){
+arma::mat Ising2d::makeallupspins(int L){
   arma::mat S=arma::mat(L,L).fill(1);
   return S;
 }
 
-int finddeltaeps(int i, int j){
+int Ising2d::finddeltaeps(int i, int j){
   int delep=0;
   int a=(i+L)%L;
   int b=(j+L)%L;
