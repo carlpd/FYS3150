@@ -9,14 +9,13 @@ arma::mat Ising2d::makeallupspins(int L){
   return S;
 }
 
-int Ising2d::finddeltaeps(int i, int j){
-  int delep=0;
+int Ising2d::findeps(int i, int j){
+  int ep=0;
   int a=(i+L)%L;
   int b=(j+L)%L;
-  delep+=s(i,j)*s(i-1,j);
-  delep+=s(i,j)*s((i+1+L)%L,j);
-  delep+=s(i,j)*s(i,(i+1+L)%L);
-  delep+=s(i,j)*s(i,j-1);
-  delep=delep/N;
-  return delep;
+  ep+=s(i,j)*s(i-1,j);
+  ep+=s(i,j)*s((i+1+L)%L,j);
+  ep+=s(i,j)*s(i,(i+1+L)%L);
+  ep+=s(i,j)*s(i,j-1);
+  return ep;
 }
