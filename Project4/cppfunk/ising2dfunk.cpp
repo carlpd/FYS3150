@@ -20,3 +20,13 @@ int Ising2d::finddeltaeps(int i, int j){
   delep=delep/N;
   return delep;
 }
+
+int Ising2d::findtotalmag(s){
+  M = 0
+  for (int i=0; i<L, i++){
+    for (int j=0; j<L, i++){
+      M = M + s(i, j);
+    }
+  }
+  return M;
+}
