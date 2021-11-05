@@ -17,5 +17,6 @@ int Ising2d::findeps(int i, int j){
   ep+=s(i,j)*s((i+1+L)%L,j);
   ep+=s(i,j)*s(i,(i+1+L)%L);
   ep+=s(i,j)*s(i,j-1);
+  ep=ep/N;
   return ep;
 }

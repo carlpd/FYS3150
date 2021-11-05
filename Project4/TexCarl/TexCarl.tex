@@ -96,7 +96,7 @@ If you are familiar with \LaTeX\ and you want to learn more about the REVTeX4-1 
 % the fundamental components of scientific reports:
 \section{Introdukson}
 
-\section{Teori}
+\section{Mal jeg må endre på}
 Vi starter med et $2\cross 2$ gitter og skal regne dette analytisk slik at vi kan gjøre en sammenlikning med vårt numeriske resultat. Vi ser at hver kombinasjon av ett spinn opp vil være en rotert versjon av de andre kombinasjonene av ett spinn opp. Den samme rotasjonsegenskapen ser vi med tre spinn opp, siden det også bare er ett spinn ned. Med to spinn opp derimot, ser vi at vi får flere kombinasjoner. Vi har igjen fire roterte versjoner hvor spinn opp-partiklene er ved siden av hverandre, men også to hvor de er diagonale til hverandre.
 For å finne energien vil vi trenge
 $$
@@ -107,6 +107,57 @@ Hvor $<kl>$ betyr at vi går over alle partiklene uten å telle interaksjonen me
 Vi skal også regne det magnetiske feltet gitt ved
 $$
 M(\mathbf{s})=\sum_i s_i
+$$
+\section{Teori}
+Vi skal regne for tilstander $\mathbf{s}$ gitt som et 2D $L\cross L$ gitter med partikler $s_i$ som enten kan ha tilstanden spinn opp eller spinn ned. Vi setter at dersom $s_i$ har tilstanden spinn opp så er $s_i=+1$ og hvis $s_i$ har spinn ned er $s_i=-1$. Vi vil bruke periodiske grensebetingelser slik at naboen til $s_1$ som er lengst til venstre vil har $s_L$ som er lengst til høyre som sin venstre nabo. Det samme gjelder da lodrett, så den øverste spinnet vil ha den nederste parikkelen som sin nabo. I dette forsøket antar vi at ved å bruke Hamiltonianeren på en slik state gir energien
+$$
+E(\mathbf{s})=-J\sum_{\expval{kl}}^{N} s_k s_l
+$$
+hvor $\expval{kl}$ betyr at den går gjennom det energien mellom hvert spinn og deres naboer én gang og teller ikke dette to ganger. $J$ vil være koblingskonstant. $N=L^2$ altså størrelsen av $\mathbf{s}$ slik at vi går gjennom hele matrisen.
+\newline Vi har også energien per spin $\epsilon$ gitt ved 
+$$
+\epsilon(\mathbf{s}) =\frac{E(\mathbf{s})}{N}
+$$
+som vi må bruke når vi skal sammenligne matriser av ulike størrelser.
+\newline Vi trenger også magnetisaseringen gitt ved
+$$
+M(\mathbf{s})=\sum_i^N s_i
+$$
+så vi da får en magnetisasjon per spin som
+$$
+m(\mathbf{s})=\frac{\mathbf{s}}{N}
+$$
+Vi skal også finne forventingsverdiene $\expval{\epsilon}$ og $\expval{|m|}$. Forventingsverdien i dette systemet er gitt ved
+$$
+\expval{a}=\sum _i^{N}a(\mathbf{s}_i) p(\mathbf{s}_i)
+$$
+hvor vi her går gjennom alle mulige tilstander $\mathbf{s}_i$ som systemet av denne størrelsen kan være i. $Z$ er her partisjonsfunksjonen gitt som
+$$
+Z=\sum_{i}^{N}e^{\beta \mathbf{s_i}}
+$$
+hvor $\beta=\frac{1}{k_bT}$. \newline  Vi skal også finne den spesifike varmekapasiteten
+$$
+C_V=\frac{1}{k_B T^2}(\expval{\epsilon}^2-\expval{\epsilon}^2)
+$$
+og den susceptilbiliteten
+$$
+\chi =\frac{1}{k_B T}(\expval{m^2}-\expval{m}^2-\expval{|m|}^2)
+$$
+så vi må også finne $\expval{\epsilon^2}$ og $\expval{m^2}$. \newline
+Når vi flipper et spinn så skal vi også kunne få en energiendring gitt ved
+$$
+\Delta E=E(\mathbf{s}_{etter})-E(\mathbf{s}_{før})=E_(\mathbf{s}_a)-E(\mathbf{s}_b)
+$$
+Utvider vi det får vi
+$$
+\Delta E=-J\sum_{\expval{kl}}^{N} s_{a_k} s_{l_a}-(-J)\sum_{\expval{kl}}^{N} s_{k_b} s_{l_b}
+$$
+$$
+\Delta E=-J\sum_{\expval{kl}}^{N} s_{k_a}s_{l_a}-s_{k_b}s_{l_b}
+$$
+La oss si at vi flipper spinnet $s_{i,j}$ hvor $i$ representerer den vannrette posisjonen og $j$ den lodrette. Da kun $s_{k_b}s{l_b}$ kun endre seg hvor $s_{i,j}$ er en av faktorene. Ellers vil $s_{k_b}s_{l_b}=s_{k_a}s_{l_a}$ og her vil $s_{k_a}s_{l_a}-s_{k_b}s_{l_b}=0$. Vi står da kun igjen med
+$$
+\Delta E= -J(s_{i,j-1}s_{i,j_a}-s_{i,j-1}s_{i,j_b}+s_{i+1,j}s_{i,j_a}-s_{i+1,j}s_{i,j_b}+ s_{i,j+1}s_{i,j_a}-s_{i,j+1}s_{i,j_b}+s_{i-1,j}s_{i,j_a}-s_{i-1,j}s_{i,j_b})
 $$
 \section{Metode}
 \section{Resultater}
