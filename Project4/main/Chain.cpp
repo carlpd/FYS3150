@@ -9,9 +9,10 @@ int main(){
   std::ofstream f ("../Txt/Chain.txt", std::ofstream::out);
 
   Ising2d IS2D = Ising2d(T_in, L_in);
-  arma::mat dummyS = IS2D.makerandomspins();
+  arma::imat dummyS = IS2D.makeallupspins();
+  std::cout<<IS2D.S<<std::endl;
   IS2D.findall();
-  double deps = IS2D.ep/IS2D.N; double deps2 = IS2D.ep2/IS2D.N;
+  double deps = IS2D.ep/IS2D.N; double deps2 = IS2D.ep2/(IS2D.N*IS2D.N);
   double m = IS2D.M/IS2D.N; double m2 = IS2D.M2/IS2D.N;
   /* Step | eps | eps^2 | m | m^2 | Cv | X */
   f << 1 << " " << deps << " " << deps2 << " ";

@@ -8,61 +8,73 @@ Ising2d::Ising2d(double T_in, int L_in){
   T = T_in;
   L = L_in;
   N = L*L;
+  double beta=1/T;
+  bf(0)=std::exp(beta*(-8));
+  bf(4)=std::exp(beta*(-4));
+  bf(8)=std::exp(beta*(0));
+  bf(12)=std::exp(beta*(4));
+  bf(16)=std::exp(beta*(8));
 }
 
 
-arma::mat Ising2d::makerandomspins(){
+arma::imat Ising2d::makerandomspins(){
+  /*
   std::random_device rd;
   std::mt19937_64 gen(rd());
   std::uniform_int_distribution<int> RandomIntegerGenerator(0, 1);
+
   S=arma::mat(L,L);
   for (int i=0; i<L;i++){
     for (int j=0;j<L;j++){
       S(i,j)=RandomIntegerGenerator(gen);
     }
   }
-  S=S*2-1;
+  */
+  arma::arma_rng::set_seed(seed);
+  //arma::mat S=arma::mat(L,L).randi(0,1);
+  arma::imat s = arma::randi<arma::imat>(L, L, arma::distr_param(0, 1));
+  //std::cout<<s<<std::endl;
+  S=s*2-1;
+  //std::cout<<S<<std::endl;
   return S;
 }
-arma::mat Ising2d::makeallupspins(int L){
-  arma::mat S=arma::mat(L,L).fill(1);
+arma::imat Ising2d::makeallupspins(){
+  arma::imat s=arma::imat(L,L).fill(1);
+  S=s;
   return S;
 }
 
 void Ising2d::findeps(){
   ep=0;
   ep2 = 0;
-  arma::mat s=S;
+  arma::imat s=S;
   S.print();
   for (int i=0; i<L; i++){
     for (int j=0; j<L; j++){
 
       std::cout << i << " " << j << std::endl;
 
-      int iunder = (i-1+L)%L;
-      int iover = (i-1+L)%L;
-      int junder = (j-1+L)%L;
-      int jover = (j-1+L)%L;
+      //int iunder = (i-1+L)%L;
+      int iover = (i+1+L)%L;
+      //int junder = (j-1+L)%L;
+      int jover = (j+1+L)%L;
 
-      std::cout << iunder << " " << iover << " " << junder << " " << jover << std::endl;
-      double dep = s(i,j)*s(iunder,j);
+      std::cout << iover << " " << jover << std::endl;
+      double dep = s(i,j)*s(iover,j);
 
       ep+=dep;
-      ep2+=dep*dep;
+      //ep2+=dep*dep;
 
-      dep = s(i,j)*s(iover,j);
+      dep = s(i,j)*s(i,jover);
       ep+=dep;
-      ep2+=dep*dep;
-
-      dep=s(i,j)*s(i,jover);
-      ep+=dep;
-      ep2+=dep*dep;
-
+      /*
       dep=s(i,j)*s(i,junder);
       ep+=dep;
       ep2+=dep*dep;
+      */
     }
   }
+  ep2=ep*ep;
   epsrun=1;
 }
 
@@ -109,3 +121,27 @@ void Ising2d::findall(){
     findX();
   }
 }
+//Finner en verdi den kan bruke for å finne eksponensialen
+int Ising2d::FindDelE(int i, int j){
+
+  int delsij=-2*S(i,j);
+  int iunder = (i-1+L)%L;
+  int iover = (i+1+L)%L;
+  int junder = (j-1+L)%L;
+  int jover = (j+1+L)%L;
+  int sr=S(iover,j);
+  sr+=S(iunder,j);
+  sr+=S(i,jover);
+  sr+=S(i,junder);
+  int dels=delsij*sr;
+  return dels;
+}
+//Finner et tilfeldig sted tilstanden
+void Ising2d::findrandomspin(int &i, int &j){
+  //std::random_device rd;
+  std::mt19937_64 gen(seed);
+  std::uniform_int_distribution<int> RandomIntegerGenerator(0, L);
+  i=RandomIntegerGenerator(gen);
+  j=RandomIntegerGenerator(gen);
+}
+//Lag noen samples
