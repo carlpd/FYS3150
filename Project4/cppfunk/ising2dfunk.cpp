@@ -4,69 +4,56 @@
 double kb = 1;
 
 
+
 Ising2d::Ising2d(double T_in, int L_in){
-  T = T_in;
-  L = L_in;
-  N = L*L;
-  double beta=1/T;
-  bf(0)=std::exp(beta*(-8));
-  bf(4)=std::exp(beta*(-4));
-  bf(8)=std::exp(beta*(0));
-  bf(12)=std::exp(beta*(4));
-  bf(16)=std::exp(beta*(8));
+  T_ = T_in;
+  L_ = L_in;
+  N_ = L_*L_;
+  Ninv_ = 1./N_;
+  double beta=1/T_;
+  bf_(0)=std::exp(beta*(-8));
+  bf_(4)=std::exp(beta*(-4));
+  bf_(8)=std::exp(beta*(0));
+  bf_(12)=std::exp(beta*(4));
+  bf_(16)=std::exp(beta*(8));
 }
 
 
 arma::imat Ising2d::makerandomspins(){
-  /*
-  std::random_device rd;
-  std::mt19937_64 gen(rd());
-  std::uniform_int_distribution<int> RandomIntegerGenerator(0, 1);
-
-  S=arma::mat(L,L);
-  for (int i=0; i<L;i++){
-    for (int j=0;j<L;j++){
-      S(i,j)=RandomIntegerGenerator(gen);
-    }
-  }
-  */
-  //arma::mat S=arma::mat(L,L).randi(0,1);
-  arma::arma_rng::set_seed(seed);
-  arma::imat s = arma::randi<arma::imat>(L, L, arma::distr_param(0, 1));
-  //std::cout<<s<<std::endl;
-  S=s*2-1;
-  //std::cout<<S<<std::endl;
-  return S;
+  arma::arma_rng::set_seed(seed_);
+  arma::imat s = arma::randi<arma::imat>(L_, L_, arma::distr_param(0, 1));
+  S_=s*2-1;
+  return S_;
 }
 arma::imat Ising2d::makeallupspins(){
-  arma::imat s=arma::imat(L,L).fill(1);
-  S=s;
-  return S;
+  arma::imat s=arma::imat(L_,L_).fill(1);
+  S_=s;
+  return S_;
 }
 
 void Ising2d::findeps(){
-  ep=0;
-  ep2 = 0;
-  arma::imat s=S;
-  S.print();
-  for (int i=0; i<L; i++){
-    for (int j=0; j<L; j++){
+  ep_=0;
+  ep2_ = 0;
+  arma::imat s=S_;
+  //S_.print();
+  for (int i=0; i<L_; i++){
+    for (int j=0; j<L_; j++){
 
       //std::cout << i << " " << j << std::endl;
 
       //int iunder = (i-1+L)%L;
-      int iover = (i+1+L)%L;
+      int iover = (i+1+L_)%L_;
       //int junder = (j-1+L)%L;
-      int jover = (j+1+L)%L;
+      int jover = (j+1+L_)%L_;
 
       //std::cout << iover << " " << jover << std::endl;
       double dep = s(i,j)*s(iover,j);
 
-      ep+=dep;
+      ep_+=dep;
       //ep2+=dep*dep;
 
       dep = s(i,j)*s(i,jover);
-      ep+=dep;
+      ep_+=dep;
       /*
       dep=s(i,j)*s(i,junder);
       ep+=dep;
@@ -74,97 +61,88 @@ void Ising2d::findeps(){
       */
     }
   }
-  ep=ep/N;
-  ep2=ep*ep;
-  epsrun=1;
+  //::cout<<ep_<<std::endl;
+  ep_ =ep_;
+  ep2_=ep_*ep_;
+  epsrun_=1;
 }
 
 void Ising2d::findmag(){
-  M = 0;
-  M2 = 0;
-  for (int i=0; i<L; i++){
-    for (int j=0; j<L; j++){
-      int m = S(i, j);
-      M = M + std::abs(m);
+  M_ = 0;
+  M2_ = 0;
+  for (int i=0; i<L_; i++){
+    for (int j=0; j<L_; j++){
+      int m = S_(i, j);
+      M_ = M_ + std::abs(m);
     }
   }
-  M=M/N;
-  M2=M*M;
-  magrun=1;
+  M_=M_;
+  M2_=M_*M_;
+  magrun_=1;
 }
 
 void Ising2d::findCv(){
-  if (epsrun==0){
+  if (epsrun_==0){
     findeps();
   }
-  if (magrun==0){
+  if (magrun_==0){
     findmag();
   }
-  Cv = 1/(kb*T*T)*(ep2/N - ep*ep/N);
-  CvRun = 1;
+  Cv_ = 1/(kb*T_*T_)*(ep2_/N_ - ep_*ep_/N_);
+  CvRun_ = 1;
 }
 
 void Ising2d::findX(){
-  if (epsrun==0){
+  if (epsrun_==0){
     findeps();
   }
-  if (magrun==0){
+  if (magrun_==0){
     findmag();
   }
-  X = 1/(kb*T)*(M2/N - M*M/N);
-  Xrun = 1;
+  X_ = 1/(kb*T_)*(M2_/N_ - M_*M_/N_);
+  Xrun_ = 1;
 }
 
 void Ising2d::findall(){
-  if (CvRun==0){
+  if (CvRun_==0){
     findCv();
   }
-  if (Xrun==0){
+  if (Xrun_==0){
     findX();
   }
 }
 //Finner en verdi den kan bruke for å finne eksponensialen
 int Ising2d::FindDelE(int i, int j){
 
-  int delsij=-2*S(i,j);
-  int iunder = (i-1+L)%L;
-  int iover = (i+1+L)%L;
-  int junder = (j-1+L)%L;
-  int jover = (j+1+L)%L;
-  int sr=S(iover,j);
-  sr+=S(iunder,j);
-  sr+=S(i,jover);
-  sr+=S(i,junder);
+  int delsij=-2*S_(i,j);
+  int iunder = (i-1+L_)%L_;
+  int iover = (i+1+L_)%L_;
+  int junder = (j-1+L_)%L_;
+  int jover = (j+1+L_)%L_;
+  int sr=S_(iover,j);
+  sr+=S_(iunder,j);
+  sr+=S_(i,jover);
+  sr+=S_(i,junder);
   int delE=delsij*sr;
   return delE;
 }
 //Finner et tilfeldig sted tilstanden
 void Ising2d::findrandomspin(int &i, int &j){
-  std::random_device rd;
-  std::mt19937_64 gen(seed);
-  std::uniform_int_distribution<int> RandomIntegerGenerator(0, L-1);
-  i=RandomIntegerGenerator(gen);
-  j=RandomIntegerGenerator(gen);
+  i=arma::randi<int>(arma::distr_param(0, L_-1));
+  j=arma::randi<int>(arma::distr_param(0, L_-1));
 }
 //Lag A, T, osv
 //Lager T(x'->x_i)
 //Mulig vi ikke trenger denne
 double Ising2d::Rng(){
-  std::mt19937_64 gen(seed);
-  std::uniform_real_distribution<double> RandomProbGenerator(0, 1);
-  double p =RandomProbGenerator(gen);
+  double p =arma::randu<double>();
   return p;
 }
 // Lager A(xi->x')
-double Ising2d::Ap(int i, int j){
-  int dE=FindDelE(i, j);
-  double p=bf(8+dE);
-  if(p<1.){
-    return p;
-  }
-  else if(p>1.){
-    return 1.;
-  }
+double Ising2d::Ap(int dE){
+  //int dE=FindDelE(i, j);
+  double p=bf_(8+dE);
+  return p;
 }
 //Test tilstanden
 void Ising2d::makebreakstate(){
@@ -172,17 +150,26 @@ void Ising2d::makebreakstate(){
   int j;
   findrandomspin(i, j);
   int dE=FindDelE(i, j);
-  std::mt19937_64 gen(seed);
-  std::uniform_real_distribution<double> RandomProbGenerator(0, 1);
-  double p =RandomProbGenerator(gen);
-  std::cout<<p<<std::endl;
-  double AP=Ap(i, j);
+  if(dE<0){
+    S_(i,j)=-S_(i,j);
+    ep_+=dE;
+    M_+=2*S_(i,j);
+    ep2_=ep_*ep_;
+    M2_=M_*M_;
+    //std::cout<<"Changed"<<std::endl;
+  }
+
+
+  double p =arma::randu<double>();
+  //std::cout<<p<<std::endl;
+  double AP=Ap(dE);
   if(AP>p){
-    S(i,j)=-S(i,j);
-    ep+=dE/N;
-    M+=2*S(i,j)/N;
-    ep2=ep*ep;
-    M2=M*M;
+    S_(i,j)=-S_(i,j);
+    ep_+=dE;
+    M_+=2*S_(i,j);
+    ep2_=ep_*ep_;
+    M2_=M_*M_;
+    //std::cout<<"Changed"<<std::endl;
   }
   }
 

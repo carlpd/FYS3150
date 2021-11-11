@@ -9,8 +9,8 @@ int main(){
   std::ofstream f ("../Txt/Chain.txt", std::ofstream::out);
 
   Ising2d IS2D = Ising2d(T_in, L_in);
-  arma::imat dummyS = IS2D.makeallupspins();
-  std::cout<<IS2D.S<<std::endl;
+  arma::imat dummyS = IS2D.makerandomspins();
+  //std::cout<<IS2D.S_<<std::endl;
   IS2D.findall();
   /*
   double deps = IS2D.ep/IS2D.N; double deps2 = IS2D.ep2/(IS2D.N*IS2D.N);
@@ -19,12 +19,14 @@ int main(){
   f << 1 << " " << deps << " " << deps2 << " ";
   f << m << " " << m2 << " " << IS2D.Cv << " " << IS2D.X << std::endl;
   */
-  for(int a=0; a<=IS2D.N; a++){
-    f << a << " " << IS2D.ep << " " << IS2D.ep2 << " ";
-    f << IS2D.M << " " << IS2D.M2 <<std::endl;
+  for(int a=0; a<=100000; a++){
+    // Step | eps | eps^2 | m | m^2
+    f << a << " " << IS2D.ep_/(a+1) << " " << IS2D.ep2_/(a+1) << " ";
+    f << IS2D.M_/(a+1) << " " << IS2D.M2_/(a+1) <<std::endl;
     IS2D.makebreakstate();
-    std::cout<<IS2D.S<<std::endl;
+    //std::cout<<IS2D.S_<<std::endl;
   }
+
   f.close();
   return 0;
 }

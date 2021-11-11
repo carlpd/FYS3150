@@ -1,32 +1,39 @@
 #include <iostream>
 #include <armadillo>
+#include <chrono>
 #include <cmath>
+#include <random>
+
+
 
 class Ising2d{
+
   public:
-    arma::imat S;
-    double T;
-    int L;
-    int N = L*L;
-    int seed = 4832;
-    int ep;
-    int ep2;
-    int M;
-    int M2;
-    double Cv;
-    double X;
+
+    std::mt19937_64 gen;
+    int seed_ = 404040;
+    arma::imat S_;
+    double T_;
+    int L_;
+    int N_;
+    double ep_;
+    double Ninv_;
+    double ep2_;
+    double M_;
+    double M2_;
+    double Cv_;
+    double X_;
     Ising2d(double T_in, int L_in);
 
-    /*arma_rng::set_seed(4832); Endre til bedre random */
 
-    int epsrun = 0;
-    int magrun = 0;
-    int CvRun = 0;
-    int Xrun = 0;
-    arma::vec bf=arma::vec(17).fill(0.);
+    int epsrun_ = 0;
+    int magrun_ = 0;
+    int CvRun_ = 0;
+    int Xrun_ = 0;
+    arma::vec bf_=arma::vec(17).fill(0.);
     arma::imat makerandomspins();
     arma::imat makeallupspins();
-    arma::imat S_new;
+    arma::imat S_new_;
     void findeps();
     void findmag();
     void findCv();
@@ -36,7 +43,7 @@ class Ising2d{
     void findrandomspin(int &i, int &j);
     void makebflist();
     double Rng();
-    double Ap(int i, int j);
+    double Ap(int dE);
     void makebreakstate();
 
 };
