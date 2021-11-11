@@ -32,8 +32,11 @@ class Ising2d{
     void findCv();
     void findX();
     void findall();
-    int FindDelS(int i, int j);
+    int FindDelE(int i, int j);
     void findrandomspin(int &i, int &j);
     void makebflist();
+    double Rng();
+    double Ap(int i, int j);
+    void makebreakstate();
 
 };
