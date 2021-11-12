@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 K = 1
-s, e, e2, m, m2 = np.loadtxt('Chain.txt', unpack=True)
+s, e, e2, m, m2 = np.loadtxt('../Txt/Chain.txt', unpack=True)
 L=2
 T = 1
 B = 1/(K*T**2)
