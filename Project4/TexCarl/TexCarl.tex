@@ -157,8 +157,15 @@ $$
 $$
 La oss si at vi flipper spinnet $s_{i,j}$ hvor $i$ representerer den vannrette posisjonen og $j$ den lodrette. Da kun $s_{k_b}s{l_b}$ kun endre seg hvor $s_{i,j}$ er en av faktorene. Ellers vil $s_{k_b}s_{l_b}=s_{k_a}s_{l_a}$ og her vil $s_{k_a}s_{l_a}-s_{k_b}s_{l_b}=0$. Vi står da kun igjen med
 $$
-\Delta E= -J(s_{i,j-1}s_{i,j_a}-s_{i,j-1}s_{i,j_b}+s_{i+1,j}s_{i,j_a}-s_{i+1,j}s_{i,j_b}+ s_{i,j+1}s_{i,j_a}-s_{i,j+1}s_{i,j_b}+s_{i-1,j}s_{i,j_a}-s_{i-1,j}s_{i,j_b})
+\Delta E= -J \begin{pmatrix} s_{i,j-1}s_{i,j_a}-s_{i,j-1}s_{i,j_b}+s_{i+1,j}s_{i,j_a}-s_{i+1,j}s_{i,j_b} \\+ s_{i,j+1}s_{i,j_a}-s_{i,j+1}s_{i,j_b}+s_{i-1,j}s_{i,j_a}-s_{i-1,j}s_{i,j_b}\end{pmatrix}
 $$
+Vi kan så ta ut $(s_{i,j_a}-s_{i,j_b}$ og få
+$$
+\Delta E=-J(s_{i,j_a}-s_{i,j_b})(
+s_{i.j-1}+s_{i+1,j} +s_{i,j+1}+s_{i-1.j}
+)
+$$
+Vi ser at $s_{i,j_a}-s_{i,j_b}$ er enten $+1-(-1)=2$ når den skifter fra spin ned til opp og $-1-(+1)=-2$ når den skifter fra spin opp til ned
 \section{Metode}
 \section{Resultater}
 \section{Diskusjon}
