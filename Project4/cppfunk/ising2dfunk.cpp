@@ -1,6 +1,7 @@
 #include "../classes/ising2d.hpp"
 #include <random>
-
+#include <sstream>
+#include <string>
 double kb = 1;
 
 
@@ -73,7 +74,7 @@ void Ising2d::findmag(){
   for (int i=0; i<L_; i++){
     for (int j=0; j<L_; j++){
       int m = S_(i, j);
-      M_ = M_ + std::abs(m);
+      M_ = M_ + m;
     }
   }
   M_=M_;

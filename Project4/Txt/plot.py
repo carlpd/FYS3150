@@ -1,11 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
-
+import seaborn as sbn
 K = 1
-s, e, e2, m, m2 = np.loadtxt('Chain.txt', unpack=True)
-L=2
-T = 1
+s, e, e2, m, m2 = np.loadtxt('../Txt/ChainT2.400000L20.txt', unpack=True)
+L=20
+N=L**2
+T = 2.4
 B = 1/(K*T**2)
 Z = 12 + 4*np.cosh(8*B)
 E2mean = (248*np.sinh(8*B))/(12+4*np.cosh(8*B))
@@ -15,12 +15,26 @@ Cv = 1/(K*T**2)*(E2mean - Emean**2)
 print('E2mean', 'Emean', 'Mmean', 'Cv')
 print(E2mean/L**4, Emean/L**2, Mmean/L**2, Cv)
 
+epssum = np.sum(e/L**2)
 Esum = np.sum(e)
 Msum = np.sum(abs(m))
-print('epsilon mean = ', Esum/(s[-1]*L**2))
-print('magnetism mean = ', Msum/(s[-1]*L**2))
+Enmean=np.mean(e)
+print("Snitt E =", Enmean/L**2)
+Mnmean=np.mean(np.abs(m))
+print("Snitt M=", Mnmean/L**2)
+Eexpv=Esum/(len(e))
+epsexpv=Esum/(len(e)*L**2)
+mlexpv=Msum/(len(m)*L**2)
+print('epsilon mean = ', epsexpv)
+print('magnetism mean = ', mlexpv)
+E2sum=np.sum(e2)
+M2sum=np.sum(m2)
+eps2expv=E2sum/(len(e2)*L**2)
+ml2expv=M2sum/(len(m2)*L**2)
+print('epsilon2 mean = ', eps2expv)
+print('magnetism2 mean = ', ml2expv)
 
-doPlot = 0
+doPlot = 1
 if doPlot==1:
     plt.rcParams.update({
         "text.usetex": True,
@@ -56,3 +70,10 @@ if doPlot==1:
     plt.ylabel('$\left < M \\right >^2 / L^4$')
     plt.plot(s, m2/L**4)
     plt.savefig('../Images/RISm2.pdf')
+
+    plt.figure(figsize=(10,8))
+    plt.title("Histogram")
+    plt.xlabel("Epsilon")
+    plt.ylabel("P(eps)")
+    sbn.histplot(e/N, kde=True, stat="density", label="measured")
+    plt.savefig("../Images/Histplot.pdf")
