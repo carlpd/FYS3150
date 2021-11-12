@@ -11,7 +11,7 @@ class Ising2d{
   public:
 
     std::mt19937_64 gen;
-    int seed_ = 404040;
+    int seed_ = 995135405;
     arma::imat S_;
     double T_;
     int L_;

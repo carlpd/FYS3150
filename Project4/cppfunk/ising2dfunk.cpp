@@ -10,12 +10,12 @@ Ising2d::Ising2d(double T_in, int L_in){
   L_ = L_in;
   N_ = L_*L_;
   Ninv_ = 1./N_;
-  double beta=1/T_;
-  bf_(0)=std::exp(beta*(-8));
-  bf_(4)=std::exp(beta*(-4));
+  double beta=1./T_;
+  bf_(0)=std::exp(beta*(8));
+  bf_(4)=std::exp(beta*(4));
   bf_(8)=std::exp(beta*(0));
-  bf_(12)=std::exp(beta*(4));
-  bf_(16)=std::exp(beta*(8));
+  bf_(12)=std::exp(beta*(-4));
+  bf_(16)=std::exp(beta*(-8));
 }
 
 
@@ -49,11 +49,11 @@ void Ising2d::findeps(){
       //std::cout << iover << " " << jover << std::endl;
       double dep = s(i,j)*s(iover,j);
 
-      ep_+=dep;
+      ep_-=dep;
       //ep2+=dep*dep;
 
       dep = s(i,j)*s(i,jover);
-      ep_+=dep;
+      ep_-=dep;
       /*
       dep=s(i,j)*s(i,junder);
       ep+=dep;
@@ -61,9 +61,9 @@ void Ising2d::findeps(){
       */
     }
   }
-  //::cout<<ep_<<std::endl;
-  ep_ =ep_;
-  ep2_=ep_*ep_;
+  std::cout<<ep_<<std::endl;
+  //ep_ =-ep_;
+  //ep2_=ep_*ep_;
   epsrun_=1;
 }
 
@@ -114,7 +114,7 @@ void Ising2d::findall(){
 //Finner en verdi den kan bruke for å finne eksponensialen
 int Ising2d::FindDelE(int i, int j){
 
-  int delsij=-2*S_(i,j);
+  int delsij=2*S_(i,j);
   int iunder = (i-1+L_)%L_;
   int iover = (i+1+L_)%L_;
   int junder = (j-1+L_)%L_;
@@ -151,7 +151,7 @@ void Ising2d::makebreakstate(){
   findrandomspin(i, j);
   int dE=FindDelE(i, j);
   if(dE<0){
-    S_(i,j)=-S_(i,j);
+    S_(i,j)*=-1;
     ep_+=dE;
     M_+=2*S_(i,j);
     ep2_=ep_*ep_;
@@ -159,19 +159,16 @@ void Ising2d::makebreakstate(){
     //std::cout<<"Changed"<<std::endl;
   }
 
-
-  double p =arma::randu<double>();
-  //std::cout<<p<<std::endl;
-  double AP=Ap(dE);
-  if(AP>p){
-    S_(i,j)=-S_(i,j);
+  else if(Ap(dE)>arma::randu()){
+    S_(i,j)*=-1;
     ep_+=dE;
+    //std::cout<<ep_<<std::endl;
     M_+=2*S_(i,j);
     ep2_=ep_*ep_;
     M2_=M_*M_;
     //std::cout<<"Changed"<<std::endl;
   }
-  }
+}
 
 //Lag noen samples
 
