@@ -3,8 +3,8 @@
 
 int main(){
 
-  int T_in = 1; /* [J/kb] */
-  int L_in = 20; /* [-] */
+  double T_in = 1; /* [J/kb] */
+  int L_in = 2; /* [-] */
 
   std::ofstream f ("../Txt/Chain.txt", std::ofstream::out);
 
@@ -21,8 +21,8 @@ int main(){
   */
   for(int a=0; a<=100000; a++){
     // Step | eps | eps^2 | m | m^2
-    f << a << " " << IS2D.ep_/(a+1) << " " << IS2D.ep2_/(a+1) << " ";
-    f << IS2D.M_/(a+1) << " " << IS2D.M2_/(a+1) <<std::endl;
+    f << a << " " << IS2D.ep_ << " " << IS2D.ep2_ << " ";
+    f << IS2D.M_ << " " << IS2D.M2_ <<std::endl;
     IS2D.makebreakstate();
     //std::cout<<IS2D.S_<<std::endl;
   }
