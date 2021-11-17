@@ -25,7 +25,7 @@ int main(){
     double T_in = T(Ti); /* [J/kb] */
     Ttxt << std::to_string(T_in) << std::endl;
     int omp_get_thread_num();
-    int L_in = L(3); /* [-] */
+    int L_in = L(2); /* [-] */
 
     Ltxt << std::to_string(L_in) << std::endl;
 
@@ -52,7 +52,7 @@ int main(){
       IS2D.makebreakstate();
       //std::cout<<IS2D.S_<<std::endl;
     }
-    for(int a=IS2D.N_*1000; a<=IS2D.N_*10000; a++){
+    for(int a=IS2D.N_*1000; a<=IS2D.N_*500000; a++){
       // Step | eps | eps^2 | m | m^2
       f << a << " " << IS2D.ep_ << " " << IS2D.ep2_ << " ";
       f << IS2D.M_ << " " << IS2D.M2_ <<std::endl;
