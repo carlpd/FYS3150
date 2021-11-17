@@ -13,7 +13,7 @@ int main(){
   for(int Ti=0;Ti<T.n_elem;Ti++){
     double T_in = T(Ti); /* [J/kb] */
     Ttxt << std::to_string(T_in) << std::endl;
-    for(int Li=0;Li<L.n_elem;Li++){
+    for(int Li=L.n_elem-1;Li<L.n_elem;Li++){
 
 
       int L_in = L(Li); /* [-] */
@@ -25,7 +25,7 @@ int main(){
       std::ofstream f (filename, std::ofstream::out);
 
       Ising2d IS2D = Ising2d(T_in, L_in);
-      arma::imat dummyS = IS2D.makerandomspins();
+      arma::imat dummyS = IS2D.makerandomspins(2413);
       //std::cout<<IS2D.S_<<std::endl;
       IS2D.findall();
       /*
@@ -36,12 +36,12 @@ int main(){
       f << m << " " << m2 << " " << IS2D.Cv << " " << IS2D.X << std::endl;
       */
 
-      for(int a=0; a<=20000; a++){
+      for(int a=0; a<=IS2D.N_*1000; a++){
         // Step | eps | eps^2 | m | m^2
         IS2D.makebreakstate();
         //std::cout<<IS2D.S_<<std::endl;
       }
-      for(int a=20000; a<=100000; a++){
+      for(int a=IS2D.N_*1000; a<=IS2D.N_*10000; a++){
         // Step | eps | eps^2 | m | m^2
         f << a << " " << IS2D.ep_ << " " << IS2D.ep2_ << " ";
         f << IS2D.M_ << " " << IS2D.M2_ <<std::endl;
