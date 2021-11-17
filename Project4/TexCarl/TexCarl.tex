@@ -5,7 +5,7 @@
 % allows special characters (including æøå)
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-
+\usepackage{float}
 %% note that you may need to download some of these packages manually, it depends on your setup.
 %% I recommend downloading TeXMaker, because it includes a large library of the most common packages.
 
@@ -205,8 +205,13 @@ I would like thank myself for writing this beautiful document.
 \newpage
 %% if you want to include an appendix, this is how you do it
 \appendix
-\section{Name of appendix}
-This will be the body of the appendix.
+\section{$2\cross 2$ matrise}
+Vi starter med å finne alle mulige tilstander for en $2\cross 2$ matrise, som gitt i figur \ref{2x2}
+\begin{figure}[H]
+	\label{2x2}
+	\includegraphics[scale=0.5]{Latice.pdf}
+\end{figure}
+
 \section{This is another appendix}\label{appendix}
 Tada.
 %% all \section commands following \appendix are automatically taken as appendices

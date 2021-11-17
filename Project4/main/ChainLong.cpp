@@ -5,8 +5,8 @@
 
 
 int main(){
-  arma::vec T=arma::vec(2).fill(0.);
-  arma::vec L=arma::vec(2).fill(0.);
+  //arma::vec T=arma::vec(2).fill(0.);
+  //arma::vec L=arma::vec(2).fill(0.);
   int TN=20;
   double Tstart=2.1;
   double Tend=2.4;
