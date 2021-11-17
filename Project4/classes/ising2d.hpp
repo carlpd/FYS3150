@@ -31,7 +31,7 @@ class Ising2d{
     int CvRun_ = 0;
     int Xrun_ = 0;
     arma::vec bf_=arma::vec(17).fill(0.);
-    arma::imat makerandomspins();
+    arma::imat makerandomspins(double factor);
     arma::imat makeallupspins();
     arma::imat S_new_;
     void findeps();

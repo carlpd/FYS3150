@@ -20,8 +20,8 @@ Ising2d::Ising2d(double T_in, int L_in){
 }
 
 
-arma::imat Ising2d::makerandomspins(){
-  arma::arma_rng::set_seed(seed_);
+arma::imat Ising2d::makerandomspins(double factor = 1.){
+  arma::arma_rng::set_seed(seed_*factor);
   arma::imat s = arma::randi<arma::imat>(L_, L_, arma::distr_param(0, 1));
   S_=s*2-1;
   return S_;
