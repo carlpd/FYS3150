@@ -1,21 +1,24 @@
 #include "../classes/ising2d.hpp"
 #include <fstream>
+#include <chrono>
+#include <omp.h>
+
 
 int main(){
   arma::vec T=arma::vec(2).fill(0.);
   arma::vec L=arma::vec(2).fill(0.);
   T(0)=1.0; T(1)=2.4;
   L(0)=20; L(1)=40;
-  std::ofstream Time ("Txt/Time.txt", std::ios::app);
+  std::ofstream TimePar ("Txt/TimePar.txt", std::ios::app);
   std::ofstream Ttxt ("Txt/T.txt", std::ofstream::out);
   std::ofstream Ltxt ("Txt/L.txt", std::ofstream::out);
   auto t1 = std::chrono::high_resolution_clock::now();
+  #pragma omp parallel for
   for(int Ti=0;Ti<T.n_elem;Ti++){
     double T_in = T(Ti); /* [J/kb] */
     Ttxt << std::to_string(T_in) << std::endl;
     for(int Li=0;Li<L.n_elem;Li++){
-
-
+      int omp_get_thread_num();
       int L_in = L(Li); /* [-] */
 
       Ltxt << std::to_string(L_in) << std::endl;
@@ -25,7 +28,9 @@ int main(){
       std::ofstream f (filename, std::ofstream::out);
 
       Ising2d IS2D = Ising2d(T_in, L_in);
-      arma::imat dummyS = IS2D.makerandomspins();
+      int NumThread = omp_get_thread_num();
+      double DivRand =(T_in*L_in*NumThread)/34;
+      arma::imat dummyS = IS2D.makerandomspins(DivRand);
       //std::cout<<IS2D.S_<<std::endl;
       IS2D.findall();
       /*
@@ -49,14 +54,14 @@ int main(){
         //std::cout<<IS2D.S_<<std::endl;
       }
       f.close();
+
     }
     Ttxt.close();
     Ltxt.close();
   }
   auto t2 = std::chrono::high_resolution_clock::now();
   double duration_seconds = std::chrono::duration<double>(t2 - t1).count();
-  Time << duration_seconds << std::endl;
-  std::cout << duration_seconds << std::endl;
-  Time.close();
+  TimePar << duration_seconds << std::endl;
+  TimePar.close();
   return 0;
 }
