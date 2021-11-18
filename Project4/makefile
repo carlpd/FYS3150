@@ -9,6 +9,17 @@ Chainl:
 ChainR:
 	./a.out
 
+ChainLComp: ChainCL ChainlL ChainRL
+
+ChainCL:
+	g++ -c main/ChainLong.cpp cppfunk/ising2dfunk.cpp -larmadillo -fopenmp
+
+ChainlL:
+	g++ ChainLong.o ising2dfunk.o -larmadillo -fopenmp
+
+ChainRL:
+	./a.out
+
 ChainParComp: ChainCPar ChainlPar ChainRPar
 
 ChainCPar:
@@ -19,4 +30,3 @@ ChainlPar:
 
 ChainRPar:
 	./a.out
-
