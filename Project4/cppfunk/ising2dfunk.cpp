@@ -62,7 +62,7 @@ void Ising2d::findeps(){
       */
     }
   }
-  //std::cout<<ep_<<std::endl;
+  std::cout<<ep_<<std::endl;
   //ep_ =-ep_;
   //ep2_=ep_*ep_;
   epsrun_=1;

@@ -15,7 +15,7 @@ ChainCL:
 	g++ -c main/ChainLong.cpp cppfunk/ising2dfunk.cpp -larmadillo -fopenmp
 
 ChainlL:
-	g++ ChainLong.o ising2dfunk.o -larmadillo -fopenmp
+	g++ ChainLong.o ising2dfunk.o -larmadillo -lomp
 
 ChainRL:
 	./a.out
