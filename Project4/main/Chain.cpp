@@ -10,6 +10,9 @@ int main(){
     double T_in = 2.4; /* [J/kb] */
     //Ttxt << std::to_string(T_in) << std::endl;
 
+    */
+    double T_in=1.0;
+    int L_in = 10; /* [-] */
 
 
     int L_in = 20; /* [-] */
@@ -35,7 +38,7 @@ int main(){
       //std::cout<<IS2D.S_<<std::endl;
     }
     */
-    
+
     for(int a=0; a<=IS2D.N_*10000; a++){
       // Step | eps | eps^2 | m | m^2
       f << a << " " << IS2D.ep_ << " " << IS2D.ep2_ << " ";
