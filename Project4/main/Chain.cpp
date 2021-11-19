@@ -20,12 +20,12 @@ int main(){
 
     */
     double T_in=1.0;
-    int L_in = 10; /* [-] */
+    int L_in = 100; /* [-] */
 
     Ltxt << std::to_string(L_in) << std::endl;
 
     std::string filename;
-    filename="../Txt/ChainT" + std::to_string(T_in) + "L" + std::to_string(L_in) + ".txt";
+    filename="/Txt/ChainT" + std::to_string(T_in) + "L" + std::to_string(L_in) + ".txt";
     std::ofstream f (filename, std::ofstream::out);
 
     Ising2d IS2D = Ising2d(T_in, L_in);
@@ -45,7 +45,7 @@ int main(){
       IS2D.makebreakstate();
       //std::cout<<IS2D.S_<<std::endl;
     }
-    for(int a=IS2D.N_*1000; a<=IS2D.N_*2000; a++){
+    for(int a=IS2D.N_*1000; a<=IS2D.N_*500000; a++){
       // Step | eps | eps^2 | m | m^2
       f << a << " " << IS2D.ep_ << " " << IS2D.ep2_ << " ";
       f << IS2D.M_ << " " << IS2D.M2_ <<std::endl;

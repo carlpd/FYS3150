@@ -21,7 +21,7 @@ int main(){
     //std::cout<<T_in<<std::endl;
     Ttxt << std::to_string(T_in) << std::endl;
     int omp_get_thread_num();
-    int L_in = 40; /* [-] */
+    int L_in = 100; /* [-] */
 
     Ltxt << std::to_string(L_in) << std::endl;
 
@@ -50,9 +50,12 @@ int main(){
     }
     for(int a=IS2D.N_*1000; a<=IS2D.N_*500000; a++){
       // Step | eps | eps^2 | m | m^2
+      double start=omp_get_wtime();
       f << a << " " << IS2D.ep_ << " " << IS2D.ep2_ << " ";
       f << IS2D.M_ << " " << IS2D.M2_ <<std::endl;
       IS2D.makebreakstate();
+      double end=omp_get_wtime();
+      std::cout<<end-start<<std::endl;
       //std::cout<<a<<std::endl;
     }
     f.close();
