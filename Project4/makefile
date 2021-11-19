@@ -4,10 +4,10 @@ ChainC:
 	g++ -c main/Chain.cpp cppfunk/ising2dfunk.cpp -larmadillo -O3 -std=c++11
 
 Chainl:
-	g++ Chain.o ising2dfunk.o -larmadillo
+	g++ Chain.o ising2dfunk.o -o Chain.out -larmadillo 
 
 ChainR:
-	./a.out
+	./Chain.out
 
 ChainLComp: ChainCL ChainlL ChainRL
 

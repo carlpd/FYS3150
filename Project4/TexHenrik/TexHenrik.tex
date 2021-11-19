@@ -212,40 +212,8 @@ Vi starter med å finne alle mulige tilstander for et $2\cross 2$ gitter, som gi
 	\includegraphics[scale=0.5]{Latice.pdf}
 	\caption{Alle tilstander som er mulig i et $2\cross2$-gitter. En rute med en prikk i seg betyr at dette spinnet har spin opp altså $+1$, mens en blank rute betyr at dette spinnet har spin ned, altså $-1$}
 \end{figure}
-Vi ser altså at det er 16 forskjellige muligheter tilstander i et $2\cross2$-gitter, men noen av disse er symmetriske. Alle fire tilstandene med ett spin opp er symmetriske, det samme gjelder for ett spin ned. Alle tilstandene for to spin opp hvor to av dem er naboer er har også en symmetri og det samme med de to diagonale. Vi kan derfor si at de som er symmetriske har samme total energi og da trenger vi bare å finne en av disse som er symmetriske til hverandre for å finne alle. Da blir disse tilstandene også energidegenererte. Vi får da en tabell gitt som i \ref{2x2tabell}
-\begin{table}[H]
-	\begin{tabular}{|c|c|c|c|} % note that & separates columns while \\ separates the rows
-		\hline                    % creates a horizontal line (try removing it)
-		Antall spin opp & $E(s)$ & $M(s)$& Degenerasjon  \\
-		\hline
-		$0$ & $-8J$ & $-4$ & $4$ \\
-		\hline
-		$1$ & $0$ & $-2$ & 4\\
-		\hline
-		$2$ &$0$ &$0$ &$4$ \\\hline 
-		$2$ &$8J$ &$0$&$2$ \\\hline 
-		$3$&$0$&$2$&$4$ \\\hline 
-		$4$&$-8J$&$4$&$1$ \\\hline 
-	\end{tabular}
-\caption{En tabell med verdiene til $2\cross 2$ matrisen}
-\label{2x2tabell}
-\end{table}
-Så kan vi bruke dette til å finne den andre verdiene. Først ser vi på $Z$, som blir 
-$$
-Z=\sum_s=e^{-\beta E(s)}=12 e^{0}+2e^{-\beta (-8J)}+2e^{-\beta 8J}=12+4\cosh(8\beta)
-$$
-Så finner vi $\expval{\epsilon}$, altså
-$$
-\expval{\epsilon}=\sum_{s}p(s)\frac{E(s)}{N}=\sum_{s}\frac{e^{-\beta E(s)}E(s)}{N}
-$$
-$$
-\expval{\epsilon}=\frac{-8Je^{8J}\cdot 2 + 8Je^{-\beta 8J}\cdot 2}{NZ}=\frac{-16}{NZ}(e^{8\beta J}-e^{-8\beta J})$$$$\expval{\epsilon}=-\frac{-16 J}{4Z}2\sinh(8\beta J)=\frac{-8J}{Z}\sinh(8J\beta)
-$$
-Så finner vi $\expval{\epsilon^2}$ med 
-$$
-\expval{\epsilon^2}=\sum_{s}\frac{E(s)^2}{N^2}p(s)=\sum_{s}e^{-\beta E(s)}\frac{E(s)^2}{N^2Z}
-$$
-
+Vi ser altså at det er 16 forskjellige muligheter tilstander i et $2\cross2$-gitter, men noen av disse er symmetriske. Alle fire tilstandene med ett spin opp er symmetriske, det samme gjelder for ett spin ned. Alle tilstandene for to spin opp hvor to av dem er naboer er har også en symmetri og det samme med de to diagonale. Vi kan derfor si at de som er symmetriske har samme total energi. 
+\newline Så var det magnetiseringen. Siden magnetiseringen er gitt som
 
 \section{This is another appendix}\label{appendix}
 Tada.
