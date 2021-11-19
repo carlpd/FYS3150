@@ -4,7 +4,7 @@ import sys
 K = 1
 L=int(sys.argv[1])
 N=L**2
-T = 2.4
+T = float(sys.argv[2])
 
 #Funksjon for å finne <E>, <E^2>, <M>, <M^2>, Cv og X
 def CalcMeans(e, e2, m, m2):

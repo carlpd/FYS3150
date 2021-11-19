@@ -48,7 +48,7 @@ def CalcMeans(e, e2, m, m2):
     m2_mean = M2mean/N
     return eps_mean, eps2_mean, m_mean, m2_mean, Cv, X
 
-doPlot = 1
+doPlot = 0
 if doPlot==1:
     plt.rcParams.update({
         "text.usetex": True,
