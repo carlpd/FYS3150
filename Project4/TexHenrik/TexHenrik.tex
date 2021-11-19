@@ -96,7 +96,8 @@ If you are familiar with \LaTeX\ and you want to learn more about the REVTeX4-1 
 % the fundamental components of scientific reports:
 \section{Introdukson}
 
-\section{Mal jeg må endre på}
+
+
 Vi starter med et $2\cross 2$ gitter og skal regne dette analytisk slik at vi kan gjøre en sammenlikning med vårt numeriske resultat. Vi ser at hver kombinasjon av ett spinn opp vil være en rotert versjon av de andre kombinasjonene av ett spinn opp. Den samme rotasjonsegenskapen ser vi med tre spinn opp, siden det også bare er ett spinn ned. Med to spinn opp derimot, ser vi at vi får flere kombinasjoner. Vi har igjen fire roterte versjoner hvor spinn opp-partiklene er ved siden av hverandre, men også to hvor de er diagonale til hverandre.
 For å finne energien vil vi trenge
 $$
@@ -185,6 +186,40 @@ Så vi får altså 5 mulige forskjeller i energi
 
 \section{Metode}
 \section{Resultater}
+
+For temperatur $T= 1 \; J/k_B$ så fikk vi at  
+
+Vi fikk grafene \autoref{Fig:5e1} og \autoref{Fig:5m1} for $T =  1 \; J/k_B $ hvor vi ser hvordan forventingsverdiene utvikler seg med hensyn på antall Monte Carlo sykluser. For $T = 2,4 \; J/kB$ så fikk vi plottene \autoref{Fig:5e24} og \autoref{Fig:5m24}. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{../Images/meanepsT1.0L20.pdf}
+\caption{Forventingsverdien av energien per spinn etter et antall Monte Carlo sykluser. Ser at den som starter fra tilfeldig spinnmatrise ender opp på samme steds som grunntilstandsmatrisen. Vi bruker det til å estimere burn-in tiden til systemet.}
+\label{Fig:5e1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{../Images/meanmT1.0L20.pdf}
+\caption{Forventingsverdien til magnetisering per spinn. Her er temperaturen $T=2.4 \; J/k_B$.}
+\label{Fig:5m1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{../Images/meanepsT2.4L20.pdf}
+\caption{Forventingsverdien av energien per spinn etter et antall Monte Carlo sykluser.}
+\label{Fig:5e24}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{../Images/meanmT2.4L20.pdf}
+\caption{Forventingsverdien til magentisering per spinn. Her er $T=2,4 \; J/k_B$.}
+\label{Fig:5m24}
+\end{figure}
+
+
 \section{Diskusjon}
 \section{Conklusjon}
 % acknowledgements (optional)

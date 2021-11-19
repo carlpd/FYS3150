@@ -51,20 +51,15 @@ void Ising2d::findeps(){
       double dep = s(i,j)*s(iover,j);
 
       ep_-=dep;
+      ep2_ = dep*dep;
       //ep2+=dep*dep;
 
       dep = s(i,j)*s(i,jover);
       ep_-=dep;
-      /*
-      dep=s(i,j)*s(i,junder);
-      ep+=dep;
-      ep2+=dep*dep;
-      */
+      ep2_= dep*dep
     }
   }
   std::cout<<ep_<<std::endl;
-  //ep_ =-ep_;
-  //ep2_=ep_*ep_;
   epsrun_=1;
 }
 
@@ -155,7 +150,7 @@ void Ising2d::makebreakstate(){
     S_(i,j)*=-1;
     ep_+=dE;
     M_+=2*S_(i,j);
-    ep2_=ep_*ep_;
+    ep2_+=dE*dE;
     M2_=M_*M_;
     //std::cout<<"Changed"<<std::endl;
   }
@@ -165,7 +160,7 @@ void Ising2d::makebreakstate(){
     ep_+=dE;
     //std::cout<<ep_<<std::endl;
     M_+=2*S_(i,j);
-    ep2_=ep_*ep_;
+    ep2_+=dE*dE;
     M2_=M_*M_;
     //std::cout<<"Changed"<<std::endl;
   }
