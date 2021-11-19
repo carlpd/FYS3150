@@ -12,14 +12,14 @@ int main(){
   int Lstart=40;
   int Lend=100;
   std::string filename;
-  filename="Txt/PerTemp.txt";
+  filename="Txt/PerTemp40.txt";
   std::ofstream f (filename, std::ofstream::out);
   arma::vec T=arma::linspace(Tstart, Tend, TN);
   #pragma omp parallel for
   for(int Ti=0;Ti<T.n_elem;Ti++){
     double T_in = T(Ti); /* [J/kb] */
     int omp_get_thread_num();
-    int L_in = 100; /* [-] */
+    int L_in = 40; /* [-] */
 
     Ising2d IS2D = Ising2d(T_in, L_in);
     int NumThread = omp_get_thread_num();
@@ -31,8 +31,17 @@ int main(){
     for(int a=0; a<=IS2D.N_*1000; a++){
       IS2D.makebreakstate();
     }
-    for(int a=IS2D.N_*1000; a<=IS2D.N_*2000; a++){
+    double TE=0;
+    double TE2=0;
+    double TM=0;
+    double TM2=0;
+    for(int a=IS2D.N_*1000; a<=IS2D.N_*500000; a++){
       IS2D.makebreakstate();
+      TE+=IS2D.ep_;
+      TE2+=IS2D.ep2_;
+      TM+=IS2D.M;
+      TM2+=IS2D.M2_;
+
     }
     // Step | eps | eps^2 | m | m^2
     f << T_in << " " << IS2D.ep_ << " " << IS2D.ep2_ << " ";
