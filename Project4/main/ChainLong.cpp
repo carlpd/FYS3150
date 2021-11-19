@@ -21,7 +21,7 @@ int main(){
     //std::cout<<T_in<<std::endl;
     Ttxt << std::to_string(T_in) << std::endl;
     int omp_get_thread_num();
-    int L_in = 40; /* [-] */
+    int L_in = 60; /* [-] */
 
     Ltxt << std::to_string(L_in) << std::endl;
 
