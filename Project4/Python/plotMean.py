@@ -17,7 +17,7 @@ mean_e = np.zeros_like(e)
 for i in range(len(s)):
     mean_e[i] = np.sum(e[:i])/s[i]
 fig = plt.figure(figsize=(10,8))
-plt.plot(s, mean_e)
+plt.plot(s/N, mean_e)
 plt.xlabel('Monte Carlo Cycles')
 plt.ylabel('$\\left <\\epsilon \\right>$')
 plt.title(f'$\\left <\\epsilon \\right >$ for $L={L}$, $T = {T}$')
@@ -29,7 +29,7 @@ mean_m = np.zeros_like(e)
 for i in range(len(s)):
     mean_m[i] = np.sum(m[:i])/s[i]
 fig = plt.figure(figsize=(10,8))
-plt.plot(s, mean_m)
+plt.plot(s/N, mean_m)
 plt.xlabel('Monte Carlo Cycles')
 plt.ylabel('$\\left < \\left |m \\right |\\right>$')
 plt.title(f'$\\left <\\left |m \\right | \\right >$ for $L={L}$')
