@@ -150,7 +150,7 @@ void Ising2d::makebreakstate(){
     S_(i,j)*=-1;
     ep_+=dE;
     M_+=2*S_(i,j);
-    ep2_+=dE*dE;
+    ep2_=ep_*ep_;
     M2_=M_*M_;
     //std::cout<<"Changed"<<std::endl;
   }
@@ -160,7 +160,7 @@ void Ising2d::makebreakstate(){
     ep_+=dE;
     //std::cout<<ep_<<std::endl;
     M_+=2*S_(i,j);
-    ep2_+=dE*dE;
+    ep2_=ep_*ep_;
     M2_=M_*M_;
     //std::cout<<"Changed"<<std::endl;
   }
