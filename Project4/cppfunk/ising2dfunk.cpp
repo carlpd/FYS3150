@@ -56,7 +56,7 @@ void Ising2d::findeps(){
 
       dep = s(i,j)*s(i,jover);
       ep_-=dep;
-      ep2_= dep*dep
+      ep2_= dep*dep;
     }
   }
   std::cout<<ep_<<std::endl;
