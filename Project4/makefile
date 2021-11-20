@@ -1,10 +1,10 @@
 ChainComp: ChainC Chainl ChainR
 
 ChainC:
-	g++ -c main/Chain.cpp cppfunk/ising2dfunk.cpp -larmadillo -O3 -std=c++11
+	g++ -c main/Chain.cpp cppfunk/ising2dfunk.cpp -larmadillo -std=c++11
 
 Chainl:
-	g++ Chain.o ising2dfunk.o -o Chain.out -larmadillo 
+	g++ Chain.o ising2dfunk.o -o Chain.out -larmadillo
 
 ChainR:
 	./Chain.out
@@ -12,7 +12,7 @@ ChainR:
 ChainLComp: ChainCL ChainlL ChainRL
 
 ChainCL:
-	g++ -c main/ChainLong.cpp cppfunk/ising2dfunk.cpp -larmadillo -fopenmp -O3 -std=c++11
+	g++ -c main/ChainLong.cpp cppfunk/ising2dfunk.cpp -larmadillo -fopenmp -std=c++11
 
 ChainlL:
 	g++ ChainLong.o ising2dfunk.o -larmadillo -fopenmp

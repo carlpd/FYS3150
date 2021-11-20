@@ -7,7 +7,7 @@ N=L**2
 C = float(sys.argv[2])
 
 L_range = np.loadtxt('../Txt/L.txt')
-T, e, e2, m, m2 = np.loadtxt(f'../Txt/PerTemp.txt', unpack=True)
+T, e, e2, m, m2 = np.loadtxt(f'../Txt/PerTemp40.txt', unpack=True)
 sort = np.argsort(T)
 T, e, e2, m, m2 = T[sort], e[sort]/C, e2[sort]/C, m[sort]/C, m2[sort]/C
 
