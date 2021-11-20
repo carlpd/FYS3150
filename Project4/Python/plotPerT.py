@@ -4,12 +4,11 @@ import sys
 K = 1
 L=int(sys.argv[1])
 N=L**2
-C = float(sys.argv[2])
 
 L_range = np.loadtxt('../Txt/L.txt')
-T, e, e2, m, m2 = np.loadtxt(f'../Txt/PerTemp.txt', unpack=True)
+T, e, e2, m, m2 = np.loadtxt(f'../Txt/PerTemp{L}.txt', unpack=True)
 sort = np.argsort(T)
-T, e, e2, m, m2 = T[sort], e[sort]/C, e2[sort]/C, m[sort]/C, m2[sort]/C
+T, e, e2, m, m2 = T[sort], e[sort], e2[sort], m[sort], m2[sort]
 
 Cv = 1/N*(1/(K*T**2))*(e2-e**2)
 X = 1/N*(1/(K*T**2))*(m2-m**2)
