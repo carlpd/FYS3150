@@ -12,7 +12,7 @@ int main(){
   int Lstart=40;
   int Lend=100;
   std::string filename;
-  filename="Txt/PerTemp80.txt";
+  filename="Txt/PerTemp40.txt";
   std::ofstream f (filename, std::ofstream::out);
   arma::vec T=arma::linspace(Tstart, Tend, TN);
   #pragma omp parallel for
@@ -20,7 +20,7 @@ int main(){
     double T_in = T(Ti); /* [J/kb] */
     std::cout<<T_in<<std::endl;
     int omp_get_thread_num();
-    int L_in = 80; /* [-] */
+    int L_in = 40; /* [-] */
 
     Ising2d IS2D = Ising2d(T_in, L_in);
     int NumThread = omp_get_thread_num();
