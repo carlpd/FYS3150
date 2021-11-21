@@ -28,19 +28,19 @@ int main(){
     arma::imat dummyS = IS2D.makerandomspins(DivRand);
 
     IS2D.findall();
-    long double samplestart=1000*1.0*IS2D.N_;
+    float samplestart=1000*1.0*IS2D.N_;
     //std::cout<<"N"<<IS2D.N_<<std::endl;
-    long double samplen=IS2D.N_*1.0*500000;
+    float samplen=IS2D.N_*1.0*500000;
     std::cout<<"N"<<IS2D.N_<<std::endl;
     std::cout<<"end"<<samplen<<std::endl;
-    for(int a=0; a<=samplestart; a++){
+    for(float a=0; a<=samplestart; a++){
       IS2D.makebreakstate();
     }
     double TE=0;
     double TE2=0;
     double TM=0;
     double TM2=0;
-    for(int b=samplestart; b<=samplen; b++){
+    for(float b=samplestart; b<=samplen; b++){
       //std::cout<<TE<<std::endl;
       IS2D.makebreakstate();
       TE+=IS2D.ep_;
