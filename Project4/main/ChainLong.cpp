@@ -34,7 +34,7 @@ int main(){
     std::cout<<"N"<<IS2D.N_<<std::endl;
     std::cout<<"end"<<samplen<<std::endl;
     for(int a=0; a<=samplestart; a++){
-      for(int b=0; b<=IS2D.N; b++){
+      for(int b=0; b<=IS2D.N_; b++){
         IS2D.makebreakstate();
       }
     }
@@ -43,7 +43,7 @@ int main(){
     double TM=0;
     double TM2=0;
     for(int c=samplestart; c<=samplen; c++){
-      for(int d=0; d<=IS2D.N; d++){
+      for(int d=0; d<=IS2D.N_; d++){
         //std::cout<<TE<<std::endl;
         IS2D.makebreakstate();
         TE+=IS2D.ep_;
@@ -53,7 +53,7 @@ int main(){
       }
     }
     std::cout<<"Kom seg hit"<<std::endl;
-    int sampledif=(samplen-samplestart);
+    int sampledif=(samplen-samplestart)*IS2D.N_;
     TE=TE/(sampledif);
     TE2=TE2/(sampledif);
     TM=TM/(sampledif);
