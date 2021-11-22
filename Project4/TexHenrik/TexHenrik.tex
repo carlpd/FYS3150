@@ -1,4 +1,4 @@
-\documentclass[reprint,english,notitlepage]{revtex4-1}  % defines the basic parameters of the document
+\documentclass[reprint,english,notitlepage]{revtex4-2}  % defines the basic parameters of the document
 
 % if you want a single-column, remove reprint
 
@@ -90,7 +90,7 @@ this abstract is abstract.                % the body of the abstract
 % the fundamental components of scientific reports:
 \section{Introdukson}
 
-Store systemer er ofte styrt av en kaotisk sammling med tilfeldige hendelser. Det blir da fort umulig å kartlegge alle mulige tilstander og sannsynligheten for hver enkelt av dem. Derimot, ved å kun se på et utvalg av tilstander så kan man finne egenskaper ved systemet uten å ha hele bildet. For eksempel ved simulæringer av smittespredning så bruker man slike metoder for store systemer med mange mulige hendelser. I denne artikkelen så skal vi finne forskjellige egenskaper ved et system ved hjelp av Monte Carlo metoden. Lenz-Ising modellen er oppkalt etter de tyske fysikerene Ersnt Ising og Willhelm Lenz, som ble oppfunnet av Willhelm Lenz i 1920. Modellen går ut på at man har et gitte rmed spinn som kan tilfeldig flippe opp eller ned. Vi skal se på hvordan forskjellige egenskaper til et materiale modellert av Ising modellen endrer seg med tempeartur og størrelse. I teori delen så intorduserer vi det nødvendige bakgrunnsstoffet, i metodedelen så ser vi mer konkret på hva vi skal gjør og i resultat og diskusjonsdelen så presenterer og diskuterer vi hva vi fant. 
+Store systemer er ofte styrt av en kaotisk samling med tilfeldige hendelser. Det blir da fort umulig å kartlegge alle mulige tilstander og sannsynligheten for hver enkelt av dem. Derimot, ved å kun se på et utvalg av tilstander så kan man finne egenskaper ved systemet uten å ha hele bildet. For eksempel ved simulæringer av smittespredning så bruker man slike metoder for store systemer med mange mulige hendelser. I denne artikkelen så skal vi finne forskjellige egenskaper ved et system ved hjelp av Monte Carlo metoden. Lenz-Ising modellen er oppkalt etter de tyske fysikerene Ersnt Ising og Willhelm Lenz, som ble oppfunnet av Willhelm Lenz i 1920. Modellen går ut på at man har et gitte rmed spinn som kan tilfeldig flippe opp eller ned. Vi skal se på hvordan forskjellige egenskaper til et materiale modellert av Ising modellen endrer seg med tempeartur og størrelse. I teori delen så intorduserer vi det nødvendige bakgrunnsstoffet, i metodedelen så ser vi mer konkret på hva vi skal gjør og i resultat og diskusjonsdelen så presenterer og diskuterer vi hva vi fant. 
 
 \section{Teori}
 Vi skal regne for tilstander $\mathbf{s}$ gitt som et 2D $L\cross L$ gitter med partikler $s_i$ som enten kan ha tilstanden spinn opp eller spinn ned. Vi setter at dersom $s_i$ har tilstanden spinn opp så er $s_i=+1$ og hvis $s_i$ har spinn ned er $s_i=-1$. Vi vil bruke periodiske grensebetingelser slik at naboen til $s_1$ som er lengst til venstre vil har $s_L$ som er lengst til høyre som sin venstre nabo. Det samme gjelder da lodrett, så den øverste spinnet vil ha den nederste parikkelen som sin nabo. I dette forsøket antar vi at ved å bruke Hamiltonianeren på en slik state gir energien
@@ -189,7 +189,7 @@ Vi sammenliknger de numeriske resultatene vi får for $T = 1,0 \; J/k_B$ og $L =
 
 \subsection*{Forventingsverdier for forksjellige $L$}
 
-Først så paralelliserer vi koden vår over temperaturene med OpenMP, og tester den med å sette opp en litenutregning hvor den kjører over 10 temperaturer og går igjennom 5000 Monte Carlo sykluser med $L = 10$. Vi tar så videre å kjører for $L = 40$, $L = 60$ og $L = 100$ over 500 000 Monte Carlo sykluser med 100 temperatursteg for $L = 40$ og $L = 60$, men 50 steg for $L = 100$. For de to første størrelsene så ser vi på $T = [2.1, 2.4] \; J/k_B$ og for $L = 100$ så setter vi $T = [2.2, 2.4] \; J/k_B$.
+Først så paralelliserer vi koden vår over temperaturene med OpenMP, og tester den med å sette opp en litenutregning hvor den kjører over 10 temperaturer og går igjennom 5000 Monte Carlo sykluser med $L = 10$. Vi tar så videre å kjører for $L = 40$, $L = 60$ og $L = 100$ over 500 000 Monte Carlo sykluser med 100 temperatursteg for $L = 40$ og $L = 60$, men 50 steg for $L = 100$. Dette gjør vi også som en slags parallellisering, da vi fordeler de forskjellige verdiene for $L$ over flere PCer. For de to første størrelsene så ser vi på $T = [2.1, 2.4] \; J/k_B$ og for $L = 100$ så setter vi $T = [2.2, 2.4] \; J/k_B$.
 
 \section{Resultater}
 
@@ -210,7 +210,7 @@ $$ C_v \approx 0.04$$
 $$ X \approx 0.005$$
 
 
-\subsection*{Forventningsverdie for energi og magnetisme per sinn}
+\subsection*{Forventningsverdier for energi og magnetisme per spinn}
 
 Vi fikk grafene \autoref{Fig:5e1} og \autoref{Fig:5m1} for $T =  1 \; J/k_B $ hvor vi ser hvordan forventingsverdiene utvikler seg med hensyn på antall Monte Carlo sykluser. For $T = 2,4 \; J/kB$ så fikk vi plottene \autoref{Fig:5e24} og \autoref{Fig:5m24}. 
 
@@ -317,12 +317,12 @@ Om vi sammenlikner plottet for $\left < \epsilon \right > (T)$ (\autoref{Fig:eps
 
 Magnetiseringen (\autoref{Fig:mAll} har stor varisjon ved temperaturer mellom $T = 2,1 \; J/k_B$ til $T = 2,25 \; J/k_B$. Etter det så stabiliserer den gjennomsnitlige magnetiseringen seg rundt $ \expval(m) = 0$. Vi ser at magnetiseringen begynner å stabilserer seg senere for større $L$, og den ser også ut til stabilisere seg raskere for større $L$ også, men det er ikke helt tydelig med kun de tre grafene vi har. susceptibiliteten også tydelig endring ved økning av $L$, hvor grafen blir spissere og maksverdien ser ut til å øke eksponentsielt. Det ville gitt mening siden ved påvirkning av et magnetfelt, så vil det være $N = L^2$ spinn som bidrar til den totale magnetiseringen når alle spinnene retter seg etter det eksterne magnetfeltet. Vi ser at maksverdien til permabiliteten ser ut til å følge $N = L^2$ for $L = 40$ og $L = 60$, men ikke for $L = 100$, noe som ikke virker helt riktig. susceptibiliteten følger tydelig av hvor magnetiseringen begynner å stabilisere seg og hvor lang tid den bruker på å komme seg ned til $\expval{m} = 0$. 
 
-For varmekapsiteten (\autoref{Fig:CvAll}) så forventet vi egentlig at maksimumet til grafen skulle øke og bli spissere ved økning av $L$, men kan være at det er fordi vi har for få temperatursteg  Men siden  $T_c$ ikke er avhening av hvor høyt topppunktet til grafen er, så bruker vi dataene for $L = 100$ i beregningene av $T \left ( L = \infty \right ) $ også. Med det så fikk vi en verdi nærme den analtyske verdien funnet av Lars Onsager: $T \left ( L = \infty \right ) \approx 2,269 \; J/k_B$.
+For varmekapsiteten (\autoref{Fig:CvAll}) så forventet vi egentlig at maksimumet til grafen skulle øke og bli spissere ved økning av $L$, men kan være at det er fordi vi har for få temperatursteg  Men siden  $T_c$ ikke er avhening av hvor høyt topppunktet til grafen er, så bruker vi dataene for $L = 100$ i beregningene av $T \left ( L = \infty \right ) $ også. Med det så fikk vi en verdi nærme den analtyske verdien funnet av Lars Onsager i 1944(Hjort-Jensen, 2015,s.415): $T \left ( L = \infty \right ) \approx 2,269 \; J/k_B$.
 
 
 \section{Conklusjon}
 % acknowledgements (optional)
-\begin{acknowledgments}  % if you disagree with the spelling, blame Americans
+\begin{acknowledgments}  % if you disagree with4 the spelling, blame Americans
 I would like thank myself for writing this beautiful document.
 \end{acknowledgments}
 
@@ -332,7 +332,7 @@ I would like thank myself for writing this beautiful document.
 %% I'll keep it simple here.
 \section*{References}  % the asterisk (*) after \section makes the section numbering go away
 \begin{itemize}
-\item[-]Reference 1
+\item[-]Hjort-Jensen, Morten, $Computational$ $Physics:$ $Lecture Notes 2015$, 2015, \url{https://raw.githubusercontent.com/CompPhysics/ComputationalPhysics/master/doc/Lectures/lectures2015.pdf}
 \item[-]Reference 2
 \end{itemize}
 
