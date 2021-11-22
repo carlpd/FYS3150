@@ -12,7 +12,7 @@ int main(){
   int Lstart=40;
   int Lend=100;
   std::string filename;
-  filename="Txt/PerTemp40.txt";
+  filename="Txt/v2PerTemp60.txt";
   std::ofstream f (filename, std::ofstream::out);
   arma::vec T=arma::linspace(Tstart, Tend, TN);
   #pragma omp parallel for
@@ -20,7 +20,7 @@ int main(){
     double T_in = T(Ti); /* [J/kb] */
     std::cout<<T_in<<std::endl;
     int omp_get_thread_num();
-    int L_in = 40; /* [-] */
+    int L_in = 60; /* [-] */
 
     Ising2d IS2D = Ising2d(T_in, L_in);
     int NumThread = omp_get_thread_num();
@@ -28,19 +28,19 @@ int main(){
     arma::imat dummyS = IS2D.makerandomspins(DivRand);
 
     IS2D.findall();
-    float samplestart=1000*1.0*IS2D.N_;
+    int samplestart=1000*1.0*IS2D.N_;
     //std::cout<<"N"<<IS2D.N_<<std::endl;
-    float samplen=IS2D.N_*1.0*500000;
+    int samplen=IS2D.N_*1.0*500000;
     std::cout<<"N"<<IS2D.N_<<std::endl;
     std::cout<<"end"<<samplen<<std::endl;
-    for(float a=0; a<=samplestart; a++){
+    for(int a=0; a<=samplestart; a++){
       IS2D.makebreakstate();
     }
     double TE=0;
     double TE2=0;
     double TM=0;
     double TM2=0;
-    for(float b=samplestart; b<=samplen; b++){
+    for(int b=samplestart; b<=samplen; b++){
       //std::cout<<TE<<std::endl;
       IS2D.makebreakstate();
       TE+=IS2D.ep_;
