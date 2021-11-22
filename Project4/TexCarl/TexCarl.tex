@@ -239,14 +239,53 @@ $$
 \expval{\epsilon}=\sum_{s}p(s)\frac{E(s)}{N}=\sum_{s}\frac{e^{-\beta E(s)}E(s)}{N}
 $$
 $$
-\expval{\epsilon}=\frac{-8Je^{8J}\cdot 2 + 8Je^{-\beta 8J}\cdot 2}{NZ}=\frac{-16}{NZ}(e^{8\beta J}-e^{-8\beta J})$$$$\expval{\epsilon}=-\frac{-16 J}{4Z}2\sinh(8\beta J)=\frac{-8J}{Z}\sinh(8J\beta)
+\expval{\epsilon}=\frac{-8Je^{8J}\cdot 2 + 8Je^{-\beta 8J}\cdot 2}{NZ}=\frac{-16J}{NZ}(e^{8\beta J}-e^{-8\beta J})$$$$\expval{\epsilon}=-\frac{-16 J}{4Z}2\sinh(8\beta J)=\frac{-8J}{Z}\sinh(8J\beta)
 $$
 Så finner vi $\expval{\epsilon^2}$ med 
 $$
 \expval{\epsilon^2}=\sum_{s}\frac{E(s)^2}{N^2}p(s)=\sum_{s}e^{-\beta E(s)}\frac{E(s)^2}{N^2Z}
 $$
-
-
+$$
+\expval{\epsilon^2}=\frac{2(8J)^2e^{8J\beta}+2(8J)^2e^{-8J\beta}}{N^2Z}=\frac{2(8J)^2}{N^2Z}\cosh(8J\beta)
+$$
+$$
+\expval{\epsilon^2}=4(\frac{8J}{4})^2\cosh(8J\beta)=\frac{16J^2}{Z}\cosh(8J\beta)
+$$
+Så kan vi bruke disse til å finne
+$$
+C_V=\frac{1}{Nk_BT^2}(\expval{E^2}-\expval{E}^2)
+$$
+Hvor 
+$$\expval{E}^2=(\expval{\epsilon\cdot N})^2=\expval{\epsilon}\cdot N)^2=(\frac{-8J\cdot 4}{Z}\sinh(8J\beta))^2$$så $$\expval{E}^2=(\frac{32J}{Z})^2\sinh^2(8J\beta)
+$$
+Mens
+$$
+\expval{E^2}=\expval{(\epsilon^2\cdot N^2)}=\frac{16^2J^2}{Z}\cosh(0J\beta)
+$$
+så vi får at
+$$
+C_V=\frac{1}{Nk_BT^2}(\frac{16^2J^2}{Z}\cosh(0J\beta)-(\frac{32J}{Z})^2\sinh^2(8J\beta))
+$$
+Så finner vi magnetiseringen
+$$
+\expval{|M|}=\sum_s |M(s)|p(s)=\frac{4e^{8J}+2e^0 +2e^0 +4e^{8J}}{Z}=4\frac{1+2e^{8J}}{Z}
+$$
+så 
+$$
+\expval{|m|}=\expval{\frac{|M|}{N}}=\frac{4}{4}\frac{1+2e^{8J\beta}}{Z}=\frac{1+2e^{8J\beta}}{Z}
+$$
+Så har vi
+$$
+\expval{M^2}=\sum_s M(s)^2p(s)=\frac{16e^{8J\beta+4+4+16e^{8J\beta}}}{Z}=8\frac{1+2e^{8J\beta}}{Z}
+$$
+så
+$$
+\expval{m^2}=\frac{8}{16}\frac{1+2e^{8J\beta}}{Z}=\frac{1+2e^{8J\beta}}{2Z}
+$$
+Da får vi at
+$$
+\chi 
+$$
 \section{This is another appendix}\label{appendix}
 Tada.
 %% all \section commands following \appendix are automatically taken as appendices

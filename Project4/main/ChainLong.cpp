@@ -54,7 +54,7 @@ int main(){
       }
     }
     std::cout<<"Kom seg hit"<<std::endl;
-    int sampledif=(samplen-samplestart);
+    int sampledif=(samplen-samplestart)*IS2D.N_;
     TE=TE/(sampledif);
     TE2=TE2/(sampledif);
     TM=TM/(sampledif);
