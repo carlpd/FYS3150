@@ -187,7 +187,9 @@ Så vi får altså 5 mulige forskjeller i energi
 \section{Metode}
 \section{Resultater}
 
-For temperatur $T= 1 \; J/k_B$ så fikk vi at  
+
+
+\subsection*{Forventningsverdie for energi og magnetisme per sinn}
 
 Vi fikk grafene \autoref{Fig:5e1} og \autoref{Fig:5m1} for $T =  1 \; J/k_B $ hvor vi ser hvordan forventingsverdiene utvikler seg med hensyn på antall Monte Carlo sykluser. For $T = 2,4 \; J/kB$ så fikk vi plottene \autoref{Fig:5e24} og \autoref{Fig:5m24}. 
 
@@ -201,26 +203,31 @@ Vi fikk grafene \autoref{Fig:5e1} og \autoref{Fig:5m1} for $T =  1 \; J/k_B $ hv
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{../Images/meanmT1.0L20.pdf}
-\caption{Forventingsverdien til magnetisering per spinn. Her er temperaturen $T=2.4 \; J/k_B$.}
+\caption{Forventingsverdien til magnetisering per spinn for $T=2.4 \; J/k_B$ og $L=20$. Den tilfeldige $s_0$ starter på en høy energi imens grunntilstanden starter med alle spinn opp for å ha den laveste energien.}
 \label{Fig:5m1}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{../Images/meanepsT2.4L20.pdf}
-\caption{Forventingsverdien av energien per spinn etter et antall Monte Carlo sykluser.}
+\caption{Forventingsverdien av energien per spinn etter et antall Monte Carlo sykluser. Her er temperatur $T = 2.4 \; J/k_B}$ og $L=20$. Selv om for høyere temperaturer så vil ikke alle spinn opp være den laveste energitilstanden så bruker vi den som en referansentilstand. 
 \label{Fig:5e24}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{../Images/meanmT2.4L20.pdf}
-\caption{Forventingsverdien til magentisering per spinn. Her er $T=2,4 \; J/k_B$.}
+\caption{Forventingsverdien til magentisering per spinn. Her er $T=2,4 \; J/k_B$ og $L = 20$. Vi har brukt 500 000 Monte Carlo sykluser for hver instans av Ising modellen med forskjellige temperaturer. }
 \label{Fig:5m24}
 \end{figure}
 
 
 \section{Diskusjon}
+
+\subsection*{Forventningsverdie for energi og magnetisme per sinn}
+
+Vi vet at forventingsverdien for energien per spinn skal være $\left < \epsilon \right > = -2 \; J\kB$ ved , som vi har funnet analytisk. Det stemmer godt overens med de numeriske resultatene som vi ser i \autoref{Fig:5e1} og \autoref{Fig:5e24} hvor vi den tilfeldige initialstilstanden møter tilstanden med alle spinn opp ved å flate ut ved $\left < \epsilon \right > 'approx -2 \; J\kB$. Ved å se på grafene så velger vi burn-in tiden som 1000 Monte Carlo sykluser. 
+
 \section{Conklusjon}
 % acknowledgements (optional)
 \begin{acknowledgments}  % if you disagree with the spelling, blame Americans
