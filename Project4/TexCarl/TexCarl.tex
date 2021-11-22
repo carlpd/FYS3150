@@ -194,7 +194,26 @@ A(x_i\rightarrow x')=min(1, \frac{p(x')}{p(x_i)})
 $$
 \subsection{Burn-in tiden}
 I starten vil vi sannsynligvis se at tilstanden faller ganske kraftig i starten før den mykner ut. Denne delen kalles burn-in tiden og er tiden før den nærmer seg en stabil fase. Selv om vi i teorien burde ha med alle mulige faser for å få riktige forventningsverdier, vil vi droppe verdiene som kommer innen denne tiden. Dette er fordi disse verdiene er så store at det skaper en så stor vekt, mens det kan være like mange verdier av motsatte verdier som ikke blir sjekket. Dessuten er det en mye større sannsynlighet for å være i den stabile enn den ustabile fasen og siden vi ikke sjekker alle, så utelukker vi de som driver den numeriske forventningsverdien bort fra den reelle.
+\subsection{Parallellisering}
+I dette prosjektet vil vi bruke parallellisering på datamaskinen for å spare tid. Parallellisering er kort forklart at man bruker flere kjerner på datamaskinen til å gjøre operasjoner samtidig. Datamaskinen deler altså oppgaven i mindre oppgave som den kjører i parallelle tråder istedenfor å bare kjøre den i serie i en enkelt tråd. Vi definerer nå $T_1$ som tiden det vil ta med en enkelt tråd og $T_n$ som tiden det vil ta med $n$ tråder. Da får vi at tidsforksjellen blir $\frac{T_1}{T_n}$. I et ideelt tilfelle hvor maksinen ikke bruker noe tid på å fordele oppgaver og alle tråder er like effektive har vi:
+$$
+T_n=\frac{T_1}{n}
+$$
+Da får vi at
+$$
+\frac{T_1}{T_n}=\frac{T_1}{\frac{T_1}{n}}=n
+$$
+Men vanligvis får vi ikke et slikt ideelt tilfelle. Uansett vil ikke engang en uendelig parallellisering gjøre det uendelig fort. Det vil finnes en grense. Vi vil kunne ha noen utregninger som ikke kan parallelliseres, men må gjøre i serie, gitt ved $1-f$. På en enkelt tråd vil dette gå som $$T_1=(1-f)T_1+fT_1$$, mens det $n$ tråder vil ha tiden $$T_n=(1-f)T_1+f\frac{T_1}{n}$$. Vi får da at økningen i hastighet ved parallellisering blir
+$$
+\frac{T_1}{T_n}=\frac{T_1}{(1-f)T_1+f\frac{T_1}{n}}=\frac{1}{(1-f)+\frac{f}{n}}
+$$
+Når vi da har uendelig med tråder vil vi få
+$$
+\lim_{n\rightarrow \infty}\frac{T_1}{T_n}=\lim_{n\rightarrow \infty}\frac{1}{(1-f)+\frac{f}{n}}=\frac{1}{1-f}
+$$
+og vi ser at det er en minimumsgrense for hvor fort parallellisering kan gå. I våres tilfeller har vi bare 4 eller 8 kjerner og like mange tråder, så vi vil ikke være i nærheten av å nå dette tallet.
 \section{Metode}
+\subsection{Monte Carlo syklusen}
 Vi lager først en kode som enten kan starte med alle spinn opp eller starte med alle spinnene tilfeldig fordelt mellom opp og ned. Herfra kan vi gjøre en Markov-kjede Monte Carlo(MCMC) ved å lage en forsøkstilstand hvor vi flipper ett tilfeldig spinn i den forrige tilstanden og ser om denne blir akseptert. Hvis den blir akseptert gjør vi dette til den nye tilstanden. Hvis den ikke blir akseptert, forkaster vi den. Vi husker fra teorien av sannsynligheten for å akseptere spinnflipp var gitt som
 $$
 A(s_i\rightarrow s')=min(1, \frac{p(s')}{p(s_i)})
@@ -210,6 +229,8 @@ $$
 og vi husker fra teorien at det bare var 5 verdier som $\Delta E$ kunne ha. Vi kan trenger derfor kun å finne $\Delta E$ for hver gang og ha lagret $e^{-\Delta E \beta}$ og trekke ut hvilken vi trenger avhenig av $\Delta E$. Dersom $\Delta E<0$ ser vi at $e^{-\Delta E \beta}>1$ så for $\Delta E=(-4J, -8J)$ så vil vi alltid akseptere denne energien. I dette prosjektet vil vi normalisere slik at $[E]=J$, $[T]=\frac{J}{k_B}$ osv.
 \subsection{Burn-in tiden}
 Av \autoref{Fig:5e1} ser vi fortsatt at funskjonen starter ganske langt fra en god tilstand. Derfor vil vi ikke starte på initialtilstanden, men heller etter 1000 Monte Carlo syklus. Altså etter burn-in perioden fra teoridelen. Her begynner tallene å bli mer rolige og kan være nærmere en forventningsverdi. Én Monte Carlo syklus er definert som $L\cdot L=N$ antall forsøk på flipper.
+\subsection{Sannsynlighetsfordelingen}
+Vi skal så finne sansynlighetsfordelingen. Denne finner vi ved å lage et histogram av alle syklusene, inludert burn-in tiden. Dette gir oss en gjenkonstruksjon av sannsynlighetsfordeling.
 \section{Resultater}
 \begin{figure}[H]
 	\centering
