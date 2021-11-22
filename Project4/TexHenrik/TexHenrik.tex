@@ -15,7 +15,8 @@
 \usepackage{hyperref}         % automagic cross-referencing (this is GODLIKE)
 \usepackage{tikz}             % draw figures manually
 \usepackage{listings}         % display code
-\usepackage{subfigure}        % imports a lot of cool and useful figure commands
+\usepackage{subfigure}   
+\usepackage{float}  % imports a lot of cool and useful figure commands
 
 % defines the color of hyperref objects
 % Blending two colors:  blue!80!black  =  80% blue and 20% black
@@ -184,10 +185,45 @@ $$
 $$
 Så vi får altså 5 mulige forskjeller i energi
 
+\subsection*{Finne $T_c \left ( L = \infty \right ) $ med finite datasett}
+
+Lars Onsager sien analytiske resultater gir oss relasjonen:
+
+$$ T_c \left ( L \right ) - T_c \left ( L = \infty \right ) = aL^{-1}$$
+
+Om vi ganger med $L$ på begge side så får kan vi skrive at
+
+\begin{equation}\label{Tinf}
+T_c \left (L \right ) L = T_c \left ( L = \infty \right ) + a \; .
+\end{equation}
+
+Som vil si at $T_c \left ( L = \infty \right ) $ er gitt ved stigningstallet til linjen gitt ved $T_c \left ( L \right ) L $.  
+
 \section{Metode}
+
+\subsection*{Forventingsverdier for forksjellige $L$}
+
+Først så paralelliserer vi koden vår med OpenMP, og tester den med å sette opp en litenutregning hvor den kjører over 10 temperaturer og går igjennom 5000 Monte Carlo sykluser med $L = 10$. Vi tar så videre å kjører for $L = 40$, $L = 60$ og $L = 100$ over 500 000 Monte Carlo sykluser med 100 temperatursteg for $L = 40$ og $L = 60$, men 50 steg for $L = 100$. For de to første størrelsene så ser vi på $T = [2.1, 2.4] \; J/k_B$ og for $L = 100$ så setter vi $T = [2.2, 2.4] \; J/k_B$.
+
 \section{Resultater}
 
+For $T = 1.0 \; J/k_B$ og $L = 20$, så fikk vi sannsynligehtsfordelingen som vist i \autoref{Fig:Den1}. 
 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5, trim 2.5cm 0 0 0]{../Images/T100L20.pdf}}
+\caption{Histogram og følgende sannsynlighetsfordeling for $T = 1,0 \; J/k_B$ og $L = 20$.}
+\label{Den1}
+\end{figure}
+
+For $ T = 2,4 \; J/k_B$ og $L = 20$ så fikk vi grafen i \autoref{Fig:Den2}:
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4, trim 2.5cm 0 0 0]{../Images/T240L20.pdf}
+\caption{Histogram og følgende sannsynlighetsfordeling for $T = 2,4 \; J/k_B$ og $L = 20$.}
+\label{Den2}
+\end{figure}
 
 \subsection*{Forventningsverdie for energi og magnetisme per sinn}
 
@@ -195,38 +231,89 @@ Vi fikk grafene \autoref{Fig:5e1} og \autoref{Fig:5m1} for $T =  1 \; J/k_B $ hv
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.4]{../Images/meanepsT1.0L20.pdf}
+\includegraphics[scale=0.4, trim=1.7cm 0 0 0 ]{../Images/meanepsT1L20.pdf}
 \caption{Forventingsverdien av energien per spinn etter et antall Monte Carlo sykluser. Ser at den som starter fra tilfeldig spinnmatrise ender opp på samme steds som grunntilstandsmatrisen. Vi bruker det til å estimere burn-in tiden til systemet.}
 \label{Fig:5e1}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.4]{../Images/meanmT1.0L20.pdf}
+\includegraphics[scale=0.4, trim=1.7cm 0 0 0 ]{../Images/meanmT1L20.pdf}
 \caption{Forventingsverdien til magnetisering per spinn for $T=2.4 \; J/k_B$ og $L=20$. Den tilfeldige $s_0$ starter på en høy energi imens grunntilstanden starter med alle spinn opp for å ha den laveste energien.}
 \label{Fig:5m1}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.4]{../Images/meanepsT2.4L20.pdf}
-\caption{Forventingsverdien av energien per spinn etter et antall Monte Carlo sykluser. Her er temperatur $T = 2.4 \; J/k_B}$ og $L=20$. Selv om for høyere temperaturer så vil ikke alle spinn opp være den laveste energitilstanden så bruker vi den som en referansentilstand. 
+\includegraphics[scale=0.4, trim=1.7cm 0 0 0 ]{../Images/meanepsT24L20.pdf}
+\caption{Forventingsverdien av energien per spinn etter et antall Monte Carlo sykluser. Her er temperatur $T = 2.4 \; J/k_B$ og $L=20$. Selv om for høyere temperaturer så vil ikke alle spinn opp være den laveste energitilstanden så bruker vi den som en referansentilstand. }
 \label{Fig:5e24}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.4]{../Images/meanmT2.4L20.pdf}
+\includegraphics[scale=0.4, trim=2.5cm 0 0 0 ]{../Images/meanmT24L20.pdf}
 \caption{Forventingsverdien til magentisering per spinn. Her er $T=2,4 \; J/k_B$ og $L = 20$. Vi har brukt 500 000 Monte Carlo sykluser for hver instans av Ising modellen med forskjellige temperaturer. }
 \label{Fig:5m24}
 \end{figure}
 
+\subsection*{Forventingsverdier for forksjellige $L$}
+
+Ved paralelliseringen av koden så finner vi at for en kort utregning at paralelliseringen er 2,6 ganger raskere enn ikke parallellisert. Vi kjørte for $L = 40$, $L = 60$ og $L = 100$ og fikk følgende plot for forventningsverdien av energi per spinn:
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4, trim=2.5cm 0 0 0 ]{../Images/epsPerTAll.pdf}
+\caption{Vi ser på forkjellige temperaturer $T [2.1, 2.4] \; J/k_B$ og ser hva forventingsverdien for energi per spinn blir etter 500 000 Monte Carlo sykluser. $L = 40$ og $L = 60$ har 100 tempratursteg imens $L = 100$ kun har 50. For $L = 100$ kjørte vi også kun over $ T = [2.2, 2.4] \; J/k_B$.}
+\label{Fig:epsAll}
+\end{figure}
+
+For $\expval{|m|}$ så fikk vi:
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4, trim=2.5cm 0 0 0 ]{../Images/mPerTAll.pdf}
+\caption{Vi ser på forkjellige temperaturer $T [2.1, 2.4] \; J/k_B$ og ser hva forventingsverdien for absoluttverdien av magnetiserrng per spinn blir etter 500 000 Monte Carlo sykluser. $L = 40$ og $L = 60$ har 100 tempratursteg imens $L = 100$ kun har 50. For $L = 100$ kjørte vi også kun over $ T = [2.2, 2.4] \; J/k_B$.}
+\label{Fig:mAll}
+\end{figure}
+
+Og for $C_v$ (\autoref{Fig:CvAll}) og $X$ (\autoref{Fig:XAll}):
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4, trim=2.5cm 0 0 0 ]{../Images/CvPerTAll.pdf}
+\caption{Vi ser på forkjellige temperaturer $T [2.1, 2.4] \; J/k_B$ og ser hva forventingsverdien for varmekapasiteten blir etter 500 000 Monte Carlo sykluser. $L = 40$ og $L = 60$ har 100 tempratursteg imens $L = 100$ har 50 steg. For $L = 100$ kjørte vi også kun over $ T = [2.2, 2.4] \; J/k_B$.}
+\label{Fig:CvAll}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4, trim=2.5cm 0 0 0 ]{../Images/XPerTAll.pdf}
+\caption{Vi ser på forkjellige temperaturer $T [2.1, 2.4] \; J/k_B$ og ser hva forventingsverdien for permaebiliteten blir etter 500 000 Monte Carlo sykluser. $L = 40$ og $L = 60$ har 100 tempratursteg imens $L = 100$ har 50 steg. For $L = 100$ kjørte vi også kun over $ T = [2.2, 2.4] \; J/k_B$.}
+\label{Fig:XAll}
+\end{figure}
+
+Vi finner maksiumemene til $C_v$ for de forskjellige $L$ og bruker likningen til $T\left ( L \right ) L$, \eqref{Tinf}, for å finne $T \left ( L = \infty \right )$, og får at:
+
+$$ T \left ( L = \infty \right ) \approx 2,28 \; J/k_B \pm 0,06 \; J/k_B$$   
 
 \section{Diskusjon}
 
+
+
 \subsection*{Forventningsverdie for energi og magnetisme per sinn}
 
-Vi vet at forventingsverdien for energien per spinn skal være $\left < \epsilon \right > = -2 \; J\kB$ ved , som vi har funnet analytisk. Det stemmer godt overens med de numeriske resultatene som vi ser i \autoref{Fig:5e1} og \autoref{Fig:5e24} hvor vi den tilfeldige initialstilstanden møter tilstanden med alle spinn opp ved å flate ut ved $\left < \epsilon \right > 'approx -2 \; J\kB$. Ved å se på grafene så velger vi burn-in tiden som 1000 Monte Carlo sykluser. 
+Vi vet at forventingsverdien for energien per spinn skal være $\left < \epsilon \right > = -2 \; J/k_B$ ved , som vi har funnet analytisk. Det stemmer godt overens med de numeriske resultatene som vi ser i \autoref{Fig:5e1} hvor vi den tilfeldige initialstilstanden møter tilstanden med alle spinn opp ved å flate ut ved $\left < \epsilon \right > \approx -2 \; J/kB$. For $T = 2.4 \; J/k_B$ (\autoref{Fig:5e24}) så ser vi at den derimot ikke flater ut ved $ \epsilon = -2$, men ved $\epsilon \approx -1.2 $, noe som vil si at ved $T = 2.4 \; J/k_B$ så er ikke tilstaden med lavest energi lenger den mest sannsynlige tilstaden. Tenker det gir mening ved at siden systemet har høyere temperatur, altså høyere gjennomsnitlig energi, så vil forventingsverdien av energi per spinn også løftes opp. I plottet for $\left < \epsilon \right >$ ved $T = 2.4  \; J/k_B$ (\autoref{Fig:5e24} så ser vi at det er større variasjon rundt ekvivalenslinjen enn ved grafen ved $T = 1 \; J/k_B$. Det ligner på oppførselen til temperaturen til to objekter i kontakt, hvor vil se den samme økningen av variasjon ved økning av temperaturen. Magnetiseringen per spinn ser også ut til å gå mot en felles grenseverdi, men det burde her vært gjort flere Monte Carlo sykluser for å være sikker. Kan derimot være rimelig sikker på at grenseverdien ligger mellom $\left < | m | \right > = 0,0$ til $\left < | m | \right > = 0,4$, noe som ihvertfall sier oss at magnetiseringen synker med temperaturen. Det passer med at den mest sannsynlige mikrotilstanden ikke lenger er hvor alle spinn peker opp, der magnetiseringen er størst.
+
+\subsection*{Forventingsverdier for forksjellige $L$}
+
+Om vi sammenlikner plottet for $\left < \epsilon \right > (T)$ (\autoref{Fig:epsAll}) med entalpien til vann som funksjon av temperatur, så ser vi at grafen vi har fått ligner veldig på en faseovergang hvor et materiale smelter hvor vi har en svak økning ved $T \approx 2,25 \; J/k_B$ og svak utflatning igjen ved $T \approx 2,3 \; J/k_B$. Tenker at faseovergangen i Ising modellen korrelerer med faseovergangen til materialer med at flippingsfrekvensen gir samme effekt som vibrasjonen til partiklene i et materiale. Det gir da mening at vi har en overgang som ligner mest på overgangen fra solid til flytende materiale ettersom spinnnene i Ising modellen ikke får en stor økning av mulige bevegelser som molekylene i et materiale gjør ved overgangen fra væske til gass. Kanskje man vil sette en slik faseovergang om man introduserte en grense hvor antall mulige spinnretninger øker, slik at spinnene får et større bevegelsesrom.
+
+Magnetiseringen (\autoref{Fig:mAll} har stor varisjon ved temperaturer mellom $T = 2,1 \; J/k_B$ til $T = 2,25 \; J/k_B$. Etter det så stabiliserer den gjennomsnitlige magnetiseringen seg rundt $ \expval(m) = 0$. Vi ser at magnetiseringen begynner å stabilserer seg senere for større $L$, og den ser også ut til stabilisere seg raskere for større $L$ også, men det er ikke helt tydelig med kun de tre grafene vi har. Permaebiliteten også tydelig endring ved økning av $L$, hvor grafen blir spissere og maksverdien ser ut til å øke eksponentsielt. Det ville gitt mening siden ved påvirkning av et magnetfelt, så vil det være $N = L^2$ spinn som bidrar til den totale magnetiseringen når alle spinnene retter seg etter det eksterne magnetfeltet. Vi ser at maksverdien til permabiliteten ser ut til å følge $N = L^2$ for $L = 40$ og $L = 60$, men ikke for $L = 100$, noe som ikke virker helt riktig. Permaebiliteten følger tydelig av hvor magnetiseringen begynner å stabilisere seg og hvor lang tid den bruker på å komme seg ned til $\expval{m} = 0$. 
+
+For varmekapsiteten (\autoref{Fig:CvAll}) så forventet vi egentlig at maksimumet til grafen skulle øke og bli spissere ved økning av $L$, men kan være at det er fordi vi har for få temperatursteg  Men siden  $T_c$ ikke er avhening av hvor høyt topppunktet til grafen er, så bruker vi dataene for $L = 100$ i beregningene av $T \left ( L = \infty \right ) $ også. Med det så fikk vi en verdi nærme den analtyske verdien funnet av Lars Onsager: $T \left ( L = \infty \right ) \approx 2,269 \; J/k_B$.
+
 
 \section{Conklusjon}
 % acknowledgements (optional)

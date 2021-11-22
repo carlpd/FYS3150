@@ -23,6 +23,11 @@ def CalcMeans(e, e2, m, m2):
 
 t_range = np.loadtxt('../Txt/T.txt')
 L_range = np.loadtxt('../Txt/L.txt')
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "sans-serif",
+    "font.sans-serif": ["Helvetica"],
+    "font.size": 20})
 print(t_range)
 Holder = np.zeros((len(t_range), len(L_range), 6))
 
@@ -30,10 +35,10 @@ plt.rcParams.update({
     "text.usetex": True,
     "font.family": "sans-serif",
     "font.sans-serif": ["Helvetica"],
-    "font.size": 17})
+    "font.size": 20})
 
-for i, tt in enumerate(t_range):
-    for k, LL in enumerate(L_range):
+for tt in [1, 2.4]:
+        LL = 20
         s, e, e2, m, m2 = np.loadtxt(f'../Txt/ChainT{tt:.6f}L{LL:.0f}.txt', unpack=True)
         eps = e/N
         eps2 = e2/N

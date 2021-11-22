@@ -35,7 +35,7 @@ m = m/N
 mg = mg/N
 mean_m = np.zeros_like(e)
 for i in range(len(s)):
-    mean_m[i] = np.sum(m[:i])/s[i]
+    mean_m[i] = np.sum(abs(m[:i]))/s[i]
 
 mean_mg = np.zeros_like(eg)
 for i in range(len(sg)):

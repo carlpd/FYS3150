@@ -30,3 +30,14 @@ ChainlPar:
 
 ChainRPar:
 	./a.out
+
+ChainLTiming: ChainCT ChainlT ChainRT
+
+ChainCT:
+	g++ -c main/ChainLongTiming.cpp cppfunk/ising2dfunk.cpp -larmadillo -fopenmp -std=c++11
+
+ChainlT:
+	g++ ChainLongTiming.o ising2dfunk.o -o a.out -larmadillo -fopenmp
+
+ChainRT:
+	./a.out
