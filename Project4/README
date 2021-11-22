@@ -1,0 +1,96 @@
+Dette repositeriet er for numeriske beregninger rundt Ising modellen. Vi finner 
+hvordan Ising modellen utvikler seg over tid med en tilfeldig eller grunntilstand 
+initialtilstand ved hjelp av Monte Carlo metoden og metropolisalgoritmen. Vi ser
+også på utviklingen av varmekapasiteten som funksjon av gitterstørrelse.
+
+classes/ising2dfunk.hpp: Headerfile for ising2dfunk.cpp
+ 
+cppfunk/ising2dfunk.cpp: Classen for å initialisere en Ising model:
+
+	Ising2d::Ising2d(T_in, L_in) - tar inn temperatur og gridstørrelse
+	og initaliserer en instans av Ising2d classen.
+		
+	Ising2d::makerandomspin(factor) - tar inn en faktor for å kunne skille
+	paralelle utregninger, bruk factor = 1 om det er kun regent ut i serie.
+	Gir istansen en matrise med tilfeldige +1 eller -1.
+	
+	Ising2d::makeallupspins() - Gir instansen en matrise med kun +1.
+
+	> importeres ved #include <ising2dfunk.cpp>
+
+cppfunk/WriteTtoTxt.cpp: Skriver temperaturene vi bruker i samme avrundig som
+			ved utregningene slik at vi kan lettere importere liste
+			riktige T til python.
+	
+			Kjøres via:			
+
+			> $g++ -c WriteTtoTxt.cpp
+			> $g++ WriteTtoTxt.o -o Write.out
+			> $./Write.out
+
+
+main/Chain.cpp: Lagere en instans av Ising2d::Ising2d med temperatur og 
+		gridstørrelse definert i scriptet. Skriver så: 
+		Step | E | E^2 | M | M^2 for hvert step til en fil
+		
+		Kjøres ved:
+		
+		> $make ChainComp
+
+main/ChainLong.cpp: Kjører over flere temperaturer på en gridstørrelse og skriver
+		    til fil | T | E/sykluser | E^2/sykluser | M/sykluser 
+		    |M^2/sykluser | for hver temperatur.
+
+		    Kjøres ved:
+
+		    > $make ChainLComp
+
+main/ChainLongTiming.cpp: Forkortet ChainLong.cpp for å skrive tiden den bruker
+			  til en fil med eller uten parallisering, som må endres
+			  manuelt i sciptet.
+				
+			Kjøres ved:
+
+			> $make ChainLTiming
+
+python/FindMeanPlot.py: Finner forksjellige verdier med analytiske formler
+			numeriske resultater for å kunne sammenlikne
+			
+			Kjøres ved:
+
+			> $python FindMeanPlot.py
+
+
+python/PlotHist.py: Plotter histogram av tettheten av eps for T = 1 og T =2.4 for
+	 	    L = 20.
+		
+		    Kjøres ved:
+			
+		    > $python PlotHist.py 
+
+python/plotMean.py: Plotter forventningsverdier for T= {1, 2.4} og L = 20 for 
+		    tilfeldig og grunntilstand som start.
+			
+		    Kjøres ved:		    
+
+		    > $python plotMean.py T L fileRandom fileALLUp
+
+python/plotPerT.py: Plotter forventningsverdier fra outputtet fra ChainLong.cpp 
+		 med flere griddstørrelser i samme plot.
+
+		Kjøres ved:
+		
+		> $python plotPerT.py
+
+python/regres.py: Finner lineærregresjon av et forhold mellom Tc og L fra 
+		  ChainLong.cpp for å finne Tc for L -> uendelig
+
+		  Kjøres ved:
+
+		  > $regres.py
+
+
+OPS: Mange av programmen trenger spesifikke textfiler som ikke er lastet opp, 
+     men som kan genereres ved å kjøre kodene med riktige verdier, noe som må
+     endres manuelt i scriptene.			
+
