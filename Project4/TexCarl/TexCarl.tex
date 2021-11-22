@@ -98,18 +98,6 @@ If you are familiar with \LaTeX\ and you want to learn more about the REVTeX4-1 
 % the fundamental components of scientific reports:
 \section{Introdukson}
 
-\section{Mal jeg må endre på}
-Vi starter med et $2\cross 2$ gitter og skal regne dette analytisk slik at vi kan gjøre en sammenlikning med vårt numeriske resultat. Vi ser at hver kombinasjon av ett spinn opp vil være en rotert versjon av de andre kombinasjonene av ett spinn opp. Den samme rotasjonsegenskapen ser vi med tre spinn opp, siden det også bare er ett spinn ned. Med to spinn opp derimot, ser vi at vi får flere kombinasjoner. Vi har igjen fire roterte versjoner hvor spinn opp-partiklene er ved siden av hverandre, men også to hvor de er diagonale til hverandre.
-For å finne energien vil vi trenge
-$$
-E(s)=-J\sum_{<kl>}^N s_k \cdot s_l
-$$
-Hvor $<kl>$ betyr at vi går over alle partiklene uten å telle interaksjonen mellom partiklene to ganger. $s_l$ og $s_k$ vil også være nabopartikler i gitteret. Vi vil i alle forsøkene, også utenfor $2\cross 2$ eksempelet anta periodiske grensebetingelser. Det vil si at vi antar at i hver ende vil nabopartikelen være den motsatte enden. Man kan tenke seg at i én dimensjon så vil partiklene være i en sirkel hvor endene møtes.
-\newline 
-Vi skal også regne det magnetiske feltet gitt ved
-$$
-M(\mathbf{s})=\sum_i s_i
-$$
 \section{Teori}
 \subsection{Definering av tilstanden og dens egenskaper}
 Vi skal regne for tilstander $\mathbf{s}$ gitt som et 2D $L\cross L$ gitter med partikler $s_i$ som enten kan ha tilstanden spinn opp eller spinn ned. Vi setter at dersom $s_i$ har tilstanden spinn opp så er $s_i=+1$ og hvis $s_i$ har spinn ned er $s_i=-1$. Vi vil bruke periodiske grensebetingelser slik at naboen til $s_1$ som er lengst til venstre vil har $s_L$ som er lengst til høyre som sin venstre nabo. Det samme gjelder da lodrett, så den øverste spinnet vil ha den nederste parikkelen som sin nabo. I dette forsøket antar vi at ved å bruke Hamiltonianeren på en slik state gir energien
@@ -204,6 +192,8 @@ hvor $p(x_i)$ og $p(x')$ er sansynligheten for å finne systemet i den tilhøren
 $$
 A(x_i\rightarrow x')=min(1, \frac{p(x')}{p(x_i)})
 $$
+\subsection{Burn-in tiden}
+I starten vil vi sannsynligvis se at tilstanden faller ganske kraftig i starten før den mykner ut. Denne delen kalles burn-in tiden og er tiden før den nærmer seg en stabil fase. Selv om vi i teorien burde ha med alle mulige faser for å få riktige forventningsverdier, vil vi droppe verdiene som kommer innen denne tiden. Dette er fordi disse verdiene er så store at det skaper en så stor vekt, mens det kan være like mange verdier av motsatte verdier som ikke blir sjekket. Dessuten er det en mye større sannsynlighet for å være i den stabile enn den ustabile fasen og siden vi ikke sjekker alle, så utelukker vi de som driver den numeriske forventningsverdien bort fra den reelle.
 \section{Metode}
 Vi lager først en kode som enten kan starte med alle spinn opp eller starte med alle spinnene tilfeldig fordelt mellom opp og ned. Herfra kan vi gjøre en Markov-kjede Monte Carlo(MCMC) ved å lage en forsøkstilstand hvor vi flipper ett tilfeldig spinn i den forrige tilstanden og ser om denne blir akseptert. Hvis den blir akseptert gjør vi dette til den nye tilstanden. Hvis den ikke blir akseptert, forkaster vi den. Vi husker fra teorien av sannsynligheten for å akseptere spinnflipp var gitt som
 $$
@@ -217,9 +207,16 @@ så
 $$
 \frac{p(s')}{p(s_i)}=\frac{e^{-E(s)\beta}/Z}{e^{-E(s_i)\beta}/Z}=e^{-(E(s')-E(s_i))\beta}=e^{-\Delta E \beta}
 $$
-og vi husker fra teorien at det bare var 5 verdier som $\Delta E$ kunne ha. Vi kan trenger derfor kun å finne $\Delta E$ for hver gang og ha lagret $e^{-\Delta E \beta}$ og trekke ut hvilken vi trenger avhenig av $\Delta E$. Dersom $\Delta E<0$ ser vi at $e^{-\Delta E \beta}>1$ så for $\Delta E=(-4, -8)$ så vil vi alltid akseptere denne energien.
-\newline 
+og vi husker fra teorien at det bare var 5 verdier som $\Delta E$ kunne ha. Vi kan trenger derfor kun å finne $\Delta E$ for hver gang og ha lagret $e^{-\Delta E \beta}$ og trekke ut hvilken vi trenger avhenig av $\Delta E$. Dersom $\Delta E<0$ ser vi at $e^{-\Delta E \beta}>1$ så for $\Delta E=(-4J, -8J)$ så vil vi alltid akseptere denne energien. I dette prosjektet vil vi normalisere slik at $[E]=J$, $[T]=\frac{J}{k_B}$ osv.
+\subsection{Burn-in tiden}
+Av \autoref{Fig:5e1} ser vi fortsatt at funskjonen starter ganske langt fra en god tilstand. Derfor vil vi ikke starte på initialtilstanden, men heller etter 1000 Monte Carlo syklus. Altså etter burn-in perioden fra teoridelen. Her begynner tallene å bli mer rolige og kan være nærmere en forventningsverdi. Én Monte Carlo syklus er definert som $L\cdot L=N$ antall forsøk på flipper.
 \section{Resultater}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4, trim=1.7cm 0 0 0 ]{../Images/meanepsT1L20.pdf}
+	\caption{Forventingsverdien av energien per spinn etter et antall Monte Carlo sykluser. Ser at den som starter fra tilfeldig spinnmatrise ender opp på samme steds som grunntilstandsmatrisen. Vi bruker det til å estimere burn-in tiden til systemet.}
+	\label{Fig:5e1}
+\end{figure}
 
 \section{Diskusjon}
 \section{Conklusjon}
@@ -254,7 +251,7 @@ Vi ser altså at det er 16 forskjellige muligheter tilstander i et $2\cross2$-gi
 		\hline                    % creates a horizontal line (try removing it)
 		Antall spinn opp & $E(s)$ & $M(s)$& Degenerasjon  \\
 		\hline
-		$0$ & $-8J$ & $-4$ & $4$ \\
+		$0$ & $-8J$ & $-4$ & $1$ \\
 		\hline
 		$1$ & $0$ & $-2$ & 4\\
 		\hline
@@ -313,11 +310,11 @@ $$
 $$
 Så har vi
 $$
-\expval{M^2}=\sum_s M(s)^2p(s)=\frac{16e^{8J\beta+4+4+16e^{8J\beta}}}{Z}=8\frac{1+2e^{8J\beta}}{Z}
+\expval{M^2}=\sum_s M(s)^2p(s)=\frac{16e^{8J\beta}+4+4+16e^{8J\beta}}{Z}=8\frac{1+4e^{8J\beta}}{Z}
 $$
 så
 $$
-\expval{m^2}=\frac{8}{16}\frac{1+2e^{8J\beta}}{Z}=\frac{1+2e^{8J\beta}}{2Z}
+\expval{m^2}=\frac{8}{16}\frac{1+4e^{8J\beta}}{Z}=\frac{1+4e^{8J\beta}}{2Z}
 $$
 Da får vi at
 $$
@@ -325,10 +322,10 @@ $$
 $$
 så 
 $$
-\chi=\frac{1}{Nk_BT}(8\frac{1+2e^{8J\beta}}{Z}-(4\frac{1+2e^{8J\beta}}{Z})^2)
+\chi=\frac{1}{Nk_BT}(8\frac{1+4e^{8J\beta}}{Z}-(4\frac{1+2e^{8J\beta}}{Z})^2)
 $$
 $$
-\chi=\frac{1}{Nk_BT}(8\frac{1+2e^{8J\beta}}{Z}-\frac{1+4e^{8\beta J}+4e^{16J\beta}}{Z^2})
+\chi=\frac{1}{Nk_BT}(8\frac{1+4e^{8J\beta}}{Z}-\frac{1+4e^{8\beta J}+4e^{16J\beta}}{Z^2})
 $$
 og disse verdiene kan vi bruke til å kontrollteste våre verdier når vi regner ut for andre $L$.
 \section{This is another appendix}\label{appendix}
