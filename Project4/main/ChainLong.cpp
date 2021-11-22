@@ -5,14 +5,14 @@
 
 
 int main(){
-  int TN=20;
-  double Tstart=2.1;
+  int TN=50;
+  double Tstart=2.2;
   double Tend=2.4;
   int LN=4;
   int Lstart=40;
   int Lend=100;
   std::string filename;
-  filename="Txt/v3PerTemp100.txt";
+  filename="Txt/v4PerTemp100.txt";
   std::ofstream f (filename, std::ofstream::out);
   arma::vec T=arma::linspace(Tstart, Tend, TN);
   #pragma omp parallel for
@@ -34,7 +34,7 @@ int main(){
     std::cout<<"N"<<IS2D.N_<<std::endl;
     std::cout<<"end"<<samplen<<std::endl;
     for(int a=0; a<=samplestart; a++){
-      for(int b=0; b<=IS2D.N; b++){
+      for(int b=0; b<=IS2D.N_; b++){
         IS2D.makebreakstate();
       }
     }
@@ -44,7 +44,7 @@ int main(){
     double TM=0;
     double TM2=0;
     for(int c=samplestart; c<=samplen; c++){
-      for(int d=0; d<=IS2D.N; d++){
+      for(int d=0; d<=IS2D.N_; d++){
         //std::cout<<TE<<std::endl;
         IS2D.makebreakstate();
         TE+=IS2D.ep_;
