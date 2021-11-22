@@ -6,6 +6,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{float}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
 %% note that you may need to download some of these packages manually, it depends on your setup.
 %% I recommend downloading TeXMaker, because it includes a large library of the most common packages.
 
@@ -109,12 +111,13 @@ $$
 M(\mathbf{s})=\sum_i s_i
 $$
 \section{Teori}
+\subsection{Definering av tilstanden og dens egenskaper}
 Vi skal regne for tilstander $\mathbf{s}$ gitt som et 2D $L\cross L$ gitter med partikler $s_i$ som enten kan ha tilstanden spinn opp eller spinn ned. Vi setter at dersom $s_i$ har tilstanden spinn opp så er $s_i=+1$ og hvis $s_i$ har spinn ned er $s_i=-1$. Vi vil bruke periodiske grensebetingelser slik at naboen til $s_1$ som er lengst til venstre vil har $s_L$ som er lengst til høyre som sin venstre nabo. Det samme gjelder da lodrett, så den øverste spinnet vil ha den nederste parikkelen som sin nabo. I dette forsøket antar vi at ved å bruke Hamiltonianeren på en slik state gir energien
 $$
 E(\mathbf{s})=-J\sum_{\expval{kl}}^{N} s_k s_l
 $$
 hvor $\expval{kl}$ betyr at den går gjennom det energien mellom hvert spinn og deres naboer én gang og teller ikke dette to ganger. $J$ vil være koblingskonstant. $N=L^2$ altså størrelsen av $\mathbf{s}$ slik at vi går gjennom hele matrisen.
-\newline Vi har også energien per spin $\epsilon$ gitt ved 
+\newline Vi har også energien per spinn $\epsilon$ gitt ved 
 $$
 \epsilon(\mathbf{s}) =\frac{E(\mathbf{s})}{N}
 $$
@@ -123,7 +126,7 @@ som vi må bruke når vi skal sammenligne matriser av ulike størrelser.
 $$
 M(\mathbf{s})=\sum_i^N s_i
 $$
-så vi da får en magnetisasjon per spin som
+så vi da får en magnetisasjon per spinn som
 $$
 m(\mathbf{s})=\frac{\mathbf{s}}{N}
 $$
@@ -157,7 +160,7 @@ $$
 $$
 La oss si at vi flipper spinnet $s_{i,j}$ hvor $i$ representerer den vannrette posisjonen og $j$ den lodrette. Da kun $s_{k_b}s{l_b}$ kun endre seg hvor $s_{i,j}$ er en av faktorene. Ellers vil $s_{k_b}s_{l_b}=s_{k_a}s_{l_a}$ og her vil $s_{k_a}s_{l_a}-s_{k_b}s_{l_b}=0$. Vi står da kun igjen med
 $$
-\Delta E= -J \begin{pmatrix} s_{i,j-1}s_{i,j_a}-s_{i,j-1}s_{i,j_b}+s_{i+1,j}s_{i,j_a}-s_{i+1,j}s_{i,j_b} \\+ s_{i,j+1}s_{i,j_a}-s_{i,j+1}s_{i,j_b}+s_{i-1,j}s_{i,j_a}-s_{i-1,j}s_{i,j_b}\end{pmatrix}
+\Delta E= -J \begin{pmatrix} s_{i,j-1}s_{i,j_a}-s_{i,j-1}s_{i,j_b}\\+s_{i+1,j}s_{i,j_a}-s_{i+1,j}s_{i,j_b} \\+ s_{i,j+1}s_{i,j_a}-s_{i,j+1}s_{i,j_b}\\+s_{i-1,j}s_{i,j_a}-s_{i-1,j}s_{i,j_b}\end{pmatrix}
 $$
 Vi kan så ta ut $(s_{i,j_a}-s_{i,j_b}$ og få
 $$
@@ -165,7 +168,7 @@ $$
 s_{i.j-1}+s_{i+1,j} +s_{i,j+1}+s_{i-1.j}
 )
 $$
-Vi ser at $s_{i,j_a}-s_{i,j_b}$ er enten $+1-(-1)=2$ når den skifter fra spin ned til opp og $-1-(+1)=-2$ når den skifter fra spin opp til ned. Ellers må vi også naboleddene somhar fem muligheter
+Vi ser at $s_{i,j_a}-s_{i,j_b}$ er enten $+1-(-1)=2$ når den skifter fra spinn ned til opp og $-1-(+1)=-2$ når den skifter fra spinn opp til ned. Ellers må vi også naboleddene som har fem muligheter
 $$
 1+1+1+1=4
 $$
@@ -181,10 +184,43 @@ $$
 $$
 -1-1-1-1=-4
 $$
-Så vi får altså 5 mulige forskjeller i energi
+Så vi får altså 5 mulige forskjeller i energi.
+\subsection{Markov-kjede og  Metropolis-Hastings}
+Vi skal anta at tilstandene utvikler seg som en Markov-kjede. Det betyr at den sansynligheten for den neste tilstanden som den utvikler seg i avhenger kun av den gamle tilstanden. Vi kan ikke vite sansynligheten, men vi vil bruke en Markovkjede Monte Carlo algoritme til dette. Den kan forklares som i punktene under:
+\begin{enumerate}
+	\item Ha en tilstand $x_i$
+	\item Lag en ny kandidattilstand $x'$ ved hjelp av en forslags sansynlighetsfordelingsfunksjon (pdf) som bare avhenger av $x_i$.
+	\item Test $x'$ mot en akseptansregel.
+	\item Hvis $x'$ blir akseptert: $x_{i+1}=x'$
+	\newline Hvis $x'$ ikke blir akseptert $x_{i+1}=x_i$
+	\item Repeter for $x_{i+1}$ og oppover.
 
+\end{enumerate}
+Vi skal bruke en Metropolis-Hastingsalgoritme som gir oss at sannsynligheten for å akseptere den nye verdien er gitt som
+$$
+A(x_i\rightarrow x')=\min(1, \frac{p(x')}{p(x_i)}\frac{T(x'\rightarrow x_i)}{T(x_i\rightarrow x')})
+$$
+hvor $p(x_i)$ og $p(x')$ er sansynligheten for å finne systemet i den tilhørende tilstanden. $\frac{T(x'\rightarrow x_i)}{T(x_i\rightarrow x')}$ er vår forslagssansynlighetsfunskjon for at $x'$ går over til $x_i$ delt på forslagssansynligheten for at $x_i$ blir $x'$. I vårt tilfelle vil vi anta at disse to er like sannsynlige slik at $$T(x'\rightarrow x_i)=T(x_i\rightarrow x')$$ Da kan vi ha vår akseptanssannsynlighet som
+$$
+A(x_i\rightarrow x')=min(1, \frac{p(x')}{p(x_i)})
+$$
 \section{Metode}
+Vi lager først en kode som enten kan starte med alle spinn opp eller starte med alle spinnene tilfeldig fordelt mellom opp og ned. Herfra kan vi gjøre en Markov-kjede Monte Carlo(MCMC) ved å lage en forsøkstilstand hvor vi flipper ett tilfeldig spinn i den forrige tilstanden og ser om denne blir akseptert. Hvis den blir akseptert gjør vi dette til den nye tilstanden. Hvis den ikke blir akseptert, forkaster vi den. Vi husker fra teorien av sannsynligheten for å akseptere spinnflipp var gitt som
+$$
+A(s_i\rightarrow s')=min(1, \frac{p(s')}{p(s_i)})
+$$
+Altså dersom $\frac{p(s')}{p(s_i)}>1$ setter vi sannsynligheten for aksept til å bli 1 og aksepterer den uansett. Hvis $\frac{p(s')}{s_i}<1$ trekker vi et tilfeldig tall $A$ mellom 0 og 1. Hvis $\frac{p(s')}{p(s_i)}>A$ aksepterer vi flippet. Hvis ikke, aksepterer vi det ikke. Vi vet at
+$$
+p(s)=\frac{-e^{E(s)\beta}}{Z}
+$$
+så
+$$
+\frac{p(s')}{p(s_i)}=\frac{e^{-E(s)\beta}/Z}{e^{-E(s_i)\beta}/Z}=e^{-(E(s')-E(s_i))\beta}=e^{-\Delta E \beta}
+$$
+og vi husker fra teorien at det bare var 5 verdier som $\Delta E$ kunne ha. Vi kan trenger derfor kun å finne $\Delta E$ for hver gang og ha lagret $e^{-\Delta E \beta}$ og trekke ut hvilken vi trenger avhenig av $\Delta E$. Dersom $\Delta E<0$ ser vi at $e^{-\Delta E \beta}>1$ så for $\Delta E=(-4, -8)$ så vil vi alltid akseptere denne energien.
+\newline 
 \section{Resultater}
+
 \section{Diskusjon}
 \section{Conklusjon}
 % acknowledgements (optional)
@@ -210,13 +246,13 @@ Vi starter med å finne alle mulige tilstander for et $2\cross 2$ gitter, som gi
 \begin{figure}[H]
 	\label{2x2}
 	\includegraphics[scale=0.5]{Latice.pdf}
-	\caption{Alle tilstander som er mulig i et $2\cross2$-gitter. En rute med en prikk i seg betyr at dette spinnet har spin opp altså $+1$, mens en blank rute betyr at dette spinnet har spin ned, altså $-1$}
+	\caption{Alle tilstander som er mulig i et $2\cross2$-gitter. En rute med en prikk i seg betyr at dette spinnet har spinn opp altså $+1$, mens en blank rute betyr at dette spinnet har spinn ned, altså $-1$}
 \end{figure}
-Vi ser altså at det er 16 forskjellige muligheter tilstander i et $2\cross2$-gitter, men noen av disse er symmetriske. Alle fire tilstandene med ett spin opp er symmetriske, det samme gjelder for ett spin ned. Alle tilstandene for to spin opp hvor to av dem er naboer er har også en symmetri og det samme med de to diagonale. Vi kan derfor si at de som er symmetriske har samme total energi og da trenger vi bare å finne en av disse som er symmetriske til hverandre for å finne alle. Da blir disse tilstandene også energidegenererte. Vi får da en tabell gitt som i \ref{2x2tabell}
+Vi ser altså at det er 16 forskjellige muligheter tilstander i et $2\cross2$-gitter, men noen av disse er symmetriske. Alle fire tilstandene med ett spinn opp er symmetriske, det samme gjelder for ett spinn ned. Alle tilstandene for to spinn opp hvor to av dem er naboer er har også en symmetri og det samme med de to diagonale. Vi kan derfor si at de som er symmetriske har samme total energi og da trenger vi bare å finne en av disse som er symmetriske til hverandre for å finne alle. Da blir disse tilstandene også energidegenererte. Vi får da en tabell gitt som i \ref{2x2tabell}
 \begin{table}[H]
 	\begin{tabular}{|c|c|c|c|} % note that & separates columns while \\ separates the rows
 		\hline                    % creates a horizontal line (try removing it)
-		Antall spin opp & $E(s)$ & $M(s)$& Degenerasjon  \\
+		Antall spinn opp & $E(s)$ & $M(s)$& Degenerasjon  \\
 		\hline
 		$0$ & $-8J$ & $-4$ & $4$ \\
 		\hline
@@ -232,7 +268,8 @@ Vi ser altså at det er 16 forskjellige muligheter tilstander i et $2\cross2$-gi
 \end{table}
 Så kan vi bruke dette til å finne den andre verdiene. Først ser vi på $Z$, som blir 
 $$
-Z=\sum_s=e^{-\beta E(s)}=12 e^{0}+2e^{-\beta (-8J)}+2e^{-\beta 8J}=12+4\cosh(8\beta)
+Z=\sum_s=e^{-\beta E(s)}=12 e^{0}+2e^{-\beta (-8J)}+2e^{-\beta 8J}$$
+Altså blir $$Z=12+4\cosh(8\beta)
 $$
 Så finner vi $\expval{\epsilon}$, altså
 $$
@@ -268,7 +305,7 @@ C_V=\frac{1}{Nk_BT^2}(\frac{16^2J^2}{Z}\cosh(0J\beta)-(\frac{32J}{Z})^2\sinh^2(8
 $$
 Så finner vi magnetiseringen
 $$
-\expval{|M|}=\sum_s |M(s)|p(s)=\frac{4e^{8J}+2e^0 +2e^0 +4e^{8J}}{Z}=4\frac{1+2e^{8J}}{Z}
+\expval{|M|}=\sum_s |M(s)|p(s)=\frac{4e^{8J}+2e^0 +2e^0 +4e^{8J}}{Z}=4\frac{1+2e^{8J\beta}}{Z}
 $$
 så 
 $$
@@ -284,8 +321,16 @@ $$
 $$
 Da får vi at
 $$
-\chi 
+\chi=\frac{1}{Nk_bT}(\expval{M^2}-\expval{|M|}^2)
 $$
+så 
+$$
+\chi=\frac{1}{Nk_BT}(8\frac{1+2e^{8J\beta}}{Z}-(4\frac{1+2e^{8J\beta}}{Z})^2)
+$$
+$$
+\chi=\frac{1}{Nk_BT}(8\frac{1+2e^{8J\beta}}{Z}-\frac{1+4e^{8\beta J}+4e^{16J\beta}}{Z^2})
+$$
+og disse verdiene kan vi bruke til å kontrollteste våre verdier når vi regner ut for andre $L$.
 \section{This is another appendix}\label{appendix}
 Tada.
 %% all \section commands following \appendix are automatically taken as appendices
