@@ -78,12 +78,13 @@
 %% Don't ask me why, I don't know.
 
 \begin{document}
-\title{This is a Very Important Title!}   % self-explanatory
-\author{Person McSomething}               % self-explanatory
+\title{Ising modellen og Monte Carlo metoden}   % self-explanatory
+\author{Carl Petter Duedahl}
+\author{Henrik Modahl Breitenstein}               % self-explanatory
 \date{\today}                             % self-explanatory
 \noaffiliation                            % ignore this
 \begin{abstract}                          % marks the beginning of
-Vi finner bruker Monte Carlo metoden og metropolis algoritmen for å finne egenskaper ved Ising modellen. Vi finner at våre numeriske beregninger har god overenstemmelse med de analytiske verdiene for $\expval{\epsilon}$ og $\expval{|m|}$, men avviker litt for de utledede verdiene $C_v$ og $X$. Vi finner også at for $T = 1 \; J/k_B$ så faller systemet ned til grunntilstanden, men ekvivalenstilstanden endrer seg ved høyere temperaturer. For temperaturer mellom $T = 2,1 \; J/k_B$ og $T = 2,4 \; J/k_B$ så finner vi varmekapasiteten for forksjellige gitterstørrelse og bruker reultatet til å komme fram til at $T_c \left ( L = \infty \right ) \approx 2,28 \; J/k_B$.% the body of the abstract
+Vi bruker Monte Carlo metoden og metropolis algoritmen for å finne egenskaper ved Ising modellen. Vi finner at våre numeriske beregninger har god overenstemmelse med de analytiske verdiene for $\expval{\epsilon}$ og $\expval{|m|}$, men avviker litt for de utledede verdiene $C_v$ og $X$. Vi finner også at for $T = 1 \; J/k_B$ så faller systemet ned til grunntilstanden, men ekvivalenstilstanden endrer seg ved høyere temperaturer. For temperaturer mellom $T = 2,1 \; J/k_B$ og $T = 2,4 \; J/k_B$ så finner vi varmekapasiteten for forksjellige gitterstørrelse og bruker reultatet til å komme fram til at $T_c \left ( L = \infty \right ) \approx 2,28 \; J/k_B$.% the body of the abstract
 \end{abstract}                            % marks the end of the abstract
 \maketitle                                % creates the title, author, date & abstract
 
@@ -93,12 +94,13 @@ Vi finner bruker Monte Carlo metoden og metropolis algoritmen for å finne egens
 Store systemer er ofte styrt av en kaotisk samling med tilfeldige hendelser. Det blir da fort umulig å kartlegge alle mulige tilstander og sannsynligheten for hver enkelt av dem. Derimot, ved å kun se på et utvalg av tilstander så kan man finne egenskaper ved systemet uten å ha hele bildet. For eksempel ved simulæringer av smittespredning så bruker man slike metoder for store systemer med mange mulige hendelser. I denne artikkelen så skal vi finne forskjellige egenskaper ved et system ved hjelp av Monte Carlo metoden. Lenz-Ising modellen er oppkalt etter de tyske fysikerene Ersnt Ising og Willhelm Lenz, som ble oppfunnet av Willhelm Lenz i 1920. Modellen går ut på at man har et gitte rmed spinn som kan tilfeldig flippe opp eller ned. Vi skal se på hvordan forskjellige egenskaper til et materiale modellert av Ising modellen endrer seg med tempeartur og størrelse. I teori delen så intorduserer vi det nødvendige bakgrunnsstoffet, i metodedelen så ser vi mer konkret på hva vi skal gjør og i resultat og diskusjonsdelen så presenterer og diskuterer vi hva vi fant.
 
 \section{Teori}
+\subsection{Definering av tilstanden og dens egenskaper}
 Vi skal regne for tilstander $\mathbf{s}$ gitt som et 2D $L\cross L$ gitter med partikler $s_i$ som enten kan ha tilstanden spinn opp eller spinn ned. Vi setter at dersom $s_i$ har tilstanden spinn opp så er $s_i=+1$ og hvis $s_i$ har spinn ned er $s_i=-1$. Vi vil bruke periodiske grensebetingelser slik at naboen til $s_1$ som er lengst til venstre vil har $s_L$ som er lengst til høyre som sin venstre nabo. Det samme gjelder da lodrett, så den øverste spinnet vil ha den nederste parikkelen som sin nabo. I dette forsøket antar vi at ved å bruke Hamiltonianeren på en slik state gir energien
 $$
 E(\mathbf{s})=-J\sum_{\expval{kl}}^{N} s_k s_l
 $$
 hvor $\expval{kl}$ betyr at den går gjennom det energien mellom hvert spinn og deres naboer én gang og teller ikke dette to ganger. $J$ vil være koblingskonstant. $N=L^2$ altså størrelsen av $\mathbf{s}$ slik at vi går gjennom hele matrisen.
-\newline Vi har også energien per spin $\epsilon$ gitt ved
+\newline Vi har også energien per spinn $\epsilon$ gitt ved 
 $$
 \epsilon(\mathbf{s}) =\frac{E(\mathbf{s})}{N}
 $$
@@ -107,7 +109,7 @@ som vi må bruke når vi skal sammenligne matriser av ulike størrelser.
 $$
 M(\mathbf{s})=\sum_i^N s_i
 $$
-så vi da får en magnetisasjon per spin som
+så vi da får en magnetisasjon per spinn som
 $$
 m(\mathbf{s})=\frac{\mathbf{s}}{N}
 $$
@@ -141,7 +143,7 @@ $$
 $$
 La oss si at vi flipper spinnet $s_{i,j}$ hvor $i$ representerer den vannrette posisjonen og $j$ den lodrette. Da kun $s_{k_b}s{l_b}$ kun endre seg hvor $s_{i,j}$ er en av faktorene. Ellers vil $s_{k_b}s_{l_b}=s_{k_a}s_{l_a}$ og her vil $s_{k_a}s_{l_a}-s_{k_b}s_{l_b}=0$. Vi står da kun igjen med
 $$
-\Delta E= -J \begin{pmatrix} s_{i,j-1}s_{i,j_a}-s_{i,j-1}s_{i,j_b}+s_{i+1,j}s_{i,j_a}-s_{i+1,j}s_{i,j_b} \\+ s_{i,j+1}s_{i,j_a}-s_{i,j+1}s_{i,j_b}+s_{i-1,j}s_{i,j_a}-s_{i-1,j}s_{i,j_b}\end{pmatrix}
+\Delta E= -J \begin{pmatrix} s_{i,j-1}s_{i,j_a}-s_{i,j-1}s_{i,j_b}\\+s_{i+1,j}s_{i,j_a}-s_{i+1,j}s_{i,j_b} \\+ s_{i,j+1}s_{i,j_a}-s_{i,j+1}s_{i,j_b}\\+s_{i-1,j}s_{i,j_a}-s_{i-1,j}s_{i,j_b}\end{pmatrix}
 $$
 Vi kan så ta ut $(s_{i,j_a}-s_{i,j_b}$ og få
 $$
@@ -149,7 +151,7 @@ $$
 s_{i.j-1}+s_{i+1,j} +s_{i,j+1}+s_{i-1.j}
 )
 $$
-Vi ser at $s_{i,j_a}-s_{i,j_b}$ er enten $+1-(-1)=2$ når den skifter fra spin ned til opp og $-1-(+1)=-2$ når den skifter fra spin opp til ned. Ellers må vi også naboleddene somhar fem muligheter
+Vi ser at $s_{i,j_a}-s_{i,j_b}$ er enten $+1-(-1)=2$ når den skifter fra spinn ned til opp og $-1-(+1)=-2$ når den skifter fra spinn opp til ned. Ellers må vi også naboleddene som har fem muligheter
 $$
 1+1+1+1=4
 $$
@@ -165,9 +167,48 @@ $$
 $$
 -1-1-1-1=-4
 $$
-Så vi får altså 5 mulige forskjeller i energi
+Så vi får altså 5 mulige forskjeller i energi.
+\subsection{Markov-kjede og  Metropolis-Hastings}
+Vi skal anta at tilstandene utvikler seg som en Markov-kjede. Det betyr at den sansynligheten for den neste tilstanden som den utvikler seg i avhenger kun av den gamle tilstanden. Vi kan ikke vite sansynligheten, men vi vil bruke en Markovkjede Monte Carlo algoritme til dette. Den kan forklares som i punktene under:
+\begin{enumerate}
+	\item Ha en tilstand $x_i$
+	\item Lag en ny kandidattilstand $x'$ ved hjelp av en forslags sansynlighetsfordelingsfunksjon (pdf) som bare avhenger av $x_i$.
+	\item Test $x'$ mot en akseptansregel.
+	\item Hvis $x'$ blir akseptert: $x_{i+1}=x'$
+	\newline Hvis $x'$ ikke blir akseptert $x_{i+1}=x_i$
+	\item Repeter for $x_{i+1}$ og oppover.
+	
+\end{enumerate}
+Vi skal bruke en Metropolis-Hastingsalgoritme som gir oss at sannsynligheten for å akseptere den nye verdien er gitt som
+$$
+A(x_i\rightarrow x')=\min(1, \frac{p(x')}{p(x_i)}\frac{T(x'\rightarrow x_i)}{T(x_i\rightarrow x')})
+$$
+hvor $p(x_i)$ og $p(x')$ er sansynligheten for å finne systemet i den tilhørende tilstanden. $\frac{T(x'\rightarrow x_i)}{T(x_i\rightarrow x')}$ er vår forslagssansynlighetsfunskjon for at $x'$ går over til $x_i$ delt på forslagssansynligheten for at $x_i$ blir $x'$. I vårt tilfelle vil vi anta at disse to er like sannsynlige slik at $$T(x'\rightarrow x_i)=T(x_i\rightarrow x')$$ Da kan vi ha vår akseptanssannsynlighet som
+$$
+A(x_i\rightarrow x')=min(1, \frac{p(x')}{p(x_i)})
+$$
+\subsection{Burn-in tiden}
+I starten vil vi sannsynligvis se at tilstanden faller ganske kraftig i starten før den mykner ut. Denne delen kalles burn-in tiden og er tiden før den nærmer seg en stabil fase. Selv om vi i teorien burde ha med alle mulige faser for å få riktige forventningsverdier, vil vi droppe verdiene som kommer innen denne tiden. Dette er fordi disse verdiene er så store at det skaper en så stor vekt, mens det kan være like mange verdier av motsatte verdier som ikke blir sjekket. Dessuten er det en mye større sannsynlighet for å være i den stabile enn den ustabile fasen og siden vi ikke sjekker alle, så utelukker vi de som driver den numeriske forventningsverdien bort fra den reelle.
+\subsection{Parallellisering}
+I dette prosjektet vil vi bruke parallellisering på datamaskinen for å spare tid. Parallellisering er kort forklart at man bruker flere kjerner på datamaskinen til å gjøre operasjoner samtidig. Datamaskinen deler altså oppgaven i mindre oppgave som den kjører i parallelle tråder istedenfor å bare kjøre den i serie i en enkelt tråd. Vi definerer nå $T_1$ som tiden det vil ta med en enkelt tråd og $T_n$ som tiden det vil ta med $n$ tråder. Da får vi at tidsforksjellen blir $\frac{T_1}{T_n}$. I et ideelt tilfelle hvor maksinen ikke bruker noe tid på å fordele oppgaver og alle tråder er like effektive har vi:
+$$
+T_n=\frac{T_1}{n}
+$$
+Da får vi at
+$$
+\frac{T_1}{T_n}=\frac{T_1}{\frac{T_1}{n}}=n
+$$
+Men vanligvis får vi ikke et slikt ideelt tilfelle. Uansett vil ikke engang en uendelig parallellisering gjøre det uendelig fort. Det vil finnes en grense. Vi vil kunne ha noen utregninger som ikke kan parallelliseres, men må gjøre i serie, gitt ved $1-f$. På en enkelt tråd vil dette gå som $$T_1=(1-f)T_1+fT_1$$, mens det $n$ tråder vil ha tiden $$T_n=(1-f)T_1+f\frac{T_1}{n}$$. Vi får da at økningen i hastighet ved parallellisering blir
+$$
+\frac{T_1}{T_n}=\frac{T_1}{(1-f)T_1+f\frac{T_1}{n}}=\frac{1}{(1-f)+\frac{f}{n}}
+$$
+Når vi da har uendelig med tråder vil vi få
+$$
+\lim_{n\rightarrow \infty}\frac{T_1}{T_n}=\lim_{n\rightarrow \infty}\frac{1}{(1-f)+\frac{f}{n}}=\frac{1}{1-f}
+$$
+og vi ser at det er en minimumsgrense for hvor fort parallellisering kan gå. I våres tilfeller har vi bare 4 eller 8 kjerner og like mange tråder, så vi vil ikke være i nærheten av å nå dette tallet.
 
-\subsection*{Finne $T_c \left ( L = \infty \right ) $ med finite datasett}
+\subsection*{Finne $T_c \left ( L = \infty \right ) $ med endelig datasett}
 
 Lars Onsager sien analytiske resultater gir oss relasjonen:
 
@@ -176,21 +217,40 @@ $$ T_c \left ( L \right ) - T_c \left ( L = \infty \right ) = aL^{-1}$$
 Om vi ganger med $L$ på begge side så får kan vi skrive at
 
 \begin{equation}\label{Tinf}
-T_c \left (L \right ) L = T_c \left ( L = \infty \right ) + a \; .
+T_c \left (L \right ) L = T_c \left ( L = \infty \right )L + a \; .
 \end{equation}
 
 Som vil si at $T_c \left ( L = \infty \right ) $ er gitt ved stigningstallet til linjen gitt ved $T_c \left ( L \right ) L $.
 
 \section{Metode}
 
-\subsection*{Analytiskemot numeriske resultater}
+\subsection{Monte Carlo syklusen}
+Vi lager først en kode som enten kan starte med alle spinn opp eller starte med alle spinnene tilfeldig fordelt mellom opp og ned. Herfra kan vi gjøre en Markov-kjede Monte Carlo(MCMC) ved å lage en forsøkstilstand hvor vi flipper ett tilfeldig spinn i den forrige tilstanden og ser om denne blir akseptert. Hvis den blir akseptert gjør vi dette til den nye tilstanden. Hvis den ikke blir akseptert, forkaster vi den. Vi husker fra teorien av sannsynligheten for å akseptere spinnflipp var gitt som
+$$
+A(s_i\rightarrow s')=min(1, \frac{p(s')}{p(s_i)})
+$$
+Altså dersom $\frac{p(s')}{p(s_i)}>1$ setter vi sannsynligheten for aksept til å bli 1 og aksepterer den uansett. Hvis $\frac{p(s')}{s_i}<1$ trekker vi et tilfeldig tall $A$ mellom 0 og 1. Hvis $\frac{p(s')}{p(s_i)}>A$ aksepterer vi flippet. Hvis ikke, aksepterer vi det ikke. Vi vet at
+$$
+p(s)=\frac{-e^{E(s)\beta}}{Z}
+$$
+så
+$$
+\frac{p(s')}{p(s_i)}=\frac{e^{-E(s)\beta}/Z}{e^{-E(s_i)\beta}/Z}=e^{-(E(s')-E(s_i))\beta}=e^{-\Delta E \beta}
+$$
+og vi husker fra teorien at det bare var 5 verdier som $\Delta E$ kunne ha. Vi kan trenger derfor kun å finne $\Delta E$ for hver gang og ha lagret $e^{-\Delta E \beta}$ og trekke ut hvilken vi trenger avhenig av $\Delta E$. Dersom $\Delta E<0$ ser vi at $e^{-\Delta E \beta}>1$ så for $\Delta E=(-4J, -8J)$ så vil vi alltid akseptere denne energien. I dette prosjektet vil vi normalisere slik at $[E]=J$, $[T]=\frac{J}{k_B}$ osv.
+\subsection{Analytiske mot numeriske resultater}
 
-Vi sammenliknger de numeriske resultatene vi får for $T = 1,0 \; J/k_B$ og $L =2$ med de analytiske resultatene vi har for de samme verdiene. Ved å se på hvor godt det stemmer overnes kan vi se om de numeriske bergningene vi gjør er akseptable.
+Vi sammenliknger de numeriske resultatene vi får for $T = 1,0 \; J/k_B$ og $L =2$ med de analytiske resultatene vi har for de samme verdiene i Appendix \ref{A}. Ved å se på hvor godt det stemmer overnes kan vi se om de numeriske bergningene vi gjør er akseptable.
+\subsection{Burn-in tiden}
+Av \autoref{Fig:5e1} ser vi fortsatt at funskjonen starter ganske langt fra en god tilstand. Derfor vil vi ikke starte på initialtilstanden, men heller etter 1000 Monte Carlo syklus. Altså etter burn-in perioden fra teoridelen. Her begynner tallene å bli mer rolige og kan være nærmere en forventningsverdi. Én Monte Carlo syklus er definert som $L\cdot L=N$ antall forsøk på flipper.
+\subsection{Sannsynlighetsfordelingen}
+Vi skal så finne sansynlighetsfordelingen. Denne finner vi ved å lage et histogram av alle syklusene, inludert burn-in tiden. Dette gir oss en gjenkonstruksjon av sannsynlighetsfordeling.
 
-\subsection*{Forventingsverdier for forksjellige $L$}
+\subsection{Forventingsverdier for forksjellige $L$}
 
 Først så paralelliserer vi koden vår over temperaturene med OpenMP, og tester den med å sette opp en litenutregning hvor den kjører over 10 temperaturer og går igjennom 5000 Monte Carlo sykluser med $L = 10$. Vi tar så videre å kjører for $L = 40$, $L = 60$ og $L = 100$ over 500 000 Monte Carlo sykluser med 100 temperatursteg for $L = 40$ og $L = 60$, men 50 steg for $L = 100$. Dette gjør vi også som en slags parallellisering, da vi fordeler de forskjellige verdiene for $L$ over flere PCer. For de to første størrelsene så ser vi på $T = [2.1, 2.4] \; J/k_B$ og for $L = 100$ så setter vi $T = [2.2, 2.4] \; J/k_B$.
-
+\subsection{Finne $T_c$}
+Nå som vi har laget verdier av varmekapasiteten ved de forskjellige temperaturene kan vi da ta toppunktet (altså hvor varmekapasiteten er på et maksimum) for hver verdi og sette disse inn for seg. Det er her fasendringen skjer og vi vil finne denne for $L=\infty$. Vi gjør altså en lineær regresjonsanalyse av de tre punktene og finner stigningstallet. Stigningstallet vil da være en tilnærming til den kritiske temperaturen $T_c(L=\infty)$.
 \section{Resultater}
 
 \subsection*{Analytiske mot numeriske resultater}
@@ -323,23 +383,104 @@ For varmekapsiteten (\autoref{Fig:CvAll}) så forventet vi egentlig at maksimume
 \section{Konklusjon}
 
 Vi har sett på hvordan forventingsverdiene $\expval{\epsilon}$, $\expval{|m|}$ og egenskapene $C_v$ og $X$ endrer seg med temperatur og størrelse til en Ising modell. Ved sammenlikning av numeriske og analytiske resultater for et lite system så hadde vi god overenstemmelse. For $T = 1 \; J/k_B$ så fant vi at en tilfeldig initialtilstand vil falle ned til grunntilstanden med netsen alle spinn opp, hvor for høyere temperaturer den vil falle til en tilstand med ikke kun spinn opp. Ved å ta å se på fordelingen av forksjellige energier så har vi gjenkonstruert en tilnærmet sannsynlighetsmodell for $T = 1 \; J/k_B$ og $T = 2.4 \; J/k_B$. For å finne grensenverdien til den kritiske temperaturen har vi sett på økningen av mkasverdien ti varmekapasiteten for $L = 40$, $L = 60$ og $L=100$. Med våre numeriske bergninger så fikk vi at $T_c \left (L = \infty \right ) \approx 2,269 \; J/k_B$.
-\section*{References}  % the asterisk (*) after \section makes the section numbering go away
+\section*{Referanser}  % the asterisk (*) after \section makes the section numbering go away
 \begin{itemize}
-\item[-]Hjort-Jensen, Morten, $Computational$ $Physics:$ $Lecture Notes 2015$, 2015, \url{https://raw.githubusercontent.com/CompPhysics/ComputationalPhysics/master/doc/Lectures/lectures2015.pdf}
-\item[-]Reference 2
+\item[-]Hjort-Jensen, Morten, $Computational$ $Physics:$ $Lecture$ $Notes$ $2015$, 2015, \url{https://raw.githubusercontent.com/CompPhysics/ComputationalPhysics/master/doc/Lectures/lectures2015.pdf}
+\item[-] Carls github repository ->FYS3150 ->Project4 \url{https://github.com/carlpd/FYS3150/tree/main/Project4}
 \end{itemize}
 \newpage
 
-\appendix
-\section{$2\cross 2$ gitter}
-Vi starter med å finne alle mulige tilstander for et $2\cross 2$ gitter, som gitt i figur \ref{2x2}
-\begin{figure}[H]
-	\label{2x2}
-	\includegraphics[scale=0.5]{Latice.pdf}
-	\caption{Alle tilstander som er mulig i et $2\cross2$-gitter. En rute med en prikk i seg betyr at dette spinnet har spin opp altså $+1$, mens en blank rute betyr at dette spinnet har spin ned, altså $-1$}
-\end{figure}
-Vi ser altså at det er 16 forskjellige muligheter tilstander i et $2\cross2$-gitter, men noen av disse er symmetriske. Alle fire tilstandene med ett spin opp er symmetriske, det samme gjelder for ett spin ned. Alle tilstandene for to spin opp hvor to av dem er naboer er har også en symmetri og det samme med de to diagonale. Vi kan derfor si at de som er symmetriske har samme total energi.
-\newline Så var det magnetiseringen. Siden magnetiseringen er gitt som
 
+\appendix
+\section{$2\cross 2$ gitter} \label{A}
+Vi starter med å finne alle mulige tilstander for et $2\cross 2$ gitter, som gitt i figur \autoref{Fig:2x2}
+\begin{figure}[H]
+	\includegraphics[scale=0.5]{Latice.pdf}
+	\caption{Alle tilstander som er mulig i et $2\cross2$-gitter. En rute med en prikk i seg betyr at dette spinnet har spinn opp altså $+1$, mens en blank rute betyr at dette spinnet har spinn ned, altså $-1$}
+	\label{Fig:2x2}
+\end{figure}
+Vi ser altså at det er 16 forskjellige muligheter tilstander i et $2\cross2$-gitter, men noen av disse er symmetriske. Alle fire tilstandene med ett spinn opp er symmetriske, det samme gjelder for ett spinn ned. Alle tilstandene for to spinn opp hvor to av dem er naboer er har også en symmetri og det samme med de to diagonale. Vi kan derfor si at de som er symmetriske har samme total energi og da trenger vi bare å finne en av disse som er symmetriske til hverandre for å finne alle. Da blir disse tilstandene også energidegenererte. Vi får da en tabell gitt som i \autoref{Tab:2x2tabell}
+\begin{table}[H]
+	\begin{tabular}{|c|c|c|c|} % note that & separates columns while \\ separates the rows
+		\hline                    % creates a horizontal line (try removing it)
+		Antall spinn opp & $E(s)$ & $M(s)$& Degenerasjon  \\
+		\hline
+		$0$ & $-8J$ & $-4$ & $1$ \\
+		\hline
+		$1$ & $0$ & $-2$ & 4\\
+		\hline
+		$2$ &$0$ &$0$ &$4$ \\\hline 
+		$2$ &$8J$ &$0$&$2$ \\\hline 
+		$3$&$0$&$2$&$4$ \\\hline 
+		$4$&$-8J$&$4$&$1$ \\\hline 
+	\end{tabular}
+	\caption{En tabell med verdiene til $2\cross 2$ matrisen}
+	\label{Tab:2x2tabell}
+\end{table}
+Så kan vi bruke dette til å finne den andre verdiene. Først ser vi på $Z$, som blir 
+$$
+Z=\sum_s=e^{-\beta E(s)}=12 e^{0}+2e^{-\beta (-8J)}+2e^{-\beta 8J}$$
+Altså blir $$Z=12+4\cosh(8\beta)
+$$
+Så finner vi $\expval{\epsilon}$, altså
+$$
+\expval{\epsilon}=\sum_{s}p(s)\frac{E(s)}{N}=\sum_{s}\frac{e^{-\beta E(s)}E(s)}{N}
+$$
+$$
+\expval{\epsilon}=\frac{-8Je^{8J}\cdot 2 + 8Je^{-\beta 8J}\cdot 2}{NZ}=\frac{-16J}{NZ}(e^{8\beta J}-e^{-8\beta J})$$$$\expval{\epsilon}=-\frac{-16 J}{4Z}2\sinh(8\beta J)=\frac{-8J}{Z}\sinh(8J\beta)
+$$
+Så finner vi $\expval{\epsilon^2}$ med 
+$$
+\expval{\epsilon^2}=\sum_{s}\frac{E(s)^2}{N^2}p(s)=\sum_{s}e^{-\beta E(s)}\frac{E(s)^2}{N^2Z}
+$$
+$$
+\expval{\epsilon^2}=\frac{2(8J)^2e^{8J\beta}+2(8J)^2e^{-8J\beta}}{N^2Z}=\frac{2(8J)^2}{N^2Z}\cosh(8J\beta)
+$$
+$$
+\expval{\epsilon^2}=4(\frac{8J}{4})^2\cosh(8J\beta)=\frac{16J^2}{Z}\cosh(8J\beta)
+$$
+Så kan vi bruke disse til å finne
+$$
+C_V=\frac{1}{Nk_BT^2}(\expval{E^2}-\expval{E}^2)
+$$
+Hvor 
+$$\expval{E}^2=(\expval{\epsilon\cdot N})^2=\expval{\epsilon}\cdot N)^2=(\frac{-8J\cdot 4}{Z}\sinh(8J\beta))^2$$så $$\expval{E}^2=(\frac{32J}{Z})^2\sinh^2(8J\beta)
+$$
+Mens
+$$
+\expval{E^2}=\expval{(\epsilon^2\cdot N^2)}=\frac{16^2J^2}{Z}\cosh(0J\beta)
+$$
+så vi får at
+$$
+C_V=\frac{1}{Nk_BT^2}(\frac{16^2J^2}{Z}\cosh(0J\beta)-(\frac{32J}{Z})^2\sinh^2(8J\beta))
+$$
+Så finner vi magnetiseringen
+$$
+\expval{|M|}=\sum_s |M(s)|p(s)=\frac{4e^{8J}+2e^0 +2e^0 +4e^{8J}}{Z}=4\frac{1+2e^{8J\beta}}{Z}
+$$
+så 
+$$
+\expval{|m|}=\expval{\frac{|M|}{N}}=\frac{4}{4}\frac{1+2e^{8J\beta}}{Z}=\frac{1+2e^{8J\beta}}{Z}
+$$
+Så har vi
+$$
+\expval{M^2}=\sum_s M(s)^2p(s)=\frac{16e^{8J\beta}+4+4+16e^{8J\beta}}{Z}=8\frac{1+4e^{8J\beta}}{Z}
+$$
+så
+$$
+\expval{m^2}=\frac{8}{16}\frac{1+4e^{8J\beta}}{Z}=\frac{1+4e^{8J\beta}}{2Z}
+$$
+Da får vi at
+$$
+\chi=\frac{1}{Nk_bT}(\expval{M^2}-\expval{|M|}^2)
+$$
+så 
+$$
+\chi=\frac{1}{Nk_BT}(8\frac{1+4e^{8J\beta}}{Z}-(4\frac{1+2e^{8J\beta}}{Z})^2)
+$$
+$$
+\chi=\frac{1}{Nk_BT}(8\frac{1+4e^{8J\beta}}{Z}-\frac{1+4e^{8\beta J}+4e^{16J\beta}}{Z^2})
+$$
+og disse verdiene kan vi bruke til å kontrollteste våre verdier når vi regner ut for andre $L$.
 
 \end{document}
