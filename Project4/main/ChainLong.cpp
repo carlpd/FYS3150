@@ -12,7 +12,7 @@ int main(){
   int Lstart=40;
   int Lend=100;
   std::string filename;
-  filename="Txt/PerTemp802.txt";
+  filename="Txt/PerTemp801.txt";
   std::ofstream f (filename, std::ofstream::out);
   arma::vec T=arma::linspace(Tstart, Tend, TN);
   #pragma omp parallel for
