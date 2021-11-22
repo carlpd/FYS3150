@@ -83,33 +83,15 @@
 \date{\today}                             % self-explanatory
 \noaffiliation                            % ignore this
 \begin{abstract}                          % marks the beginning of the abstract
-This abstract is abstract.                % the body of the abstract
+this abstract is abstract.                % the body of the abstract
 \end{abstract}                            % marks the end of the abstract
 \maketitle                                % creates the title, author, date & abstract
-
-If you want to learn more about using \LaTeX, you should check UiO's official tutorials:
-\url{https://www.mn.uio.no/ifi/tjenester/it/hjelp/latex/}
-
-If you are familiar with \LaTeX\ and you want to learn more about the REVTeX4-1 document class, check:
-\url{http://www.physics.csbsju.edu/370/papers/Journal_Style_Manuals/auguide4-1.pdf}
-
 
 % the fundamental components of scientific reports:
 \section{Introdukson}
 
+Store systemer er ofte styrt av en kaotisk sammling med tilfeldige hendelser. Det blir da fort umulig å kartlegge alle mulige tilstander og sannsynligheten for hver enkelt av dem. Derimot, ved å kun se på et utvalg av tilstander så kan man finne egenskaper ved systemet uten å ha hele bildet. For eksempel ved simulæringer av smittespredning så bruker man slike metoder for store systemer med mange mulige hendelser. I denne artikkelen så skal vi finne forskjellige egenskaper ved et system ved hjelp av Monte Carlo metoden. Lenz-Ising modellen er oppkalt etter de tyske fysikerene Ersnt Ising og Willhelm Lenz, som ble oppfunnet av Willhelm Lenz i 1920. Modellen går ut på at man har et gitte rmed spinn som kan tilfeldig flippe opp eller ned. Vi skal se på hvordan forskjellige egenskaper til et materiale modellert av Ising modellen endrer seg med tempeartur og størrelse. I teori delen så intorduserer vi det nødvendige bakgrunnsstoffet, i metodedelen så ser vi mer konkret på hva vi skal gjør og i resultat og diskusjonsdelen så presenterer og diskuterer vi hva vi fant. 
 
-
-Vi starter med et $2\cross 2$ gitter og skal regne dette analytisk slik at vi kan gjøre en sammenlikning med vårt numeriske resultat. Vi ser at hver kombinasjon av ett spinn opp vil være en rotert versjon av de andre kombinasjonene av ett spinn opp. Den samme rotasjonsegenskapen ser vi med tre spinn opp, siden det også bare er ett spinn ned. Med to spinn opp derimot, ser vi at vi får flere kombinasjoner. Vi har igjen fire roterte versjoner hvor spinn opp-partiklene er ved siden av hverandre, men også to hvor de er diagonale til hverandre.
-For å finne energien vil vi trenge
-$$
-E(s)=-J\sum_{<kl>}^N s_k \cdot s_l
-$$
-Hvor $<kl>$ betyr at vi går over alle partiklene uten å telle interaksjonen mellom partiklene to ganger. $s_l$ og $s_k$ vil også være nabopartikler i gitteret. Vi vil i alle forsøkene, også utenfor $2\cross 2$ eksempelet anta periodiske grensebetingelser. Det vil si at vi antar at i hver ende vil nabopartikelen være den motsatte enden. Man kan tenke seg at i én dimensjon så vil partiklene være i en sirkel hvor endene møtes.
-\newline 
-Vi skal også regne det magnetiske feltet gitt ved
-$$
-M(\mathbf{s})=\sum_i s_i
-$$
 \section{Teori}
 Vi skal regne for tilstander $\mathbf{s}$ gitt som et 2D $L\cross L$ gitter med partikler $s_i$ som enten kan ha tilstanden spinn opp eller spinn ned. Vi setter at dersom $s_i$ har tilstanden spinn opp så er $s_i=+1$ og hvis $s_i$ har spinn ned er $s_i=-1$. Vi vil bruke periodiske grensebetingelser slik at naboen til $s_1$ som er lengst til venstre vil har $s_L$ som er lengst til høyre som sin venstre nabo. Det samme gjelder da lodrett, så den øverste spinnet vil ha den nederste parikkelen som sin nabo. I dette forsøket antar vi at ved å bruke Hamiltonianeren på en slik state gir energien
 $$
@@ -201,29 +183,32 @@ Som vil si at $T_c \left ( L = \infty \right ) $ er gitt ved stigningstallet til
 
 \section{Metode}
 
+\subsection*{Analytiskemot numeriske resultater}
+
+Vi sammenliknger de numeriske resultatene vi får for $T = 1,0 \; J/k_B$ og $L =2$ med de analytiske resultatene vi har for de samme verdiene. Ved å se på hvor godt det stemmer overnes kan vi se om de numeriske bergningene vi gjør er akseptable. 
+
 \subsection*{Forventingsverdier for forksjellige $L$}
 
-Først så paralelliserer vi koden vår med OpenMP, og tester den med å sette opp en litenutregning hvor den kjører over 10 temperaturer og går igjennom 5000 Monte Carlo sykluser med $L = 10$. Vi tar så videre å kjører for $L = 40$, $L = 60$ og $L = 100$ over 500 000 Monte Carlo sykluser med 100 temperatursteg for $L = 40$ og $L = 60$, men 50 steg for $L = 100$. For de to første størrelsene så ser vi på $T = [2.1, 2.4] \; J/k_B$ og for $L = 100$ så setter vi $T = [2.2, 2.4] \; J/k_B$.
+Først så paralelliserer vi koden vår over temperaturene med OpenMP, og tester den med å sette opp en litenutregning hvor den kjører over 10 temperaturer og går igjennom 5000 Monte Carlo sykluser med $L = 10$. Vi tar så videre å kjører for $L = 40$, $L = 60$ og $L = 100$ over 500 000 Monte Carlo sykluser med 100 temperatursteg for $L = 40$ og $L = 60$, men 50 steg for $L = 100$. For de to første størrelsene så ser vi på $T = [2.1, 2.4] \; J/k_B$ og for $L = 100$ så setter vi $T = [2.2, 2.4] \; J/k_B$.
 
 \section{Resultater}
 
-For $T = 1.0 \; J/k_B$ og $L = 20$, så fikk vi sannsynligehtsfordelingen som vist i \autoref{Fig:Den1}. 
+\subsection*{Analytiske mot numeriske resultater}
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.5, trim 2.5cm 0 0 0]{../Images/T100L20.pdf}}
-\caption{Histogram og følgende sannsynlighetsfordeling for $T = 1,0 \; J/k_B$ og $L = 20$.}
-\label{Den1}
-\end{figure}
+For $L = 2$ og $T = 1,0 \; J/k_B$ så fikk vi at analytisk så er 
 
-For $ T = 2,4 \; J/k_B$ og $L = 20$ så fikk vi grafen i \autoref{Fig:Den2}:
+$$ \expval{\epsilon} = -1,996 $$
+$$ \expval{m} =  1 $$
+$$ C_v  \approx 0,032 $$
+$$ X = 0,007$$
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.4, trim 2.5cm 0 0 0]{../Images/T240L20.pdf}
-\caption{Histogram og følgende sannsynlighetsfordeling for $T = 2,4 \; J/k_B$ og $L = 20$.}
-\label{Den2}
-\end{figure}
+For de numeriske bergningene for samme $L$ og $T$ så fikk vi at:
+
+$$ \expval{\epsilon} \approx -1,995 $$
+$$ \expval{m} \approx 1$$
+$$ C_v \approx 0.04$$
+$$ X \approx 0.005$$
+
 
 \subsection*{Forventningsverdie for energi og magnetisme per sinn}
 
@@ -238,7 +223,7 @@ Vi fikk grafene \autoref{Fig:5e1} og \autoref{Fig:5m1} for $T =  1 \; J/k_B $ hv
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.4, trim=1.7cm 0 0 0 ]{../Images/meanmT1L20.pdf}
+\includegraphics[scale=0.4, trim=2.5cm 0 0 0 ]{../Images/meanmT1L20.pdf}
 \caption{Forventingsverdien til magnetisering per spinn for $T=2.4 \; J/k_B$ og $L=20$. Den tilfeldige $s_0$ starter på en høy energi imens grunntilstanden starter med alle spinn opp for å ha den laveste energien.}
 \label{Fig:5m1}
 \end{figure}
@@ -255,6 +240,24 @@ Vi fikk grafene \autoref{Fig:5e1} og \autoref{Fig:5m1} for $T =  1 \; J/k_B $ hv
 \includegraphics[scale=0.4, trim=2.5cm 0 0 0 ]{../Images/meanmT24L20.pdf}
 \caption{Forventingsverdien til magentisering per spinn. Her er $T=2,4 \; J/k_B$ og $L = 20$. Vi har brukt 500 000 Monte Carlo sykluser for hver instans av Ising modellen med forskjellige temperaturer. }
 \label{Fig:5m24}
+\end{figure}
+
+For $T = 1.0 \; J/k_B$ og $L = 20$, så fikk vi gjenkonstruert sannsynligehtsfordelingen som vist i \autoref{Fig:Den1}. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4, trim=2.5cm 0 0 0]{../Images/T100L20.pdf}
+\caption{Histogram og følgende sannsynlighetsfordeling for $T = 1,0 \; J/k_B$ og $L = 20$.}
+\label{Den1}
+\end{figure}
+
+For $ T = 2,4 \; J/k_B$ og $L = 20$ så fikk vi grafen i \autoref{Fig:Den2}:
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4, trim=2.5cm 0 0 0]{../Images/T240L20.pdf}
+\caption{Histogram og følgende sannsynlighetsfordeling for $T = 2,4 \; J/k_B$ og $L = 20$.}
+\label{Den2}
 \end{figure}
 
 \subsection*{Forventingsverdier for forksjellige $L$}
@@ -290,7 +293,7 @@ Og for $C_v$ (\autoref{Fig:CvAll}) og $X$ (\autoref{Fig:XAll}):
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4, trim=2.5cm 0 0 0 ]{../Images/XPerTAll.pdf}
-\caption{Vi ser på forkjellige temperaturer $T [2.1, 2.4] \; J/k_B$ og ser hva forventingsverdien for permaebiliteten blir etter 500 000 Monte Carlo sykluser. $L = 40$ og $L = 60$ har 100 tempratursteg imens $L = 100$ har 50 steg. For $L = 100$ kjørte vi også kun over $ T = [2.2, 2.4] \; J/k_B$.}
+\caption{Vi ser på forkjellige temperaturer $T [2.1, 2.4] \; J/k_B$ og ser hva forventingsverdien for susceptibiliteten blir etter 500 000 Monte Carlo sykluser. $L = 40$ og $L = 60$ har 100 tempratursteg imens $L = 100$ har 50 steg. For $L = 100$ kjørte vi også kun over $ T = [2.2, 2.4] \; J/k_B$.}
 \label{Fig:XAll}
 \end{figure}
 
@@ -300,17 +303,19 @@ $$ T \left ( L = \infty \right ) \approx 2,28 \; J/k_B \pm 0,06 \; J/k_B$$
 
 \section{Diskusjon}
 
-
+De numeriske verdiene vi fikk for $T = 1,0 \; J/k_B$ og $L = 2$ stemmer godt overns med de analytiske verdiene for $\expval{\epsilon}$ og $\expval{|m|}$, men avviker litt for varmekapasiteten og suceptibiliteten. 
 
 \subsection*{Forventningsverdie for energi og magnetisme per sinn}
 
 Vi vet at forventingsverdien for energien per spinn skal være $\left < \epsilon \right > = -2 \; J/k_B$ ved , som vi har funnet analytisk. Det stemmer godt overens med de numeriske resultatene som vi ser i \autoref{Fig:5e1} hvor vi den tilfeldige initialstilstanden møter tilstanden med alle spinn opp ved å flate ut ved $\left < \epsilon \right > \approx -2 \; J/kB$. For $T = 2.4 \; J/k_B$ (\autoref{Fig:5e24}) så ser vi at den derimot ikke flater ut ved $ \epsilon = -2$, men ved $\epsilon \approx -1.2 $, noe som vil si at ved $T = 2.4 \; J/k_B$ så er ikke tilstaden med lavest energi lenger den mest sannsynlige tilstaden. Tenker det gir mening ved at siden systemet har høyere temperatur, altså høyere gjennomsnitlig energi, så vil forventingsverdien av energi per spinn også løftes opp. I plottet for $\left < \epsilon \right >$ ved $T = 2.4  \; J/k_B$ (\autoref{Fig:5e24} så ser vi at det er større variasjon rundt ekvivalenslinjen enn ved grafen ved $T = 1 \; J/k_B$. Det ligner på oppførselen til temperaturen til to objekter i kontakt, hvor vil se den samme økningen av variasjon ved økning av temperaturen. Magnetiseringen per spinn ser også ut til å gå mot en felles grenseverdi, men det burde her vært gjort flere Monte Carlo sykluser for å være sikker. Kan derimot være rimelig sikker på at grenseverdien ligger mellom $\left < | m | \right > = 0,0$ til $\left < | m | \right > = 0,4$, noe som ihvertfall sier oss at magnetiseringen synker med temperaturen. Det passer med at den mest sannsynlige mikrotilstanden ikke lenger er hvor alle spinn peker opp, der magnetiseringen er størst.
 
+Vi ser at gjenkonstruskjonen av sannsynlighetsfordelingen av $\epsilon$ gir mening ettersom for $T = 1,0 \; J/k_B$ så er $\epsilon = -2$ den mest sannsynlige tilstanden, som sett i \autoref{Fig:5e1}. For $T = 2,4 \; J/k_B$ så er det større spredning, noe som gjenspeiles i variasjonen rundt ekvivalenspunktet i \autoref{Fig:5e24}. 
+
 \subsection*{Forventingsverdier for forksjellige $L$}
 
 Om vi sammenlikner plottet for $\left < \epsilon \right > (T)$ (\autoref{Fig:epsAll}) med entalpien til vann som funksjon av temperatur, så ser vi at grafen vi har fått ligner veldig på en faseovergang hvor et materiale smelter hvor vi har en svak økning ved $T \approx 2,25 \; J/k_B$ og svak utflatning igjen ved $T \approx 2,3 \; J/k_B$. Tenker at faseovergangen i Ising modellen korrelerer med faseovergangen til materialer med at flippingsfrekvensen gir samme effekt som vibrasjonen til partiklene i et materiale. Det gir da mening at vi har en overgang som ligner mest på overgangen fra solid til flytende materiale ettersom spinnnene i Ising modellen ikke får en stor økning av mulige bevegelser som molekylene i et materiale gjør ved overgangen fra væske til gass. Kanskje man vil sette en slik faseovergang om man introduserte en grense hvor antall mulige spinnretninger øker, slik at spinnene får et større bevegelsesrom.
 
-Magnetiseringen (\autoref{Fig:mAll} har stor varisjon ved temperaturer mellom $T = 2,1 \; J/k_B$ til $T = 2,25 \; J/k_B$. Etter det så stabiliserer den gjennomsnitlige magnetiseringen seg rundt $ \expval(m) = 0$. Vi ser at magnetiseringen begynner å stabilserer seg senere for større $L$, og den ser også ut til stabilisere seg raskere for større $L$ også, men det er ikke helt tydelig med kun de tre grafene vi har. Permaebiliteten også tydelig endring ved økning av $L$, hvor grafen blir spissere og maksverdien ser ut til å øke eksponentsielt. Det ville gitt mening siden ved påvirkning av et magnetfelt, så vil det være $N = L^2$ spinn som bidrar til den totale magnetiseringen når alle spinnene retter seg etter det eksterne magnetfeltet. Vi ser at maksverdien til permabiliteten ser ut til å følge $N = L^2$ for $L = 40$ og $L = 60$, men ikke for $L = 100$, noe som ikke virker helt riktig. Permaebiliteten følger tydelig av hvor magnetiseringen begynner å stabilisere seg og hvor lang tid den bruker på å komme seg ned til $\expval{m} = 0$. 
+Magnetiseringen (\autoref{Fig:mAll} har stor varisjon ved temperaturer mellom $T = 2,1 \; J/k_B$ til $T = 2,25 \; J/k_B$. Etter det så stabiliserer den gjennomsnitlige magnetiseringen seg rundt $ \expval(m) = 0$. Vi ser at magnetiseringen begynner å stabilserer seg senere for større $L$, og den ser også ut til stabilisere seg raskere for større $L$ også, men det er ikke helt tydelig med kun de tre grafene vi har. susceptibiliteten også tydelig endring ved økning av $L$, hvor grafen blir spissere og maksverdien ser ut til å øke eksponentsielt. Det ville gitt mening siden ved påvirkning av et magnetfelt, så vil det være $N = L^2$ spinn som bidrar til den totale magnetiseringen når alle spinnene retter seg etter det eksterne magnetfeltet. Vi ser at maksverdien til permabiliteten ser ut til å følge $N = L^2$ for $L = 40$ og $L = 60$, men ikke for $L = 100$, noe som ikke virker helt riktig. susceptibiliteten følger tydelig av hvor magnetiseringen begynner å stabilisere seg og hvor lang tid den bruker på å komme seg ned til $\expval{m} = 0$. 
 
 For varmekapsiteten (\autoref{Fig:CvAll}) så forventet vi egentlig at maksimumet til grafen skulle øke og bli spissere ved økning av $L$, men kan være at det er fordi vi har for få temperatursteg  Men siden  $T_c$ ikke er avhening av hvor høyt topppunktet til grafen er, så bruker vi dataene for $L = 100$ i beregningene av $T \left ( L = \infty \right ) $ også. Med det så fikk vi en verdi nærme den analtyske verdien funnet av Lars Onsager: $T \left ( L = \infty \right ) \approx 2,269 \; J/k_B$.
 
@@ -344,69 +349,5 @@ Vi starter med å finne alle mulige tilstander for et $2\cross 2$ gitter, som gi
 Vi ser altså at det er 16 forskjellige muligheter tilstander i et $2\cross2$-gitter, men noen av disse er symmetriske. Alle fire tilstandene med ett spin opp er symmetriske, det samme gjelder for ett spin ned. Alle tilstandene for to spin opp hvor to av dem er naboer er har også en symmetri og det samme med de to diagonale. Vi kan derfor si at de som er symmetriske har samme total energi. 
 \newline Så var det magnetiseringen. Siden magnetiseringen er gitt som
 
-\section{This is another appendix}\label{appendix}
-Tada.
-%% all \section commands following \appendix are automatically taken as appendices
-
-%% Note that \label{appendix} command on line 115. What this does is setup a reference point for LaTeX that you can
-%% access wherever you want using \ref{appendix}.
-%% You can place labels on most environments such as equations, figures, tables, etc.
-
-\clearpage
-Note that this document is written in the two-column format. If you want to display a large equation, a large figure, or whatever, in one-column format, you can do this like so:
-\onecolumngrid
-\vspace{1cm} % some extra space
-This text and this equation are both in one-column format.
-
-\footnote{This equation is actually from quantum mechanics. ``It's called Schrödinger's Time-Dependent Wave Equation'', named after the awesome Austrian physicist Erwin Rudolf Josef Alexander Schrödinger. Yep, the ``Schrödinger's cat'' guy. Pretty cool dude actually, check his wiki page: \url{https://en.wikipedia.org/wiki/Erwin_Schrodinger}. He was physics' no. 1 Ladies' man if there ever was one. Anyway, you will learn more about this equation in FYS2140. You can also find it printed on a glass wall in the UiO Physics Building (it really is that important).}
-
-\begin{equation}\label{equation}
-\frac{-\hbar^2}{2m}\laplacian{\Psi}+V\Psi=i\hbar\pdv{t}\Psi
-\end{equation}
-Note that the equation numbering (this: \ref{equation}) follows the appendix as this text is technically inside Appendix \ref{appendix}. If you want a detailed listing of (almost) every available math command, check: \url{https://en.wikibooks.org/wiki/LaTeX/Mathematics}.
-\vspace{1cm} % some extra space
-\twocolumngrid
-And now we're back to two-column format. It's really easy to switch between the two. It's recommended to keep the two-column format, because it is easier to read, it's not very cluttered, etc. Pro Tip: You should also get used to working with REVTeX because it is really helpful in FYS2150.
-
-One last thing, this is a code listing:
-\begin{lstlisting}
-This will be displayed with a cool programming font!
-\end{lstlisting}
-You can add extra arguments using optional parameters:
-\begin{lstlisting}[morekeywords={cool}]
-This will be displayed with a cool programming font!
-\end{lstlisting}
-You can also list code from a file using \texttt{lstinputlisting}. If you're interested, check \url{https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings}.
-
-This is a basic table:
-\begin{table}[h]  % h = "here"  , h! = here!
-\caption{This is a nice table}\label{table}
-\begin{tabular}{|c|c|c|} % note that & separates columns while \\ separates the rows
-\hline                    % creates a horizontal line (try removing it)
-Hey & Hey & Hey  \\
-\hline
-Hello & Hello & Hello \\
-\hline
-Bye & Bye & Bye \\
-\hline
-\end{tabular}
-\end{table}\\
-You can a detailed description of tables here: \url{https://en.wikibooks.org/wiki/LaTeX/Tables}.
-
-I'm not going to delve into Tikz in any level detail, but here's a quick picture:
-\begin{figure}[h]
-\centering  % places the tikz image in the center of the text column
-\begin{tikzpicture}
-\draw[->] (0,0) -- (2,0) node [pos=1.0,below] {\(x\)};
-\draw[->] (0,0) -- (0,2) node [pos=1.0,left] {\(y\)};
-\draw (0,0) -- (1.5,1.5) node [pos=1.0,above] {\(f(x)\)};
-\end{tikzpicture}
-\caption{This is great caption}\label{figure}
-\end{figure}\\
-If you want to know more, check: \url{https://en.wikibooks.org/wiki/LaTeX/PGF/TikZ}.
-
-%% If you want to include figure:
-%\includegraphics[scale=1.0]{filename}
-%% check https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics if you want to know more
 
 \end{document}
