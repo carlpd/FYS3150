@@ -82,8 +82,8 @@
 \author{Person McSomething}               % self-explanatory
 \date{\today}                             % self-explanatory
 \noaffiliation                            % ignore this
-\begin{abstract}                          % marks the beginning of the abstract
-this abstract is abstract.                % the body of the abstract
+\begin{abstract}                          % marks the beginning of 
+Vi finner bruker Monte Carlo metoden og metropolis algoritmen for å finne egenskaper ved Ising modellen. Vi finner at våre numeriske beregninger har god overenstemmelse med de analytiske verdiene for $\expval{\epsilon}$ og $\expval{|m|}$, men avviker litt for de utledede verdiene $C_v$ og $X$. Vi finner også at for $T = 1 \; J/k_B$ så faller systemet ned til grunntilstanden, men ekvivalenstilstanden endrer seg ved høyere temperaturer. For temperaturer mellom $T = 2,1 \; J/k_B$ og $T = 2,4 \; J/k_B$ så finner vi varmekapasiteten for forksjellige gitterstørrelse og bruker reultatet til å komme fram til at $T_c \left ( L = \infty \right ) \approx 2,28 \; J/k_B$.% the body of the abstract
 \end{abstract}                            % marks the end of the abstract
 \maketitle                                % creates the title, author, date & abstract
 
@@ -305,7 +305,7 @@ $$ T \left ( L = \infty \right ) \approx 2,28 \; J/k_B \pm 0,06 \; J/k_B$$
 
 De numeriske verdiene vi fikk for $T = 1,0 \; J/k_B$ og $L = 2$ stemmer godt overns med de analytiske verdiene for $\expval{\epsilon}$ og $\expval{|m|}$, men avviker litt for varmekapasiteten og suceptibiliteten. 
 
-\subsection*{Forventningsverdie for energi og magnetisme per sinn}
+\subsection*{Forventningsverdi for energi og magnetisme per sinn}
 
 Vi vet at forventingsverdien for energien per spinn skal være $\left < \epsilon \right > = -2 \; J/k_B$ ved , som vi har funnet analytisk. Det stemmer godt overens med de numeriske resultatene som vi ser i \autoref{Fig:5e1} hvor vi den tilfeldige initialstilstanden møter tilstanden med alle spinn opp ved å flate ut ved $\left < \epsilon \right > \approx -2 \; J/kB$. For $T = 2.4 \; J/k_B$ (\autoref{Fig:5e24}) så ser vi at den derimot ikke flater ut ved $ \epsilon = -2$, men ved $\epsilon \approx -1.2 $, noe som vil si at ved $T = 2.4 \; J/k_B$ så er ikke tilstaden med lavest energi lenger den mest sannsynlige tilstaden. Tenker det gir mening ved at siden systemet har høyere temperatur, altså høyere gjennomsnitlig energi, så vil forventingsverdien av energi per spinn også løftes opp. I plottet for $\left < \epsilon \right >$ ved $T = 2.4  \; J/k_B$ (\autoref{Fig:5e24} så ser vi at det er større variasjon rundt ekvivalenslinjen enn ved grafen ved $T = 1 \; J/k_B$. Det ligner på oppførselen til temperaturen til to objekter i kontakt, hvor vil se den samme økningen av variasjon ved økning av temperaturen. Magnetiseringen per spinn ser også ut til å gå mot en felles grenseverdi, men det burde her vært gjort flere Monte Carlo sykluser for å være sikker. Kan derimot være rimelig sikker på at grenseverdien ligger mellom $\left < | m | \right > = 0,0$ til $\left < | m | \right > = 0,4$, noe som ihvertfall sier oss at magnetiseringen synker med temperaturen. Det passer med at den mest sannsynlige mikrotilstanden ikke lenger er hvor alle spinn peker opp, der magnetiseringen er størst.
 
@@ -320,24 +320,12 @@ Magnetiseringen (\autoref{Fig:mAll} har stor varisjon ved temperaturer mellom $T
 For varmekapsiteten (\autoref{Fig:CvAll}) så forventet vi egentlig at maksimumet til grafen skulle øke og bli spissere ved økning av $L$, men kan være at det er fordi vi har for få temperatursteg  Men siden  $T_c$ ikke er avhening av hvor høyt topppunktet til grafen er, så bruker vi dataene for $L = 100$ i beregningene av $T \left ( L = \infty \right ) $ også. Med det så fikk vi en verdi nærme den analtyske verdien funnet av Lars Onsager: $T \left ( L = \infty \right ) \approx 2,269 \; J/k_B$.
 
 
-\section{Conklusjon}
-% acknowledgements (optional)
-\begin{acknowledgments}  % if you disagree with the spelling, blame Americans
-I would like thank myself for writing this beautiful document.
-\end{acknowledgments}
+\section{Konklusjon}
 
-
-%% When it comes to the bibliography I personally generate it using BibLaTeX. (see the link above if you're interested)
-%% You're obviously allowed to create the references section however you like.
-%% I'll keep it simple here.
-\section*{References}  % the asterisk (*) after \section makes the section numbering go away
-\begin{itemize}
-\item[-]Reference 1
-\item[-]Reference 2
-\end{itemize}
+Vi har sett på hvordan forventingsverdiene $\expval{\epsilon}$, $\expval{|m|}$ og egenskapene $C_v$ og $X$ endrer seg med temperatur og størrelse til en Ising modell. Ved sammenlikning av numeriske og analytiske resultater for et lite system så hadde vi god overenstemmelse. For $T = 1 \; J/k_B$ så fant vi at en tilfeldig initialtilstand vil falle ned til grunntilstanden med netsen alle spinn opp, hvor for høyere temperaturer den vil falle til en tilstand med ikke kun spinn opp. Ved å ta å se på fordelingen av forksjellige energier så har vi gjenkonstruert en tilnærmet sannsynlighetsmodell for $T = 1 \; J/k_B$ og $T = 2.4 \; J/k_B$. For å finne grensenverdien til den kritiske temperaturen har vi sett på økningen av mkasverdien ti varmekapasiteten for $L = 40$, $L = 60$ og $L=100$. Med våre numeriske bergninger så fikk vi at $T_c \left (L = \infty \right ) \approx 2,269 \; J/k_B$. 
 
 \newpage
-%% if you want to include an appendix, this is how you do it
+
 \appendix
 \section{$2\cross 2$ gitter}
 Vi starter med å finne alle mulige tilstander for et $2\cross 2$ gitter, som gitt i figur \ref{2x2}
