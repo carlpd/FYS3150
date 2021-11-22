@@ -5,14 +5,14 @@
 
 
 int main(){
-  int TN=20;
+  int TN=100;
   double Tstart=2.1;
   double Tend=2.4;
   int LN=4;
   int Lstart=40;
   int Lend=100;
   std::string filename;
-  filename="Txt/PerTemp801.txt";
+  filename="Txt/PerTemp80.txt";
   std::ofstream f (filename, std::ofstream::out);
   arma::vec T=arma::linspace(Tstart, Tend, TN);
   #pragma omp parallel for
