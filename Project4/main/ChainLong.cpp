@@ -5,14 +5,14 @@
 
 
 int main(){
-  int TN=100;
-  double Tstart=2.1;
+  int TN=50;
+  double Tstart=2.2;
   double Tend=2.4;
   int LN=4;
   int Lstart=40;
   int Lend=100;
   std::string filename;
-  filename="Txt/PerTemp80.txt";
+  filename="Txt/v4PerTemp100.txt";
   std::ofstream f (filename, std::ofstream::out);
   arma::vec T=arma::linspace(Tstart, Tend, TN);
   #pragma omp parallel for
@@ -20,7 +20,7 @@ int main(){
     double T_in = T(Ti); /* [J/kb] */
     std::cout<<T_in<<std::endl;
     int omp_get_thread_num();
-    int L_in = 80; /* [-] */
+    int L_in = 100; /* [-] */
 
     Ising2d IS2D = Ising2d(T_in, L_in);
     int NumThread = omp_get_thread_num();
@@ -38,6 +38,7 @@ int main(){
         IS2D.makebreakstate();
       }
     }
+    std::cout<<"out"<<std::endl;
     double TE=0;
     double TE2=0;
     double TM=0;
