@@ -91,7 +91,7 @@ Vi bruker Monte Carlo metoden og metropolis algoritmen for å finne egenskaper v
 % the fundamental components of scientific reports:
 \section{Introdukson}
 
-Store systemer er ofte styrt av en kaotisk samling med tilfeldige hendelser. Det blir da fort umulig å kartlegge alle mulige tilstander og sannsynligheten for hver enkelt av dem. Derimot, ved å kun se på et utvalg av tilstander så kan man finne egenskaper ved systemet uten å ha hele bildet. For eksempel ved simulæringer av smittespredning så bruker man slike metoder for store systemer med mange mulige hendelser. I denne artikkelen så skal vi finne forskjellige egenskaper ved et system ved hjelp av Monte Carlo metoden. Lenz-Ising modellen er oppkalt etter de tyske fysikerene Ersnt Ising og Willhelm Lenz, som ble oppfunnet av Willhelm Lenz i 1920. Modellen går ut på at man har et gitte rmed spinn som kan tilfeldig flippe opp eller ned. Vi skal se på hvordan forskjellige egenskaper til et materiale modellert av Ising modellen endrer seg med tempeartur og størrelse. I teori delen så intorduserer vi det nødvendige bakgrunnsstoffet, i metodedelen så ser vi mer konkret på hva vi skal gjør og i resultat og diskusjonsdelen så presenterer og diskuterer vi hva vi fant.
+Store systemer er ofte styrt av en kaotisk samling med tilfeldige hendelser. Det blir da fort umulig å kartlegge alle mulige tilstander og sannsynligheten for hver enkelt av dem. Derimot, ved å kun se på et utvalg av tilstander så kan man finne egenskaper ved systemet uten å ha hele bildet. For eksempel ved simuleringer av smittespredning så bruker man slike metoder for store systemer med mange mulige hendelser. I denne artikkelen så skal vi finne forskjellige egenskaper ved et system ved hjelp av Monte Carlo metoden. Lenz-Ising modellen er oppkalt etter de tyske fysikerene Ersnt Ising og Willhelm Lenz, som ble oppfunnet av Willhelm Lenz i 1920. Modellen går ut på at man har et gitter med spinn som kan tilfeldig flippe opp eller ned. Vi skal se på hvordan forskjellige egenskaper til et materiale modellert av Ising modellen endrer seg med tempeartur og størrelse. I teori delen så intorduserer vi det nødvendige bakgrunnsstoffet, i metodedelen så ser vi mer konkret på hva vi skal gjøre og i resultat og diskusjonsdelen så presenterer og diskuterer vi hva vi fant.
 
 \section{Teori}
 \subsection{Definering av tilstanden og dens egenskaper}
@@ -99,13 +99,13 @@ Vi skal regne for tilstander $\mathbf{s}$ gitt som et 2D $L\cross L$ gitter med 
 $$
 E(\mathbf{s})=-J\sum_{\expval{kl}}^{N} s_k s_l
 $$
-hvor $\expval{kl}$ betyr at den går gjennom det energien mellom hvert spinn og deres naboer én gang og teller ikke dette to ganger. $J$ vil være koblingskonstant. $N=L^2$ altså størrelsen av $\mathbf{s}$ slik at vi går gjennom hele matrisen.
+hvor $\expval{kl}$ betyr at den går gjennom den energien mellom hvert spinn og deres naboer én gang og teller ikke dette to ganger. $J$ vil være koblingskonstant. $N=L^2$ altså størrelsen av $\mathbf{s}$ slik at vi går gjennom hele matrisen.
 \newline Vi har også energien per spinn $\epsilon$ gitt ved 
 $$
 \epsilon(\mathbf{s}) =\frac{E(\mathbf{s})}{N}
 $$
 som vi må bruke når vi skal sammenligne matriser av ulike størrelser.
-\newline Vi trenger også magnetisaseringen gitt ved
+\newline Vi trenger også magnetiseringen gitt ved
 $$
 M(\mathbf{s})=\sum_i^N s_i
 $$
@@ -123,11 +123,11 @@ Z=\sum_{i}^{N}e^{\beta \mathbf{s_i}}
 $$
 hvor $\beta=\frac{1}{k_bT}$. \newline  Vi skal også finne den spesifike varmekapasiteten
 $$
-C_V=\frac{1}{k_B T^2}(\expval{\epsilon}^2-\expval{\epsilon}^2)
+C_V=\frac{1}{k_B T^2}(\expval{E^2}-\expval{E}^2)
 $$
-og den susceptilbiliteten
+og susceptilbiliteten
 $$
-\chi =\frac{1}{k_B T}(\expval{m^2}-\expval{m}^2-\expval{|m|}^2)
+\chi =\frac{1}{k_B T}(\expval{M^2}-\expval{|M|}^2)
 $$
 så vi må også finne $\expval{\epsilon^2}$ og $\expval{m^2}$. \newline
 Når vi flipper et spinn så skal vi også kunne få en energiendring gitt ved
@@ -190,7 +190,7 @@ $$
 \subsection{Burn-in tiden}
 I starten vil vi sannsynligvis se at tilstanden faller ganske kraftig i starten før den mykner ut. Denne delen kalles burn-in tiden og er tiden før den nærmer seg en stabil fase. Selv om vi i teorien burde ha med alle mulige faser for å få riktige forventningsverdier, vil vi droppe verdiene som kommer innen denne tiden. Dette er fordi disse verdiene er så store at det skaper en så stor vekt, mens det kan være like mange verdier av motsatte verdier som ikke blir sjekket. Dessuten er det en mye større sannsynlighet for å være i den stabile enn den ustabile fasen og siden vi ikke sjekker alle, så utelukker vi de som driver den numeriske forventningsverdien bort fra den reelle.
 \subsection{Parallellisering}
-I dette prosjektet vil vi bruke parallellisering på datamaskinen for å spare tid. Parallellisering er kort forklart at man bruker flere kjerner på datamaskinen til å gjøre operasjoner samtidig. Datamaskinen deler altså oppgaven i mindre oppgave som den kjører i parallelle tråder istedenfor å bare kjøre den i serie i en enkelt tråd. Vi definerer nå $T_1$ som tiden det vil ta med en enkelt tråd og $T_n$ som tiden det vil ta med $n$ tråder. Da får vi at tidsforksjellen blir $\frac{T_1}{T_n}$. I et ideelt tilfelle hvor maksinen ikke bruker noe tid på å fordele oppgaver og alle tråder er like effektive har vi:
+I dette prosjektet vil vi bruke parallellisering på datamaskinen for å spare tid. Parallellisering er kort forklart at man bruker flere kjerner på datamaskinen til å gjøre operasjoner samtidig. Datamaskinen deler altså oppgaven i mindre oppgaver som den kjører i parallelle tråder istedenfor å bare kjøre den i serie i en enkelt tråd. Vi definerer nå $T_1$ som tiden det vil ta med en enkelt tråd og $T_n$ som tiden det vil ta med $n$ tråder. Da får vi at tidsforksjellen blir $\frac{T_1}{T_n}$. I et ideelt tilfelle hvor maksinen ikke bruker noe tid på å fordele oppgaver og alle tråder er like effektive har vi:
 $$
 T_n=\frac{T_1}{n}
 $$
@@ -208,9 +208,9 @@ $$
 $$
 og vi ser at det er en minimumsgrense for hvor fort parallellisering kan gå. I våres tilfeller har vi bare 4 eller 8 kjerner og like mange tråder, så vi vil ikke være i nærheten av å nå dette tallet.
 
-\subsection*{Finne $T_c \left ( L = \infty \right ) $ med endelig datasett}
+\subsection{Finne $T_c \left ( L = \infty \right ) $ med endelig datasett}
 
-Lars Onsager sien analytiske resultater gir oss relasjonen:
+Lars Onsager sine analytiske resultater gir oss relasjonen:
 
 $$ T_c \left ( L \right ) - T_c \left ( L = \infty \right ) = aL^{-1}$$
 
@@ -253,7 +253,7 @@ Først så paralelliserer vi koden vår over temperaturene med OpenMP, og tester
 Nå som vi har laget verdier av varmekapasiteten ved de forskjellige temperaturene kan vi da ta toppunktet (altså hvor varmekapasiteten er på et maksimum) for hver verdi og sette disse inn for seg. Det er her fasendringen skjer og vi vil finne denne for $L=\infty$. Vi gjør altså en lineær regresjonsanalyse av de tre punktene og finner stigningstallet. Stigningstallet vil da være en tilnærming til den kritiske temperaturen $T_c(L=\infty)$.
 \section{Resultater}
 
-\subsection*{Analytiske mot numeriske resultater}
+\subsection{Analytiske mot numeriske resultater}
 
 For $L = 2$ og $T = 1,0 \; J/k_B$ så fikk vi at analytisk så er
 
@@ -262,7 +262,7 @@ $$ \expval{m} =  1 $$
 $$ C_v  \approx 0,032 $$
 $$ X = 0,007$$
 
-For de numeriske bergningene for samme $L$ og $T$ så fikk vi at:
+For de numeriske beregningene for samme $L$ og $T$ så fikk vi at:
 
 $$ \expval{\epsilon} \approx -1,995 $$
 $$ \expval{m} \approx 1$$
@@ -270,13 +270,13 @@ $$ C_v \approx 0.04$$
 $$ X \approx 0.005$$
 
 
-\subsection*{Forventningsverdier for energi og magnetisme per spinn}
+\subsection{Forventningsverdier for energi og magnetisme per spinn}
 
-Vi fikk grafene \autoref{Fig:5e1} og \autoref{Fig:5m1} for $T =  1 \; J/k_B $ hvor vi ser hvordan forventingsverdiene utvikler seg med hensyn på antall Monte Carlo sykluser. For $T = 2,4 \; J/kB$ så fikk vi plottene \autoref{Fig:5e24} og \autoref{Fig:5m24}.
+Vi fikk grafene \autoref{Fig:5e1} og \autoref{Fig:5m1} for $T =  1 \; J/k_B $ hvor vi ser hvordan forventingsverdiene utvikler seg med hensyn på antall Monte Carlo sykluser. For $T = 2,4 \; J/kB$ så fikk vi plottene i \autoref{Fig:5e24} og \autoref{Fig:5m24}.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.4, trim=1.7cm 0 0 0 ]{../Images/meanepsT1L20.pdf}
+\includegraphics[scale=0.4, trim=1.3cm 0 0 0 ]{../Images/meanepsT1L20.pdf}
 \caption{Forventingsverdien av energien per spinn etter et antall Monte Carlo sykluser. Ser at den som starter fra tilfeldig spinnmatrise ender opp på samme steds som grunntilstandsmatrisen. Vi bruker det til å estimere burn-in tiden til systemet.}
 \label{Fig:5e1}
 \end{figure}
@@ -306,7 +306,7 @@ For $T = 1.0 \; J/k_B$ og $L = 20$, så fikk vi gjenkonstruert sannsynligehtsfor
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.4, trim=2.5cm 0 0 0]{../Images/T100L20.pdf}
+\includegraphics[scale=0.4, trim=2.0cm 0 0 0]{../Images/T100L20.pdf}
 \caption{Histogram og følgende sannsynlighetsfordeling for $T = 1,0 \; J/k_B$ og $L = 20$.}
 \label{Den1}
 \end{figure}
@@ -367,22 +367,22 @@ De numeriske verdiene vi fikk for $T = 1,0 \; J/k_B$ og $L = 2$ stemmer godt ove
 
 \subsection*{Forventningsverdi for energi og magnetisme per sinn}
 
-Vi vet at forventingsverdien for energien per spinn skal være $\left < \epsilon \right > = -2 \; J/k_B$ ved , som vi har funnet analytisk. Det stemmer godt overens med de numeriske resultatene som vi ser i \autoref{Fig:5e1} hvor vi den tilfeldige initialstilstanden møter tilstanden med alle spinn opp ved å flate ut ved $\left < \epsilon \right > \approx -2 \; J/kB$. For $T = 2.4 \; J/k_B$ (\autoref{Fig:5e24}) så ser vi at den derimot ikke flater ut ved $ \epsilon = -2$, men ved $\epsilon \approx -1.2 $, noe som vil si at ved $T = 2.4 \; J/k_B$ så er ikke tilstaden med lavest energi lenger den mest sannsynlige tilstaden. Tenker det gir mening ved at siden systemet har høyere temperatur, altså høyere gjennomsnitlig energi, så vil forventingsverdien av energi per spinn også løftes opp. I plottet for $\left < \epsilon \right >$ ved $T = 2.4  \; J/k_B$ (\autoref{Fig:5e24} så ser vi at det er større variasjon rundt ekvivalenslinjen enn ved grafen ved $T = 1 \; J/k_B$. Det ligner på oppførselen til temperaturen til to objekter i kontakt, hvor vil se den samme økningen av variasjon ved økning av temperaturen. Magnetiseringen per spinn ser også ut til å gå mot en felles grenseverdi, men det burde her vært gjort flere Monte Carlo sykluser for å være sikker. Kan derimot være rimelig sikker på at grenseverdien ligger mellom $\left < | m | \right > = 0,0$ til $\left < | m | \right > = 0,4$, noe som ihvertfall sier oss at magnetiseringen synker med temperaturen. Det passer med at den mest sannsynlige mikrotilstanden ikke lenger er hvor alle spinn peker opp, der magnetiseringen er størst.
+Vi vet at forventingsverdien for energien per spinn skal være $\left < \epsilon \right > = -2 \; J/k_B$, som vi har funnet analytisk. Det stemmer godt overens med de numeriske resultatene som vi ser i \autoref{Fig:5e1} hvor vi ser den tilfeldige initialstilstanden møter tilstanden med alle spinn opp ved å flate ut ved $\left < \epsilon \right > \approx -2 \; J/kB$. For $T = 2.4 \; J/k_B$ (\autoref{Fig:5e24}) så ser vi at den derimot ikke flater ut ved $ \epsilon = -2$, men ved $\epsilon \approx -1.2 $, noe som vil si at ved $T = 2.4 \; J/k_B$ så er ikke tilstaden med lavest energi lenger den mest sannsynlige tilstaden. Tenker det gir mening ved at siden systemet har høyere temperatur, altså høyere gjennomsnitlig energi, så vil forventingsverdien av energi per spinn også løftes opp. I plottet for $\left < \epsilon \right >$ ved $T = 2.4  \; J/k_B$ (\autoref{Fig:5e24} så ser vi at det er større variasjon rundt ekvivalenslinjen enn ved grafen ved $T = 1 \; J/k_B$. Det ligner på oppførselen til temperaturen til to objekter i kontakt, hvor vil se den samme økningen av variasjon ved økning av temperaturen. Magnetiseringen per spinn ser også ut til å gå mot en felles grenseverdi, men det burde her vært gjort flere Monte Carlo sykluser for å være sikker. Kan derimot være rimelig sikker på at grenseverdien ligger mellom $\left < | m | \right > = 0,0$ til $\left < | m | \right > = 0,4$, noe som ihvertfall sier oss at magnetiseringen synker med temperaturen. Det passer med at den mest sannsynlige mikrotilstanden ikke lenger er hvor alle spinn peker opp, der magnetiseringen er størst.
 
 Vi ser at gjenkonstruskjonen av sannsynlighetsfordelingen av $\epsilon$ gir mening ettersom for $T = 1,0 \; J/k_B$ så er $\epsilon = -2$ den mest sannsynlige tilstanden, som sett i \autoref{Fig:5e1}. For $T = 2,4 \; J/k_B$ så er det større spredning, noe som gjenspeiles i variasjonen rundt ekvivalenspunktet i \autoref{Fig:5e24}.
 
 \subsection*{Forventingsverdier for forksjellige $L$}
 
-Om vi sammenlikner plottet for $\left < \epsilon \right > (T)$ (\autoref{Fig:epsAll}) med entalpien til vann som funksjon av temperatur, så ser vi at grafen vi har fått ligner veldig på en faseovergang hvor et materiale smelter hvor vi har en svak økning ved $T \approx 2,25 \; J/k_B$ og svak utflatning igjen ved $T \approx 2,3 \; J/k_B$. Tenker at faseovergangen i Ising modellen korrelerer med faseovergangen til materialer med at flippingsfrekvensen gir samme effekt som vibrasjonen til partiklene i et materiale. Det gir da mening at vi har en overgang som ligner mest på overgangen fra solid til flytende materiale ettersom spinnnene i Ising modellen ikke får en stor økning av mulige bevegelser som molekylene i et materiale gjør ved overgangen fra væske til gass. Kanskje man vil sette en slik faseovergang om man introduserte en grense hvor antall mulige spinnretninger øker, slik at spinnene får et større bevegelsesrom.
+Om vi sammenlikner plottet for $\left < \epsilon \right > (T)$ (\autoref{Fig:epsAll}) med entalpien til vann som funksjon av temperatur, så ser vi at grafen vi har fått ligner veldig på en faseovergang hvor et materiale smelter hvor vi har en svak økning ved $T \approx 2,25 \; J/k_B$ og svak utflatning igjen ved $T \approx 2,3 \; J/k_B$.
 
-Magnetiseringen (\autoref{Fig:mAll} har stor varisjon ved temperaturer mellom $T = 2,1 \; J/k_B$ til $T = 2,25 \; J/k_B$. Etter det så stabiliserer den gjennomsnitlige magnetiseringen seg rundt $ \expval(m) = 0$. Vi ser at magnetiseringen begynner å stabilserer seg senere for større $L$, og den ser også ut til stabilisere seg raskere for større $L$ også, men det er ikke helt tydelig med kun de tre grafene vi har. susceptibiliteten også tydelig endring ved økning av $L$, hvor grafen blir spissere og maksverdien ser ut til å øke eksponentsielt. Det ville gitt mening siden ved påvirkning av et magnetfelt, så vil det være $N = L^2$ spinn som bidrar til den totale magnetiseringen når alle spinnene retter seg etter det eksterne magnetfeltet. Vi ser at maksverdien til permabiliteten ser ut til å følge $N = L^2$ for $L = 40$ og $L = 60$, men ikke for $L = 100$, noe som ikke virker helt riktig. susceptibiliteten følger tydelig av hvor magnetiseringen begynner å stabilisere seg og hvor lang tid den bruker på å komme seg ned til $\expval{m} = 0$.
+Magnetiseringen (\autoref{Fig:mAll}) har stor varisjon ved temperaturer mellom $T = 2,1 \; J/k_B$ til $T = 2,25 \; J/k_B$. Etter det så stabiliserer den gjennomsnitlige magnetiseringen seg rundt $ \expval{m} = 0$. Vi ser at magnetiseringen begynner å stabilserer seg senere for større $L$, og den ser også ut til stabilisere seg raskere for større $L$ også, men det er ikke helt tydelig med kun de tre grafene vi har. Susceptibiliteten har også tydelig endring ved økning av $L$, hvor grafen blir spissere og maksverdien ser ut til å øke eksponentsielt. Det ville gitt mening siden ved påvirkning av et magnetfelt, så vil det være $N = L^2$ spinn som bidrar til den totale magnetiseringen når alle spinnene retter seg etter det eksterne magnetfeltet. Vi ser at maksverdien til susceptibiliteten ser ut til å følge $N = L^2$ for $L = 40$ og $L = 60$, men ikke for $L = 100$, noe som ikke virker helt riktig. Susceptibiliteten følger tydelig av hvor magnetiseringen begynner å stabilisere seg og hvor lang tid den bruker på å komme seg ned til $\expval{m} = 0$.
 
-For varmekapsiteten (\autoref{Fig:CvAll}) så forventet vi egentlig at maksimumet til grafen skulle øke og bli spissere ved økning av $L$, men kan være at det er fordi vi har for få temperatursteg  Men siden  $T_c$ ikke er avhening av hvor høyt topppunktet til grafen er, så bruker vi dataene for $L = 100$ i beregningene av $T \left ( L = \infty \right ) $ også. Med det så fikk vi en verdi nærme den analtyske verdien funnet av Lars Onsager i 1944(Hjort-Jensen, 2015,s.415): $T \left ( L = \infty \right ) \approx 2,269 \; J/k_B$.
+For varmekapsiteten (\autoref{Fig:CvAll}) så forventet vi egentlig at maksimumet til grafen skulle øke og bli spissere ved økning av $L$, men det kan være at det er fordi vi har for få temperatursteg. Men siden  $T_c$ ikke er avhengig av hvor høyt topppunktet til grafen er, så bruker vi dataene for $L = 100$ i beregningene av $T \left ( L = \infty \right ) $ også. Med det så fikk vi en verdi nærme den analytiske verdien funnet av Lars Onsager i 1944(Hjort-Jensen, 2015,s.415): $T \left ( L = \infty \right ) \approx 2,269 \; J/k_B$.
 
 
 \section{Konklusjon}
 
-Vi har sett på hvordan forventingsverdiene $\expval{\epsilon}$, $\expval{|m|}$ og egenskapene $C_v$ og $X$ endrer seg med temperatur og størrelse til en Ising modell. Ved sammenlikning av numeriske og analytiske resultater for et lite system så hadde vi god overenstemmelse. For $T = 1 \; J/k_B$ så fant vi at en tilfeldig initialtilstand vil falle ned til grunntilstanden med netsen alle spinn opp, hvor for høyere temperaturer den vil falle til en tilstand med ikke kun spinn opp. Ved å ta å se på fordelingen av forksjellige energier så har vi gjenkonstruert en tilnærmet sannsynlighetsmodell for $T = 1 \; J/k_B$ og $T = 2.4 \; J/k_B$. For å finne grensenverdien til den kritiske temperaturen har vi sett på økningen av mkasverdien ti varmekapasiteten for $L = 40$, $L = 60$ og $L=100$. Med våre numeriske bergninger så fikk vi at $T_c \left (L = \infty \right ) \approx 2,269 \; J/k_B$.
+Vi har sett på hvordan forventingsverdiene $\expval{\epsilon}$, $\expval{|m|}$ og egenskapene $C_v$ og $X$ endrer seg med temperatur og størrelse til en Ising modell. Ved sammenlikning av numeriske og analytiske resultater for et lite system så hadde vi god overenstemmelse. For $T = 1 \; J/k_B$ så fant vi at en tilfeldig initialtilstand vil falle ned til grunntilstanden med nesten alle spinn opp, hvor for høyere temperaturer den vil falle til en tilstand med ikke kun spinn opp. Ved å ta å se på fordelingen av forksjellige energier så har vi gjenkonstruert en tilnærmet sannsynlighetsmodell for $T = 1 \; J/k_B$ og $T = 2.4 \; J/k_B$. For å finne grensenverdien til den kritiske temperaturen har vi sett på økningen av maksverdien til varmekapasiteten for $L = 40$, $L = 60$ og $L=100$. Med våre numeriske beregninger så fikk vi at $T_c \left (L = \infty \right ) \approx 2,28 \; J/k_B$.
 \section*{Referanser}  % the asterisk (*) after \section makes the section numbering go away
 \begin{itemize}
 \item[-]Hjort-Jensen, Morten, $Computational$ $Physics:$ $Lecture$ $Notes$ $2015$, 2015, \url{https://raw.githubusercontent.com/CompPhysics/ComputationalPhysics/master/doc/Lectures/lectures2015.pdf}
