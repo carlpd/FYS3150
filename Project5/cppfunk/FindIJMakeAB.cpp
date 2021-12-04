@@ -27,7 +27,7 @@ void MakeAB(arma::cx_mat& A, arma::cx_mat& B, arma::cx_vec a, arma::cx_vec b, ar
   }
 }
 */
-void MakeABC(arma::cx_mat& A,  arma::cx_mat& B, arma::cx_vec a, arma::cx_vec b, arma::cx_double r){
+void MakeABC(arma::sp_cx_mat& A,  arma::sp_cx_mat& B, arma::cx_vec a, arma::cx_vec b, arma::cx_double r){
   int Mm2=a.n_elem;
   int sMm2=sqrt(Mm2);
   arma::cx_mat R=arma::cx_mat(sMm2, sMm2).fill(0.);
@@ -46,7 +46,8 @@ void MakeABC(arma::cx_mat& A,  arma::cx_mat& B, arma::cx_vec a, arma::cx_vec b, 
   for(int h=0; h<sMm2;h++){
     for(int i=0; i<sMm2;i++){
       for(int j=0; j<sMm2;j++){
-        A(h*sMm2+i, h*sMm2+j)=-P(i,j);
+        A(h*sMm2+i, h*sMm2+j)=(-P(i,j));
+        B(h*sMm2+i, h*sMm2+j)=P(i,j);
       }
     }
   }

@@ -8,7 +8,7 @@ int main(){
   arma::cx_double r=(-1,1);
   MakeAB(A, B, a, b, r);
   std::cout<<A<<std::endl;
-  arma::cx_vec u=arma::cx_vec(9).fill(5.);
+  arma::cx_vec u=arma::cx_vec(9).fill(0.);
   arma::cx_vec bn=findb(B,u);
   arma::cx_vec un=(A,bn);
   std::cout<<un<<std::endl;
