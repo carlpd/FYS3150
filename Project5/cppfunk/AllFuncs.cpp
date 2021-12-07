@@ -124,7 +124,7 @@ arma::vec findWall(int sl){
 }
 arma::vec makeV(int sz, int sl){
   arma::vec wally=findWall(sl);
-  //std::cout << "makeV1" << std::endl;
+  std::cout << "wally" <<wally<< std::endl;
   double VStor=std::pow(10,10);
   double wallxstart=0.5-0.02/2;
   int wxs=int(std::round(wallxstart*sz));
@@ -133,8 +133,11 @@ arma::vec makeV(int sz, int sl){
   arma::mat Vmat=arma::mat(sz, sz).fill(0.);
   int o=1;
   int wallys=0;
-  for(int a=0;a<wally.n_elem-1;a++){
-    int wallye=int(std::round(wally(a)));
+  for(int a=0;a<wally.n_elem;a++){
+    std::cout<<"o"<<o<<std::endl;
+    int wallye=int(std::round(wally(a)*sz));
+    std::cout<<"wallys1"<<wallys<<std::endl;
+    std::cout<<"wallyse"<<wallye<<std::endl;
     if(o>0){
       for(int i=wxs;i<=wxe;i++){
         for(int j=wallys; j<=wallye; j++){
@@ -143,9 +146,17 @@ arma::vec makeV(int sz, int sl){
         }
       }
     }
-    wallys=int(std::round(wally(a)));
-    std::cout<<"wallys"<<wallys<<std::endl;
-    o=(-o);
+
+    wallys=int(std::round(wally(a)*sz));
+    //std::cout<<"wallys"<<wallys<<std::endl;
+    o=(o*(-1));
+  }
+  int wallye=sz-1;
+  for(int i=wxs;i<=wxe;i++){
+    for(int j=wallys; j<=wallye; j++){
+      //std::cout << "makeVn" << std::endl;
+      Vmat(i,j)=VStor;
+    }
   }
   arma::vec Vvec=arma::vec(sz*sz).fill(0.);
   //std::cout << "makeV2" << std::endl;

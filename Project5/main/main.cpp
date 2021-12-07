@@ -1,7 +1,7 @@
 #include "../hpp/AllFunks.hpp"
 
 int main(){
-  double h=0.2;
+  double h=0.02;
   double dt=2.5e-5;
   double T=0.008;
   double xc=0.25;
@@ -23,7 +23,7 @@ int main(){
   V.print("V");
   std::cout << "main2" << std::endl;
   arma::cx_vec u=makeinit(sz, sigx, sigy, xc, yc, px, py);
-  u.print("u");
+  //u.print("u");
   std::cout << "main3" << std::endl;
   arma::sp_cx_mat A=arma::sp_cx_mat(sz2,sz2);
   //A.print("A");
@@ -47,6 +47,6 @@ int main(){
     arma::cx_mat U_new=BackToMat(u);
     Ut.slice(nt+1)=U_new;
   }
-  Ut.save("../txt/U1.bin");
+  //Ut.save("../txt/U1.bin");
   return 0;
 }
