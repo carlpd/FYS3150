@@ -510,5 +510,6 @@ $RECYCLE.BIN/
 *.txt
 # Windows shortcuts
 *.lnk
+*.bin
 
 # End of https://www.toptal.com/developers/gitignore/api/latex,c++,windows,linux,python
