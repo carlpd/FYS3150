@@ -98,7 +98,7 @@ If you are familiar with \LaTeX\ and you want to learn more about the REVTeX4-1 
 
 \section{Teori}   % (optional)
 
-\subsection{Numerisk tilnærming}
+\subsection{Vet ikke om denne kan være med}
 I dette eksperimentet skal vi bruke Crank-Nicolson tilnærmingen. Denne kombinerer to andre tilnærminger: forrover differanse og bakover differanse.
 Forover differanse baserer seg på å at man kan finne stigningen mellom et punkt $u^{n}_i$ og neste punkt $u^{n+1}_{i}$ ved ligningen
 $$
@@ -120,6 +120,15 @@ $$
 og på samme måte som med forover får vi nå
 $$
 u^{n-1}_i=(1+2\alpha)u^n_i-\alpha(u^n_{i+1}+u^n_{i-1})
+$$
+\subsection{Numerisk tillnærming} 
+V har da fra Schrödingerlikningen at
+$$
+i\frac{\delta u}{\delta t}=-\frac{\delta^2 u}{\delta^2 x}-\frac{\delta^2 u}{\delta^2 y}+v(x,y)
+$$
+Av Crank-Nicolson har vi at
+$$
+\frac{u^{n+1}_i-u^{n}_i}{\delta t}=\frac{1}{2}(\frac{u_{i+1}^{n+1}+}{(\delta x)^2})
 $$
 \section{Metode}
 \section{Resultater}

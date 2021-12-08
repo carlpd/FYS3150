@@ -8,6 +8,7 @@ U.load("../Txt/U1.bin")
 Ubs=arma.cube()
 Ubs=arma.abs(U)
 s=Ubs.n_slices
+print(Ubs.slice(1))
 print(s)
 print(arma.size(Ubs))
 #print(Ubs)

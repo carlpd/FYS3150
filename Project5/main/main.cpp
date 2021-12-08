@@ -48,6 +48,6 @@ int main(){
     Ut.slice(nt+1)=U_new;
   }
   std::cout<<Ut<<std::endl;
-  Ut.save("../txt/U1.bin");
+  Ut.save("./txt/U1.bin");
   return 0;
 }
