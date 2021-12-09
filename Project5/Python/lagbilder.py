@@ -11,14 +11,18 @@ s=Ubs.n_slices
 print(s)
 print(arma.size(Ubs))
 
-dt = 2.5e-5
-tt = [0, 1e-3, 2e-3]
+n = Ubs.n_slices
+tt = [0, int(n/2), n-1]
 for t in tt:
-    k = int(t/dt)
-    U = Ubs[:][:][k]
-    x = np.arange(0, len(U[0]))
-    y = np.arange(0, len(U[1]))
-    X, Y = np.meshgrid(x, y)
+    U = Ubs[:,:,t]
+    n = int(U.n_rows)
+    Mat = np.zeros((n, n))
+    for i in range(n):
+        for k in range(n):
+            Mat[i][k] = U[i, k, 0]
     fig = plt.figure(figsize=(10,8))
-    plt.imshow(U)
-    plt.show()
+    plt.title(f'n = {t}')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.imshow(Mat)
+    plt.savefig(f'../Images/ImshowUt{t}.pdf')
