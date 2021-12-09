@@ -23,11 +23,18 @@ arma::cx_vec makeinit(int sz, double sigx, double sigy, double mux, double muy, 
       u_in(k)=fx*fy;
     }
   }
+  arma::vec P=arma::real(u_in)%arma::real(u_in) + arma::imag(u_in)%arma::imag(u_in);
+  u_in=u_in/sqrt(arma::accu(P));
+  P=arma::real(u_in)%arma::real(u_in) + arma::imag(u_in)%arma::imag(u_in);
+  std::cout<<"P"<<arma::accu(P)<<std::endl;
+
+  /*
   arma::vec absu=arma::abs(u_in);
   double usum=arma::sum(absu);
   arma::cx_double p = arma::cdot(u_in, u_in);
   arma::cx_vec unorm=u_in/std::sqrt(p);
-  return unorm;
+  */
+  return u_in;
 }
 
 arma::cx_vec makea(int sz, arma::vec v, arma::cx_double r, double dt){
@@ -36,7 +43,7 @@ arma::cx_vec makea(int sz, arma::vec v, arma::cx_double r, double dt){
   for(int i=0; i<sz; i++){
     for(int j=0;j<sz; j++){
       int k =FindK(i, j, sz);
-      a(k)=1.+(4.+0i) * r+ i * dt * v(k)/2;
+      a(k)=1.+(4.+0i) * r+ (0.+1i) * dt * v(k)/2.;
     }
   }
   return a;
@@ -47,7 +54,7 @@ arma::cx_vec makeb(int sz, arma::vec v, arma::cx_double r, double dt){
   for(int i=0; i<sz; i++){
     for(int j=0;j<sz; j++){
       int k =FindK(i, j, sz);
-      b(k)=1.-(4.+0i)*r-i*dt*v(k)/2;
+      b(k)=1.-(4.+0i)*r-(0.+1i)*dt*v(k)/2.;
     }
   }
   return b;
@@ -68,6 +75,8 @@ void MakeAB(arma::sp_cx_mat& A,  arma::sp_cx_mat& B, arma::cx_vec a, arma::cx_ve
     P(j+1,j)=r;
     P(j,j+1)=r;
   }
+  //P.print("P");
+  //R.print("R");
   //std::cout<<"Lagde P"<<std::endl;
   //std::cout<<P<<std::endl;
   for(int h=0; h<sz;h++){
@@ -167,6 +176,11 @@ arma::vec makeV(int sz, int sl){
     }
   }
   return Vvec;
+}
+double FindP(arma::cx_vec u_in){
+  arma::vec P=arma::real(u_in)%arma::real(u_in) + arma::imag(u_in)%arma::imag(u_in);
+  double p=arma::accu(P);
+  return p;
 }
 //Konverterer en vektor av størrelse k tilbake til en ixj matrise
 arma::cx_mat BackToMat(arma::cx_vec u){

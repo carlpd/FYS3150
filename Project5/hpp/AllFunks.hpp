@@ -16,5 +16,6 @@ arma::vec findWall(int sl);
 arma::vec makeV(int sz, int sl);
 arma::cx_vec makea(int sz, arma::vec v, arma::cx_double r, double dt);
 arma::cx_vec makeb(int sz, arma::vec v, arma::cx_double r, double dt);
+double FindP(arma::cx_vec u);
 arma::cx_mat BackToMat(arma::cx_vec u);
 arma::mat BackToRealMat(arma::vec u);
