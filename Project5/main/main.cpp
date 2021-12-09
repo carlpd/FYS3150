@@ -1,7 +1,7 @@
 #include "../hpp/AllFunks.hpp"
 
 int main(){
-  double h=0.005;
+  double h=0.2;
   double dt=2.5e-5;
   double T=0.008;
   double xc=0.25;
@@ -12,7 +12,7 @@ int main(){
   double py=0;
   double v0=0;
   int sz=1/h-1;
-  //int sz=3;
+  //int sz=4;
   std::cout<<"sz"<<sz<<std::endl;
   int sz2=sz*sz;
   int sl=2;
@@ -38,7 +38,8 @@ int main(){
   arma::cx_vec aa=makea(sz, v, r, dt);
   arma::cx_vec bb=makeb(sz, v, r, dt);
   MakeAB(A,  B, aa, bb, r);
-  //A.print("A");
+  A.print("A");
+  B.print("B");
   std::cout<<"A11"<<A(1,1)<<std::endl;
   arma::cx_cube Ut=arma::cx_cube(sz, sz, Nt);
   arma::vec P=arma::vec(Nt).fill(0.);
@@ -47,7 +48,7 @@ int main(){
   for(int nt=0; nt<(Nt-1); nt++){
     //std::cout << "B" <<B.n_cols<< std::endl;
     //std::cout << "u" <<u.n_elem<< std::endl;
-    arma::cx_vec b=findb(B, u);
+    arma::cx_colvec b=findb(B, u);
     //std::cout << "unew" << std::endl;
     u=findu_new(A,b);
     //std::cout<<"u"<<u<<std::endl;

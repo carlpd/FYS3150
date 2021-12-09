@@ -3,7 +3,7 @@ import numpy as np
 import pyarma as arma
 
 U=arma.cx_cube()
-sz=199
+sz=9
 U.load(f"../Txt/U1{sz}.bin")
 file=open(f"../Txt/U1{sz}.bin", "rb")
 Ubs=arma.cube()

@@ -107,13 +107,13 @@ void MakeAB(arma::sp_cx_mat& A,  arma::sp_cx_mat& B, arma::cx_vec a, arma::cx_ve
   }
 }
 //Finner b-en fra problem 3
-arma::cx_vec findb(arma::sp_cx_mat B, arma::cx_vec u){
+arma::cx_colvec findb(arma::sp_cx_mat B, arma::cx_vec u){
   int lu=u.n_elem;
-  arma::cx_vec u_n=B*u;
+  arma::cx_colvec u_n=B*u;
   return u_n;
 }
 //Finner u(n+1)
-arma::cx_vec findu_new(arma::sp_cx_mat A, arma::cx_vec b){
+arma::cx_vec findu_new(arma::sp_cx_mat A, arma::cx_colvec b){
   arma::cx_vec u_new=arma::spsolve(A,b);
   return u_new;
 }
