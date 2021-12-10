@@ -34,7 +34,7 @@ for t in tt:
     plt.title(f'$ |u| \\; , \\; , t = {t*2.5e-5} $')
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.imshow(abs(Mat), cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(abs(Mat)))
+    plt.imshow(abs(Mat)**2, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(abs(Mat)**2), extent=[0, 1, 0, 1])
     plt.colorbar()
     plt.savefig(f'../Images/ImshowUt{t*2.5e-5}.pdf')
 
@@ -42,7 +42,7 @@ for t in tt:
     plt.title(f'$ Re(u) \\; , \\; , t = {t*2.5e-5} $')
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.imshow(Mat.real, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(Mat.real))
+    plt.imshow(Mat.real, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(Mat.real), extent=[0, 1, 0, 1])
     plt.colorbar()
     plt.savefig(f'../Images/ImshowRe{t*2.5e-5}.pdf')
 
@@ -50,6 +50,20 @@ for t in tt:
     plt.title(f'$ Im(u) \\; , \\; , t = {t*2.5e-5} $')
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.imshow(Mat.imag, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(Mat.imag))
+    plt.imshow(Mat.imag, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(Mat.imag), extent=[0, 1, 0, 1])
     plt.colorbar()
     plt.savefig(f'../Images/ImshowIm{t*2.5e-5}.pdf')
+
+t = 80
+i = int(0.8*n)
+Vec = np.zeros(n)
+for k in range(n):
+    Vec[k] = abs(U[i, k, t])**2
+sum = np.sum(Vec)
+Vec = Vec/sum
+fig = plt.figure(figsize=(10,8))
+plt.title(f'$ p(y) \\; , \\; , x = 0.8 \\; , \\; t = 0.002s $')
+plt.xlabel('y')
+plt.ylabel('$p(y)$')
+plt.plot(np.linspace(0, 1, n), Vec)
+plt.savefig('../Images/ScreenProb2Slit.pdf')
