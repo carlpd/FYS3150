@@ -59,7 +59,7 @@ i = int(0.8*n)
 Vec = np.zeros(n)
 for k in range(n):
     Vec[k] = abs(U[i, k, t])**2
-sum = np.sum(Vec)
+sum = np.trapz(Vec, x=np.linspace(0, 1, n))
 Vec = Vec/sum
 fig = plt.figure(figsize=(10,8))
 plt.title(f'$ p(y) \\; , \\; , x = 0.8 \\; , \\; t = 0.002s $')
