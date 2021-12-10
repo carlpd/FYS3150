@@ -1,7 +1,7 @@
 #include <iostream>
 #include <armadillo>
 #include <complex>
-
+#include <vector>
 using namespace std::complex_literals;
 
 
@@ -13,7 +13,7 @@ arma::cx_vec findu_new(arma::sp_cx_mat A, arma::cx_colvec b);
 arma::cx_double makegaus(arma::cx_double x, double sig, double mu, double kx);
 arma::cx_vec makeinit(int size, double sigx, double sigy, double mux, double muy, double kx, double ky);
 arma::vec findWall(int sl);
-arma::vec makeV(int sz, int sl);
+arma::vec makeV(int sz, int sl, arma::vec sln, double v0);
 arma::cx_vec makea(int sz, arma::vec v, arma::cx_double r, double dt);
 arma::cx_vec makeb(int sz, arma::vec v, arma::cx_double r, double dt);
 double FindP(arma::cx_vec u);
