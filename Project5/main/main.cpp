@@ -1,6 +1,11 @@
 #include "../hpp/AllFunks.hpp"
 
 int main(){
+  arma::vec sl1={0., 0.475, 0.525, 1.0};
+  arma::vec sl2={0., 0.425, 0.475, 0.525, 0.575, 1.0};
+  arma::vec sl3={0.0, 0.375, 0.425, 0.475, 0.525, 0.575, 0.625, 1.0};
+  std::vector<arma::vec> sls={sl1, sl2, sl3};
+  int sln=2;
   double h=0.005;
   double dt=2.5e-5;
   double T=0.008;
@@ -10,7 +15,7 @@ int main(){
   double yc=0.5;
   double sigy=0.05;
   double py=0;
-  double v0=0;
+  double v0=std::pow(10.,10.);
   int sz=1/h-1;
   //int sz=4;
   std::cout<<"sz"<<sz<<std::endl;
@@ -19,7 +24,7 @@ int main(){
   int Nt=T/dt;
   arma::cx_double r = arma::cx_double(0., dt / (2*h*h));
   std::cout << "main1" << std::endl;
-  arma::vec v=makeV(sz, sl);
+  arma::vec v=makeV(sz, sl, sls[sln-1], v0);
   //arma::vec v=arma::vec(sz*sz).fill(0.);
   arma::mat V=BackToRealMat(v);
   //V.print("V");
@@ -41,8 +46,8 @@ int main(){
   //arma::cx_mat A_mat=arma::cx_mat(A);
   //arma::mat A_real=arma::real(A_mat);
   //A_mat.print("A");
-  B.print("B");
-  std::cout<<"A11"<<A(1,1)<<std::endl;
+  //B.print("B");
+  //std::cout<<"A11"<<A(1,1)<<std::endl;
   arma::cx_cube Ut=arma::cx_cube(sz, sz, Nt);
   arma::vec P=arma::vec(Nt).fill(0.);
   Ut.slice(0)=BackToMat(u);
