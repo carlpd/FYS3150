@@ -17,10 +17,10 @@ int main(){
   int sz2=sz*sz;
   int sl=2;
   int Nt=T/dt;
-  arma::cx_double r=(0,dt/(2*h*h));
+  arma::cx_double r = arma::cx_double(0., dt / (2*h*h));
   std::cout << "main1" << std::endl;
-  //arma::vec v=makeV(sz, sl);
-  arma::vec v=arma::vec(sz*sz).fill(0.);
+  arma::vec v=makeV(sz, sl);
+  //arma::vec v=arma::vec(sz*sz).fill(0.);
   arma::mat V=BackToRealMat(v);
   //V.print("V");
   std::cout << "main2" << std::endl;
@@ -38,7 +38,9 @@ int main(){
   arma::cx_vec aa=makea(sz, v, r, dt);
   arma::cx_vec bb=makeb(sz, v, r, dt);
   MakeAB(A,  B, aa, bb, r);
-  //arma::cx_mat(A).print("A");
+  //arma::cx_mat A_mat=arma::cx_mat(A);
+  //arma::mat A_real=arma::real(A_mat);
+  //A_mat.print("A");
   B.print("B");
   std::cout<<"A11"<<A(1,1)<<std::endl;
   arma::cx_cube Ut=arma::cx_cube(sz, sz, Nt);
