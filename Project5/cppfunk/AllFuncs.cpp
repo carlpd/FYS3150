@@ -5,9 +5,9 @@ int FindK(int i, int j, int sz){
   return k;
 }
 //Lager et gaussisk element
-arma::cx_double makegaus(arma::cx_double x, double sig, double mu, double kx){
-  arma::cx_double i=arma::cx_double(0,1);
-  arma::cx_double xmu=x-mu;
+arma::cx_double makegaus(double x, double sig, double mu, double kx){
+  arma::cx_double i=arma::cx_double(0.0,1.0);
+  double xmu=x-mu;
   return exp((-1.)*xmu*xmu/(sig*sig*2))*exp(i*kx*(xmu));
 }
 //Setter sammen en gaussisk initialtilstand, ikke ferdig, sz er størrelsen(size) av u, altså M-2
@@ -26,7 +26,7 @@ arma::cx_vec makeinit(int sz, double sigx, double sigy, double mux, double muy, 
   arma::vec P=arma::real(u_in)%arma::real(u_in) + arma::imag(u_in)%arma::imag(u_in);
   u_in=u_in/sqrt(arma::accu(P));
   P=arma::real(u_in)%arma::real(u_in) + arma::imag(u_in)%arma::imag(u_in);
-  std::cout<<"P"<<arma::accu(P)<<std::endl;
+  //std::cout<<"P"<<arma::accu(P)<<std::endl;
 
   /*
   arma::vec absu=arma::abs(u_in);
@@ -43,7 +43,7 @@ arma::cx_vec makea(int sz, arma::vec v, arma::cx_double r, double dt){
   for(int i=0; i<sz; i++){
     for(int j=0;j<sz; j++){
       int k =FindK(i, j, sz);
-      a(k)=1.+(4.+0i) * r+ (0.+1i) * dt * v(k)/2.;
+      a(k)=1.+4. * r+ (0.+1.0i) * dt * v(k)/2.;
     }
   }
   return a;
@@ -54,7 +54,7 @@ arma::cx_vec makeb(int sz, arma::vec v, arma::cx_double r, double dt){
   for(int i=0; i<sz; i++){
     for(int j=0;j<sz; j++){
       int k =FindK(i, j, sz);
-      b(k)=1.-(4.+0i)*r-(0.+1i)*dt*v(k)/2.;
+      b(k)=1.-4.*r-(0.+1.0i)*dt*v(k)/2.;
     }
   }
   return b;

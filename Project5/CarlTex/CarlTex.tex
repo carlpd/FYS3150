@@ -124,12 +124,30 @@ $$
 \subsection{Numerisk tillnærming} 
 V har da fra Schrödingerlikningen at
 $$
-i\frac{\delta u}{\delta t}=-\frac{\delta^2 u}{\delta^2 x}-\frac{\delta^2 u}{\delta^2 y}+v(x,y)
+i\frac{\delta u}{\delta t}=-\frac{\delta^2 u}{\delta x^2}-\frac{\delta^2 u}{\delta y^2}+v(x,y)
 $$
-Av Crank-Nicolson har vi at
+eller 
 $$
-\frac{u^{n+1}_i-u^{n}_i}{\delta t}=\frac{1}{2}(\frac{u_{i+1}^{n+1}+}{(\delta x)^2})
+\frac{\delta u}{\delta t}=i\frac{\delta^2 u}{\delta x^2}+i\frac{\delta^2 u}{\delta y^2}-iv(x,y)
 $$
+Vi skal så bruke Crank-Nicolson tilnærming så vi starter med å approksimere den venstre-siden
+$$
+\frac{d u}{dt}=\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}
+$$
+Hvor $n$ er tidstegt vi er i.
+Crank-Nicolson baser seg på forover og bakover tilnærminger. For forover har vi at
+$$
+\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}=F^{n}
+$$ 
+mens bakover har vi
+$$
+\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}=F^{n+1}
+$$
+Så kombinerer vi disse forover og bakover
+$$
+\frac{u^{n+1}_{i,j}-u^n_{i,j}}{\Delta t}=\theta F^{n+1}-(1-\theta)F^{n}
+$$
+slik at for $\theta=1$ har vi bakovertilnærmingen og for $\theta=0$ har vi forovertilnærmingen.
 \section{Metode}
 \section{Resultater}
 \section{Diskusjon}

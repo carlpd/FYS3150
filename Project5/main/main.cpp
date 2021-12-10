@@ -1,7 +1,7 @@
 #include "../hpp/AllFunks.hpp"
 
 int main(){
-  double h=0.2;
+  double h=0.005;
   double dt=2.5e-5;
   double T=0.008;
   double xc=0.25;
@@ -19,8 +19,8 @@ int main(){
   int Nt=T/dt;
   arma::cx_double r=(0,dt/(2*h*h));
   std::cout << "main1" << std::endl;
-  arma::vec v=makeV(sz, sl);
-  //arma::vec v=arma::vec(sz*sz).fill(0.);
+  //arma::vec v=makeV(sz, sl);
+  arma::vec v=arma::vec(sz*sz).fill(0.);
   arma::mat V=BackToRealMat(v);
   //V.print("V");
   std::cout << "main2" << std::endl;
@@ -33,12 +33,12 @@ int main(){
   std::cout << "main4" << std::endl;
   arma::sp_cx_mat B=arma::sp_cx_mat(sz2,sz2);
   //B.print("B");
-  std::cout<<"B11"<<B(1,1)<<std::endl;
+  //std::cout<<"B11"<<B(1,1)<<std::endl;
   std::cout << "main5" << std::endl;
   arma::cx_vec aa=makea(sz, v, r, dt);
   arma::cx_vec bb=makeb(sz, v, r, dt);
   MakeAB(A,  B, aa, bb, r);
-  A.print("A");
+  //arma::cx_mat(A).print("A");
   B.print("B");
   std::cout<<"A11"<<A(1,1)<<std::endl;
   arma::cx_cube Ut=arma::cx_cube(sz, sz, Nt);
@@ -48,16 +48,17 @@ int main(){
   for(int nt=0; nt<(Nt-1); nt++){
     //std::cout << "B" <<B.n_cols<< std::endl;
     //std::cout << "u" <<u.n_elem<< std::endl;
+    P(nt)=FindP(u);
     arma::cx_colvec b=findb(B, u);
     //std::cout << "unew" << std::endl;
     u=findu_new(A,b);
     //std::cout<<"u"<<u<<std::endl;
     //std::cout << "Unew" << std::endl;
-    P(nt)=FindP(u);
     arma::cx_mat U_new=BackToMat(u);
     Ut.slice(nt+1)=U_new;
   }
   //std::cout<<Ut<<std::endl;
+
   P.save("./txt/P1"+std::to_string(sz)+".bin");
   Ut.save("./txt/U1"+std::to_string(sz)+".bin");
   return 0;
