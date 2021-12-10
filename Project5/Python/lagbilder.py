@@ -9,7 +9,7 @@ plt.rcParams.update({
     "font.size": 20})
 
 U=arma.cx_cube()
-sl=1
+sl=3
 sz=199
 U.load(f"../Txt/U1{sz}{sl}.bin")
 file=open(f"../Txt/U1{sz}{sl}.bin", "rb")
@@ -23,7 +23,7 @@ print(s)
 print(arma.size(Ubs))
 
 n = Ubs.n_slices
-tt = [0, 2, 5, 7, 10, 15, 20, 25, 30, 35, 40, 60, int(n/4), int(n/2), n-1]
+tt = [0, int(n/8), int(n/4), n-1]
 for t in tt:
     Ut = U[:,:,t]
     n = int(U.n_rows)
@@ -37,7 +37,7 @@ for t in tt:
     plt.ylabel('y')
     plt.imshow(abs(Mat)**2, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(abs(Mat)**2), extent=[0, 1, 0, 1])
     plt.colorbar()
-    plt.savefig(f'../Images/ImshowUt{t*2.5e-5}{sl}.pdf')
+    plt.savefig(f'../Images/ImshowUt{t*2.5e-5}sl{sl}.pdf')
 
     fig = plt.figure(figsize=(10,8))
     plt.title(f'$ Re(u) \\; , \\; , t = {t*2.5e-5} $')
@@ -45,7 +45,7 @@ for t in tt:
     plt.ylabel('y')
     plt.imshow(Mat.real, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(Mat.real), extent=[0, 1, 0, 1])
     plt.colorbar()
-    plt.savefig(f'../Images/ImshowRe{t*2.5e-5}{sl}.pdf')
+    plt.savefig(f'../Images/ImshowRe{t*2.5e-5}sl{sl}.pdf')
 
     fig = plt.figure(figsize=(10,8))
     plt.title(f'$ Im(u) \\; , \\; , t = {t*2.5e-5} $')
@@ -53,7 +53,7 @@ for t in tt:
     plt.ylabel('y')
     plt.imshow(Mat.imag, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(Mat.imag), extent=[0, 1, 0, 1])
     plt.colorbar()
-    plt.savefig(f'../Images/ImshowIm{t*2.5e-5}{sl}.pdf')
+    plt.savefig(f'../Images/ImshowIm{t*2.5e-5}sl{sl}.pdf')
 
 t = 80
 i = int(0.8*n)
