@@ -9,9 +9,10 @@ plt.rcParams.update({
     "font.size": 20})
 
 U=arma.cx_cube()
+sl=1
 sz=199
-U.load(f"../Txt/U1{sz}.bin")
-file=open(f"../Txt/U1{sz}.bin", "rb")
+U.load(f"../Txt/U1{sz}{sl}.bin")
+file=open(f"../Txt/U1{sz}{sl}.bin", "rb")
 Ubs=arma.cube()
 Ubs=arma.abs(U)
 Re = arma.real(U)
@@ -36,7 +37,7 @@ for t in tt:
     plt.ylabel('y')
     plt.imshow(abs(Mat)**2, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(abs(Mat)**2), extent=[0, 1, 0, 1])
     plt.colorbar()
-    plt.savefig(f'../Images/ImshowUt{t*2.5e-5}.pdf')
+    plt.savefig(f'../Images/ImshowUt{t*2.5e-5}{sl}.pdf')
 
     fig = plt.figure(figsize=(10,8))
     plt.title(f'$ Re(u) \\; , \\; , t = {t*2.5e-5} $')
@@ -44,7 +45,7 @@ for t in tt:
     plt.ylabel('y')
     plt.imshow(Mat.real, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(Mat.real), extent=[0, 1, 0, 1])
     plt.colorbar()
-    plt.savefig(f'../Images/ImshowRe{t*2.5e-5}.pdf')
+    plt.savefig(f'../Images/ImshowRe{t*2.5e-5}{sl}.pdf')
 
     fig = plt.figure(figsize=(10,8))
     plt.title(f'$ Im(u) \\; , \\; , t = {t*2.5e-5} $')
@@ -52,7 +53,7 @@ for t in tt:
     plt.ylabel('y')
     plt.imshow(Mat.imag, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(Mat.imag), extent=[0, 1, 0, 1])
     plt.colorbar()
-    plt.savefig(f'../Images/ImshowIm{t*2.5e-5}.pdf')
+    plt.savefig(f'../Images/ImshowIm{t*2.5e-5}{sl}.pdf')
 
 t = 80
 i = int(0.8*n)
@@ -66,4 +67,4 @@ plt.title(f'$ p(y) \\; , \\; , x = 0.8 \\; , \\; t = 0.002s $')
 plt.xlabel('y')
 plt.ylabel('$p(y)$')
 plt.plot(np.linspace(0, 1, n), Vec)
-plt.savefig('../Images/ScreenProb2Slit.pdf')
+plt.savefig(f'../Images/ScreenProb{sl}Slit.pdf')
