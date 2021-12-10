@@ -80,7 +80,7 @@ def animation(i):
     return img
 
 # Use matplotlib.animation.FuncAnimation to put it all together
-anim = FuncAnimation(fig, animation, interval=1, frames=np.arange(0, len(z_data_list), 2), repeat=True, blit=0)
+anim = FuncAnimation(fig, animation, interval=int(1000/30), frames=np.arange(0, len(z_data_list), 2), repeat=True, blit=0)
 
 # Run the animation!
 plt.show()

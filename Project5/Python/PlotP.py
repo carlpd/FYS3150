@@ -2,6 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pyarma as arma
 
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "sans-serif",
+    "font.sans-serif": ["Helvetica"],
+    "font.size": 20})
+
 Pebs=arma.mat()
 sz=199
 Pebs.load(f"../Txt/P1{sz}.bin")
