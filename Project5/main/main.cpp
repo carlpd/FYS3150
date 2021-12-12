@@ -5,7 +5,7 @@ int main(){
   arma::vec sl2={0., 0.425, 0.475, 0.525, 0.575, 1.0};
   arma::vec sl3={0.0, 0.375, 0.425, 0.475, 0.525, 0.575, 0.625, 1.0};
   std::vector<arma::vec> sls={sl1, sl2, sl3};
-  int sln=3;
+  int sln=2;
   double h=0.005;
   double dt=2.5e-5;
   double T=0.008;

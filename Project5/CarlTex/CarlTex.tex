@@ -137,22 +137,163 @@ $$
 Hvor $n$ er tidstegt vi er i.
 Crank-Nicolson baser seg på forover og bakover tilnærminger. For forover har vi at
 $$
-\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}=F^{n}
+\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}=F^{n}_{i,j}
 $$ 
 mens bakover har vi
 $$
-\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}=F^{n+1}
+\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}=F^{n+1}_{i,j}
 $$
 Så kombinerer vi disse forover og bakover
 $$
-\frac{u^{n+1}_{i,j}-u^n_{i,j}}{\Delta t}=\theta F^{n+1}-(1-\theta)F^{n}
+\frac{u^{n+1}_{i,j}-u^n_{i,j}}{\Delta t}=\theta F^{n+1}_{i,j}-(1-\theta)F^{n}_{i,j}
 $$
 slik at for $\theta=1$ har vi bakovertilnærmingen og for $\theta=0$ har vi forovertilnærmingen.
 For Crank-Nicolson setter vi $\theta =\frac{1}{2}$ slik at vi får
 $$
-\frac{u^{n+1}_{i,j}-u^n_{i,j}}{\Delta t}=\frac{1}{2}(F^{n+1}-F^{n})
+\frac{u^{n+1}_{i,j}-u^n_{i,j}}{\Delta t}=\frac{1}{2}(F^{n+1}_{i,j}-F^{n}_{i,j})
 $$
 \section{Metode}
+\subsection{Initialtilstand}
+Vi trenger en initialtilstand, altså tilstanden $u(x,y,t=0)=u^0_{i,j}$. Vi skal bruke en Gaussisk initialtilstand på formen
+$$
+u(x,y,t=0)=\frac{1}{C}e^{-\frac{(x-x_c)^2}{2\sigma_x^2}-\frac{(y-y_c)^2}{2\sigma_y^2}+ip_x(x-x_c)+ip_y(y-y_c)}
+$$
+Siden dette er Gaussisk så vil $x_c$ og $y_c$ være toppunktet til $p_{i,j}$ og der det vil være mest sannsynlig at partikkelen er. $p_x$ og $p_y$ er bevegelsesmengden til partikkelen. $\sigma_x$ og $\sigma_y$ er bredden til funksjonen. $C$ er normaliseringskonstanten. Siden vi skal gjøre dette over et gitter får vi heller
+$$
+u_{i,j}^0=\frac{1}{C}e^{-\frac{(x_i-x_c)^2}{2\sigma_x^2}-\frac{(y_j-y_c)^2}{2\sigma_y^2}+ip_x(x_i-x_c)+ip_y(y_j-y_c)}
+$$
+Vi må også normalisere dette, altså at $\sum_{i,j} u^n_{i,j}*u^n_{i,j}=\sum_{i,j}p^n_{i,j}=1$, og så det vi da må gjøre er å la
+$$
+C=\sum_{i,j}|e^{-\frac{(x_i-x_c)^2}{2\sigma_x^2}-\frac{(y_j-y_c)^2}{2\sigma_y^2}+ip_x(x_i-x_c)+ip_y(y_j-y_c)}|^2
+$$
+Å normalisere slikt gjør vi kun i initialtilstanden, men dersom systemet er nøyaktig nok, vil $\sum_{i,j}p$ holde seg ganske nærme 1.
+\subsection{Bruke Crank-Nicolson}
+Vi hadde fra Crank-Nicolson at
+$$
+\frac{u^{n+1}_{i,j}-u^n_{i,j}}{\Delta t}=\frac{1}{2}(F^{n+1}_{i,j}-F^{n}_{i,j})
+$$
+I vårt tilfelle er 
+$$
+F_{i,j}=i\frac{\delta^2 u}{\delta x^2}+i\frac{\delta^2 u}{\delta y^2}-iv(x,y)u
+$$
+så 
+$$
+F^{n}_{i,j}=i\frac{\delta^2 u^n}{\delta x^2}+i\frac{\delta^2 u^n}{\delta y^2}-iv(x,y)u^n
+$$
+Vi bruker deretter at
+$$
+\frac{\delta^2 u^n}{\delta x^2}\approx\frac{u^{n}_{i+1,j}-2u^{n}_{i,j}+u^n_{i-1,j}}{\Delta x^2}
+$$
+Siden $i$ er den eneste som varierer i med hensyn på x, er det denne vi vil bruke her. Tilsvarende får vi at
+$$
+\frac{\delta^2 u^n}{\delta y^2}=\approx \frac{u^n_{i,j+1}-2u^n_{i,j}+u^{n}_{i,j-1}}{\Delta y^2}
+$$
+Så vi får da at
+$$
+F^n=i\begin{pmatrix}
+\frac{u^{n}_{i+1,j}-2u^{n}_{i,j}+u^n_{i-1,j}}{\Delta x^2} \\ +\frac{u^n_{i,j+1}-2u^n_{i,j}+u^{n}_{i,j-1}}{\Delta y^2}-v_{i,j}u_{i,j}
+\end{pmatrix}
+$$
+Vi går igjen tilbake til
+$$
+\frac{u^{n+1}_{i,j}-u^n_{i,j}}{\Delta t}=\frac{1}{2}(F^{n+1}_{i,j}-F^{n}_{i,j})
+$$
+og flytter over slik at vi får
+$$
+u^{n+1}_{i,j}-\frac{\Delta t}{2}F^{n+1}_{i,j}=u^{n}_{i,j}+\frac{\Delta t}{2}F^{n}_{i,j}
+$$
+Vi utvider $F$ og får
+$$
+\begin{matrix}
+	u_{i,j}^{n+1} \\ -\frac{i\Delta t}{2\Delta x^2}(u^{n+1}_{i+1,j}-2u^{n+1}_{i,j}+u^{n+1}_{i-1,j}) \\ -\frac{i\Delta t}{2\Delta y^2}(u^{n+1}_{i,j+1}-2u^{n+1}_{i,j}+u^{n+1}_{i,j-1}) \\ \frac{i\Delta t}{2}v_{i,j}u^{n+1}_{i,j}
+\end{matrix}=\begin{matrix}
+u^n_{i,j}\\ +\frac{i\Delta t}{2\Delta x^2}(u^{n}_{i+1,j}-2u^{n}_{i,j}+u^{n}_{i-1,j}) \\ +\frac{i\Delta t}{2\Delta y^2}(u^n_{i,j+1}-2u^n_{i,j}+u^{n}_{i,j-1}) \\ -\frac{i\Delta t}{2}v_{i,j}u^n_{i,j} 
+\end{matrix}
+$$
+Vi skal gå over samme steglengde på x og y aksen så vi setter $\Delta x=\Delta y=h$. Så definerer vi $r\equiv \frac{i\Delta t}{2h^2}$ slik at vi har
+$$
+\begin{matrix}
+	u_{i,j}^{n+1} \\ -\frac{i\Delta t}{2\Delta x^2}(u^{n+1}_{i+1,j}-2u^{n+1}_{i,j}+u^{n+1}_{i-1,j}) \\ -r(u^{n+1}_{i,j+1}-2u^{n+1}_{i,j}+u^{n+1}_{i,j-1}) \\ \frac{i\Delta t}{2}v_{i,j}u^{n+1}_{i,j}
+\end{matrix}=\begin{matrix}
+	u^n_{i,j}\\ +r(u^{n}_{i+1,j}-2u^{n}_{i,j}+u^{n}_{i-1,j}) \\ +r(u^n_{i,j+1}-2u^n_{i,j}+u^{n}_{i,j-1}) \\ -\frac{i\Delta t}{2}v_{i,j}u^n_{i,j} 
+\end{matrix}
+$$
+\subsection{Matriseform}
+FOr å gjøre det litt raskere skal vi konvertere om til matriseform som i Kilde 1. Denne gangen har vi imedlertid to dimensjoner så det blir litt annerledes. Første forskjellen er at vi har en todimensjonal matrise med elementer $u_{i,j}$ hvor radene er y-aksen og kollonnene y-aksen, mens vi trenger en vektor for å tidsuvikle ved hjelp av matriser. Vi vil derfor lage en vektor $\vec{u}$ som organiserer matrisen slik
+$$
+\vec{u}=(u_{0,0}, u_{1,0}, u_{2,0} (...) u_{M-2, 0} u_{0,1},(...) u_{0, M-2}, (...) u_{M-2, M-2})
+$$
+Så $k=i+j\cdot (M-2)$. Det betyr at $\vec{u}$ er $(M-2)^2$ stor.
+\newline 
+Vi skal så lage matrisene $A$ og $B$ slik at
+$$
+B\vec{u}^n=\vec{c}
+$$
+og
+$$
+A\vec{c}=\vec{u}^{n+1}
+$$
+La oss ta et eksempel i $(M-2)=3$. Da vil matrisen $A$ og $B$ være
+$$
+A=\begin{pmatrix}
+	a_0 & -r & 0 & -r & 0 &0&0&0&0 \\
+	-r & a_1 & -r & 0 & -r& 0&0&0&0 \\
+	0 &-r &a_2&0&0&-r&0&0&0 \\
+	-r &0&0&a_3&-r&0&-r&0&0 \\
+	0&-r&0&-r&a_4&&-r&0&-r&0 \\
+	0&0&-r&0&-r&a_5&0&0&-r \\
+	0&0&0&-r&0&0&a_6&-r&0 \\
+	0&0&0&0&-r&0&-r&a_7&-r \\
+	0&0&0&0&0&-r&0&-r&a_8
+\end{pmatrix}
+$$
+og
+$$
+B=\begin{pmatrix}
+	b_0 & r & 0 & r & 0 &0&0&0&0 \\
+	r & b_1 & r & 0 & r& 0&0&0&0 \\
+	0 &r &b_2&0&0&r&0&0&0 \\
+	r &0&0&b_3&r&0&r&0&0 \\
+	0&r&0&r&b_4&&r&0&r&0 \\
+	0&0&r&0&r&b_5&0&0&r \\
+	0&0&0&r&0&0&b_6&r&0 \\
+	0&0&0&0&r&0&r&b_7&r \\
+	0&0&0&0&0&r&0&r&b_8
+\end{pmatrix}
+$$
+Hvor diagonalene er satt sammen av vektorene $\vec{a}$ og $\vec{b}$ hvor elementene er gitt som
+$$
+a_k=1+4r+\frac{i\Delta t}{2}v_{i,j}
+$$
+og
+$$
+b_k=1-4r-\frac{i\Delta t}{2}v_{i,j}
+$$
+Av disse matrisene kan vi se to ting. Foruten om diagonalen er $A=-B$. I tillegg foruten om diagonalene er matrisene satt sammen av to $M-2 \cross M-2$ matriser. Diagonalen til $B$ består av matrisen $P$ med som har side-diagonalene $r$. For $M-2=3$ får vi da at
+$$
+P=\begin{pmatrix}
+	0 &r&0\\
+	r &0 &r \\
+	0 & r& 0
+\end{pmatrix}
+$$
+Denne matrisen vil gå diagonalt ned over $B$. Som sidediagonaler til denne matrisen, altså under og til venstre for $P$ vil vi har matrisen $R$ som har diagonalen bestående av $r$. Så for $M-2=3$ har vi da
+$$
+R=\begin{pmatrix}
+	r&0&0 \\
+	0&r&0 \\
+	0&0&r
+\end{pmatrix}
+$$
+Så da har vi uten å ta hensyn til diagonalen at
+$$
+-A=B=\begin{pmatrix}
+	P&R&0 \\
+	R&P&0 \\
+	0&R&P
+\end{pmatrix}
+$$
+Legger vi så til vektorene $\vec{a}$ og $\vec{b}$ langs diagonalene har vi matrisene $A$ og $B$.
 \section{Resultater}
 \section{Diskusjon}
 \section{Conklusjon}
