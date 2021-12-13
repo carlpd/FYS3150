@@ -11,10 +11,10 @@ arma::cx_double makegaus(double x, double sig, double mu, double kx){
   return exp((-1.)*xmu*xmu/(sig*sig*2))*exp(i*kx*(xmu));
 }
 //Setter sammen en gaussisk initialtilstand, ikke ferdig, sz er størrelsen(size) av u, altså M-2
-arma::cx_vec makeinit(int sz, double sigx, double sigy, double mux, double muy, double kx, double ky){
+arma::cx_vec makeinit(int sz, double sigx, double sigy, double mux, double muy, double kx, double ky, double h){
   int sz2=sz*sz;
   arma::cx_vec u_in=arma::cx_vec(sz2).fill(0.);
-  arma::vec xy=arma::linspace(0,1,sz);
+  arma::vec xy=arma::linspace(0+h,1-h,sz);
   for(int i=0; i<sz; i++){
     arma::cx_double fx=makegaus(xy(i), sigx, mux, kx);
     for(int j=0; j<sz; j++){

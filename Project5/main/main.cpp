@@ -29,7 +29,7 @@ int main(){
   arma::mat V=BackToRealMat(v);
   //V.print("V");
   std::cout << "main2" << std::endl;
-  arma::cx_vec u=makeinit(sz, sigx, sigy, xc, yc, px, py);
+  arma::cx_vec u=makeinit(sz, sigx, sigy, xc, yc, px, py, h);
   //u.print("u");
   std::cout << "main3" << std::endl;
   arma::sp_cx_mat A=arma::sp_cx_mat(sz2,sz2);

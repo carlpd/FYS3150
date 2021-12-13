@@ -11,7 +11,7 @@ void MakeAB(arma::sp_cx_mat& A,  arma::sp_cx_mat& B, arma::cx_vec a, arma::cx_ve
 arma::cx_colvec findb(arma::sp_cx_mat B, arma::cx_vec u);
 arma::cx_vec findu_new(arma::sp_cx_mat A, arma::cx_colvec b);
 arma::cx_double makegaus(arma::cx_double x, double sig, double mu, double kx);
-arma::cx_vec makeinit(int size, double sigx, double sigy, double mux, double muy, double kx, double ky);
+arma::cx_vec makeinit(int size, double sigx, double sigy, double mux, double muy, double kx, double ky, double h);
 arma::vec findWall(int sl);
 arma::vec makeV(int sz, int sl, arma::vec sln, double v0);
 arma::cx_vec makea(int sz, arma::vec v, arma::cx_double r, double dt);

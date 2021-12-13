@@ -166,7 +166,13 @@ Vi må også normalisere dette, altså at $\sum_{i,j} u^n_{i,j}*u^n_{i,j}=\sum_{
 $$
 C=\sum_{i,j}|e^{-\frac{(x_i-x_c)^2}{2\sigma_x^2}-\frac{(y_j-y_c)^2}{2\sigma_y^2}+ip_x(x_i-x_c)+ip_y(y_j-y_c)}|^2
 $$
-Å normalisere slikt gjør vi kun i initialtilstanden, men dersom systemet er nøyaktig nok, vil $\sum_{i,j}p$ holde seg ganske nærme 1.
+Å normalisere slikt gjør vi kun i initialtilstanden, men dersom systemet er nøyaktig nok, vil $\sum_{i,j}p$ holde seg ganske nærme 1. Vår matrise vil være på størrelsen $M\cross M$ og dimensjonene vil være normalisert så laveste verdiene av $x $ og $y$ vil være $0$ og høyeste $1$. Vi vil fortsatt bruke Dirichlet grensebetingelser så vi setter $u(x=0,y, t)=u(x=1,y, t)=u(x, y=0, t)=u(x,y=1, t)=0$ uansett tidssteg. Det gjør at vi egentlig ikke trenger å finne tidsutviklingen i grensene så for når begrenser vi $U$ til å være en $(M-2)\cross (M-2)$-matrise, med $u_{0,0}^n=u(x=0+h,y=0+h, t)$ og $u_{M-3,M-3}=u(x=1-h,y=1-h)$. Hvor $h$ da er steglengden.
+\subsection{Lage spalten}
+Så trenger vi å lage en vegg og en spalteåpning. Vi skal sette spalten i midten av systemet vårt, altså har den et midtpunkt i $x=0,5$. Så skal tykkelsen på veggen være $0,02$ i x-retning. I y-retning har vi da hullene og veggene. Vi vil i starten bruke to spalte, men vil også variere mellom å bruke én spalte, tre spalte og ikke ha noen vegg i det hele tatt. Vi tar først eksempelet med to åpninger. Da har vi først en vegg, så en åpning på $0,05$, deretter et en vegg også på $0,05$, så en ny åpning på $0,05$ og til slutt en vegg som er like lang som den første veggen. Lengden på åpningene og veggene mellom åpningene vil ikke forandre seg når vi endrer antall åpninger, men veggene på sidene vil endre seg avhengig av antall åpninger vi har. For å finne lengden for endeveggene summerer kan vi da bruke
+$$
+l_{endevegg}=\frac{1-(n_{slits}+n_{mellomvegger})\cdot 0.05}{2}
+$$
+Altså 
 \subsection{Bruke Crank-Nicolson}
 Vi hadde fra Crank-Nicolson at
 $$
