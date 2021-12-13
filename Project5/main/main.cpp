@@ -20,7 +20,7 @@ int main(){
   //int sz=4;
   std::cout<<"sz"<<sz<<std::endl;
   int sz2=sz*sz;
-  int sl=2;
+  int sl=sln;
   int Nt=T/dt;
   arma::cx_double r = arma::cx_double(0., dt / (2*h*h));
   std::cout << "main1" << std::endl;

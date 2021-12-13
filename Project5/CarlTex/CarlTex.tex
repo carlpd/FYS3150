@@ -98,29 +98,28 @@ If you are familiar with \LaTeX\ and you want to learn more about the REVTeX4-1 
 
 \section{Teori}   % (optional)
 
-\subsection{Vet ikke om denne kan være med}
-I dette eksperimentet skal vi bruke Crank-Nicolson tilnærmingen. Denne kombinerer to andre tilnærminger: forrover differanse og bakover differanse.
-Forover differanse baserer seg på å at man kan finne stigningen mellom et punkt $u^{n}_i$ og neste punkt $u^{n+1}_{i}$ ved ligningen
+\subsection{Om Schrödinger-likningen}
+Vi har altså at Schrödinger-likningen kan skrives som
 $$
-\frac{u^{n+1}_{i}-u^n_i}{\Delta t}=\frac{u^n_{i+1}-2u^n_i+u^n_{i-1}}{(\delta x)^2}
+i\hbar\frac{d}{dt}\ket{\Psi}=\hat{H}\ket{\Psi}
 $$
-Vi ser her på kun i én dimensjon. Vi har også antatt at tidstegene er så små at punktet $u^n_i$ kun kan bli påvirket av nabopunktene. Da får vi at
+Vi skal imidlertid se på en partikkel i et todimensjonalt system med en vegg med et høyt tidsuavhenig potensial $V(x,y)$. Da blir Schrödinger-likningen heller slik
 $$
-u^{n+1}_i=u^n_i+(u^n_{i+1}-2u^n_i+u^n_{i-1})\frac{\Delta t}{(\Delta x)^2}
+i\hbar \frac{d}{dt}\Psi(x,y,t)=-\frac{\hbar^2}{2m}(\frac{\delta^2}{\delta x^2}+\frac{\delta^2}{\delta y^2})+V(x,y)\Psi(x,y,t)
 $$
-Hvis vi nå definerer $\alpha\equiv \frac{\Delta t}{(\Delta x)^2}$
-får vi at
+I denne oppgaven vil vi være mest opptatt av hvordan sannsynligheten for å finne partikkelen i på spesifike posisjoner i systemet utvikler seg over tiden. Av Borns regel har vi at sansyligheten for å finne partikkelen i en tilstand eller i vårt tilfelle posisjon på et gitt tidspunkt er
 $$
-u^{n+1}_i=(1-2\alpha)u^n_i+\alpha(u^n_{i+1}+u^n_{i-1})
+p(x,y;t)=|\Psi(x,y,t)|^2=\Psi*(x,y,t)\Psi(x,y,t)
 $$
-Så har vi bakover differanse som baserer seg på å finne stigningen mellom forrige tidspunkt $u^{n-1}_i$ og det nåværende tidpunktet $u^n_i$. 
+I denne simuleringen skal vi forenkle denne moddellen slik at vi nå har
 $$
-\frac{u^n_i-u^{n-1}_i}{\Delta t}=\frac{u^n_{i+1}-2u^n_i+u^{n}_{i-1}}{(\Delta x)^2}
+i\frac{d u}{dt}=-\frac{\delta u}{\delta x}-\frac{\delta u}{\delta y}+v(x,y)u
 $$
-og på samme måte som med forover får vi nå
+Her er $u$ en normalisert og dimensjonsløs kvantetilstand. Siden den er normalisert og vi går over et gitter vil da
 $$
-u^{n-1}_i=(1+2\alpha)u^n_i-\alpha(u^n_{i+1}+u^n_{i-1})
+\sum p_{i,j}=\sum u_{i,j}*u_{i,j}=1
 $$
+I tillegg er $u$ enhetsløs så vi setter $x$ og $y$ til å gå fra $0$ til $1$. Selve likningens tilstand vil bli videre diskutert i Metoder i \autoref{ssec:Init}. $v(x,y)$ er også innenfor det samme enhetsløse to-dimensjonale planet og vil også bli videre diskutert i Metodedelen i \autoref{ssec:Spalte}.
 \subsection{Numerisk tillnærming} 
 V har da fra Schrödingerlikningen at
 $$
@@ -154,6 +153,7 @@ $$
 $$
 \section{Metode}
 \subsection{Initialtilstand}
+\label{ssec:Init}
 Vi trenger en initialtilstand, altså tilstanden $u(x,y,t=0)=u^0_{i,j}$. Vi skal bruke en Gaussisk initialtilstand på formen
 $$
 u(x,y,t=0)=\frac{1}{C}e^{-\frac{(x-x_c)^2}{2\sigma_x^2}-\frac{(y-y_c)^2}{2\sigma_y^2}+ip_x(x-x_c)+ip_y(y-y_c)}
@@ -166,8 +166,9 @@ Vi må også normalisere dette, altså at $\sum_{i,j} u^n_{i,j}*u^n_{i,j}=\sum_{
 $$
 C=\sum_{i,j}|e^{-\frac{(x_i-x_c)^2}{2\sigma_x^2}-\frac{(y_j-y_c)^2}{2\sigma_y^2}+ip_x(x_i-x_c)+ip_y(y_j-y_c)}|^2
 $$
-Å normalisere slikt gjør vi kun i initialtilstanden, men dersom systemet er nøyaktig nok, vil $\sum_{i,j}p$ holde seg ganske nærme 1. Vår matrise vil være på størrelsen $M\cross M$ og dimensjonene vil være normalisert så laveste verdiene av $x $ og $y$ vil være $0$ og høyeste $1$. Vi vil fortsatt bruke Dirichlet grensebetingelser så vi setter $u(x=0,y, t)=u(x=1,y, t)=u(x, y=0, t)=u(x,y=1, t)=0$ uansett tidssteg. Det gjør at vi egentlig ikke trenger å finne tidsutviklingen i grensene så for når begrenser vi $U$ til å være en $(M-2)\cross (M-2)$-matrise, med $u_{0,0}^n=u(x=0+h,y=0+h, t)$ og $u_{M-3,M-3}=u(x=1-h,y=1-h)$. Hvor $h$ da er steglengden.
-\subsection{Lage spalten}
+Å normalisere slikt gjør vi kun i initialtilstanden, men dersom systemet er nøyaktig nok, vil $\sum_{i,j}p$ holde seg ganske nærme 1. Imens vi tidsutvikler koden vår vil vi summere opp alle $p_{i,j}$ for å se om den totale sansynligheten holder seg jevnt rundt $1$ og dermed også kontrollere at vi gjør riktig.
+\newline Vår matrise vil være på størrelsen $M\cross M$ og dimensjonene vil være normalisert så laveste verdiene av $x $ og $y$ vil være $0$ og høyeste $1$. Vi vil fortsatt bruke Dirichlet grensebetingelser så vi setter $u(x=0,y, t)=u(x=1,y, t)=u(x, y=0, t)=u(x,y=1, t)=0$ uansett tidssteg. Det gjør at vi egentlig ikke trenger å finne tidsutviklingen i grensene så for når begrenser vi $U$ til å være en $(M-2)\cross (M-2)$-matrise, med $u_{0,0}^n=u(x=0+h,y=0+h, t)$ og $u_{M-3,M-3}=u(x=1-h,y=1-h)$. Hvor $h$ da er steglengden.
+\subsection{Lage spalten} \label{ssec:Spalte}
 Så trenger vi å lage en vegg og en spalteåpning. Vi skal sette spalten i midten av systemet vårt, altså har den et midtpunkt i $x=0,5$. Så skal tykkelsen på veggen være $0,02$ i x-retning. I y-retning har vi da hullene og veggene. Vi vil i starten bruke to spalte, men vil også variere mellom å bruke én spalte, tre spalte og ikke ha noen vegg i det hele tatt. Vi tar først eksempelet med to åpninger. Da har vi først en vegg, så en åpning på $0,05$, deretter et en vegg også på $0,05$, så en ny åpning på $0,05$ og til slutt en vegg som er like lang som den første veggen. Lengden på åpningene og veggene mellom åpningene vil ikke forandre seg når vi endrer antall åpninger, men veggene på sidene vil endre seg avhengig av antall åpninger vi har. For å finne lengden for endeveggene kan vi da bruke
 $$
 l_{endevegg}=\frac{1-(n_{slits}+n_{mellomvegger})\cdot 0.05}{2}
@@ -185,7 +186,7 @@ Vi får da at
 		
 	\end{tabular}
 \end{table}
-Vi går da fra 0 opp til den tilhørende vegglengden og finner høyden åpningen starter i, så går vi $0,05$ opp for å finne hvor skilleveggen starter, så går vi enda $0,05$ opp for å finne hvor neste åpning starter og fortsetter slik for å få til vi når endeveggen. Vi finner da y-verdiene vi trenger og får vegger som i \autoref{fig:Wall1}, \autoref{fig:Wall2} og \autoref{fig:Wall3}
+Vi går da fra 0 opp til den tilhørende vegglengden og finner høyden åpningen starter i, så går vi $0,05$ opp for å finne hvor skilleveggen starter, så går vi enda $0,05$ opp for å finne hvor neste åpning starter og fortsetter slik for å få til vi når endeveggen. Vi finner da y-verdiene vi trenger og får vegger som i \autoref{fig:Wall1}, \autoref{fig:Wall2} og \autoref{fig:Wall3}.
 
 \begin{figure}[H]
 	\centering 
@@ -199,12 +200,15 @@ Vi går da fra 0 opp til den tilhørende vegglengden og finner høyden åpningen
 	\caption{Veggenes og åpningenes start og ender på y-aksen i tillegg til veggenes tykkelse. Veggen har her to åpninger}
 	\label{fig:Wall2}
 \end{figure}
+
 \begin{figure}[H]
 	\centering 
 	\includegraphics[scale=0.1]{../Images/NewWalls.pdf}
 	\caption{Veggenes og åpningenes start og ender på y-aksen i tillegg til veggenes tykkelse. Veggen har her tre åpninger}
 	\label{fig:Wall3}
 \end{figure}
+Vi kan fortsatt ikke generelt anta at slike posisjoner ligger nøyaktig på et punkt på posisjonsgitteret vårt, så vi vil avrunde til det nærmeste punktet. 
+\newline Idéelt sett burde veggen hatt et uendelig stort potensial for at veggdelen skulle vært helt ugjennomtrengelig. Dessverre er uendelig et altfor stort tall for maskinen å regne med. Vi setter derfor potensialet der veggen er til å være $10^{10}$, og over resten av systemet vil potensialet være $0$.
 \subsection{Bruke Crank-Nicolson}
 Vi hadde fra Crank-Nicolson at
 $$
@@ -332,6 +336,36 @@ $$
 \end{pmatrix}
 $$
 Legger vi så til vektorene $\vec{a}$ og $\vec{b}$ langs diagonalene har vi matrisene $A$ og $B$.
+\subsection{Startverdier og tilhørende simuleringer}
+Vi har nå laget en funksjon som gir oss en del resultater og er avhengig av en del verdier. En forklaring for alle instillingene finnes i \ref{table:Initverdier}
+\begin{table}[H]
+	\begin{tabular}{|c|p{20mm}|}
+		\hline
+		$h$ & Steglengden over x og y-aksen \\\hline 
+		$\Delta t$ & Tidsstegene \\\hline 
+		$T$ & Den totale tiden vi kjører simuleringen over. \\\hline
+		$x_c$ og $y_c$ & Hvor initialtistandens sansynlighet vil være sentrert for deres tilhørende akse. \\\hline 
+		$\sigma_x$ og $\sigma_y$ & Bredden til den gaussiske funskjonen intialtilstanden består av. \\\hline 
+		$p_x$ og $p_y$ & Bevegelses- mengden i x og y retning for initialtilstanden. \\\hline 
+		$v_0$ & Potensialet i veggen. \\\hline
+		$n_{slits}$ & Antall åpninger i veggen \\\hline
+	\end{tabular}
+\caption{En forklaring for alle verdiene som trengs for å kjøre simulasjonen}
+\label{table:Initverdier}
+\end{table}
+I alle tilfeller vi tester vi $h=0,005$ $\Delta t=2,5\cdot 10^{-5}$, $x_c=0,25$, $y_c=0,5$, $\sigma_x=0,05$ og $p_y=0$. De andre vil vi variere.
+\subsection{Sansynlighetsunøyaktighet}
+Som sagt tidligere burde den totale sansynligheten for å finne partikkelen i systemet holde seg ganske konstant rundt 1. Altså
+$$
+P^n=\sum_{i,j}p_{i,j}=1
+$$
+Siden vi dette er numerisk så kan vi få litt avvik fra dette, men jo større dette avviket er, jo verre er modellen vår.  Vi vil derfor som en kontrolltest, sette $v_0=0$ slik at vi ikke har en vegg. Så tester vi med $\sigma_y=0,05$, altså lik som $\sigma_x$. Vi vil da ta $P^n$ for hvert tidssteg og etterpå plotte avviket, altså $P^n-1$. Vi plotter opp til $T=0,008$. Slik har vi en kontrolltest uten noe, så vi ser om sansynligheten holder seg konstant uten en vegg.
+\newline Vi legger så til en dobbeltspaltevegg, så $s_l=2$ og $v_0=10^10$. Hvis vi nå fortsetter å ha $\sigma_y=0,05$ vil det meste av bølgefunksjonen gå rett på veggen med samme bredde. Vi setter derfor opp $\sigma_y$ til $0,1$ så en større del av bølgefunksjonen går gjennom spalten. Så kjører vi simulasjonen på nytt og plotter igjen avviket.
+\subsection{Simulasjonen i det to dimensjonale tommet}\label{ssec:sim2}
+Vi skal så se på $p_{i,j}$ og $u_{i,j}$ i planet. Vi vil her se på noen øyblikksbilder i $t=0$, $t=0,001$ og $t=0,002$. Vi har fortsatt en dobbeltspaltevegg med $v_0=10^10$, men denne gangen har vi $\sigma_y=0,2$.
+Vi vil for disse tidstegene plotte den reelle og den imaginære delen av $u_{i,j}$ i planet, og deretter $p_{i,j}=u*_{i,j}u_{i,j}$.
+\subsection{Sansynligheten over på en gitt x-verdi}
+Vi har også nå de samme startverdiene som fra \autoref{ssec:sim2}. La oss nå anta at ved $t=0,002$ så måler at partikkelen posisjon på x-aksen er $x=0,8$, men vi vet fremdeles ikke partikkelens posisjon på y-aksen. Altså bryter tilstanden sammen til at $p(x=0,5)=1$. Vi vil så finne ut hvordan sansynlighetsfordelingen på y-aksen ved $x=0,5$. Vi bruker forrige simulasjons verdier i $x=0,5$ og normaliserer disse slik at $\sum_{i}u*_iu_i=1$. Så plotter vi over y-aksen. Vi kjører så simulasjonen igjen, $sl=1$ og $sl=3$ og finner sansynlighetsfordelingen over y-aksen i $x=0,8$ for disse også. 
 \section{Resultater}
 \section{Diskusjon}
 \section{Conklusjon}

@@ -10,8 +10,9 @@ plt.rcParams.update({
 
 Pebs=arma.mat()
 sz=199
-Pebs.load(f"../Txt/P1{sz}.bin")
-file=open(f"../Txt/P1{sz}.bin", "rb")
+sl=2
+Pebs.load(f"../Txt/P1{sz}{sl}.bin")
+file=open(f"../Txt/P1{sz}{sl}.bin", "rb")
 P=arma.abs(Pebs)-1
 Parray = np.zeros(P.n_rows)
 print(P.n_rows)
@@ -25,4 +26,4 @@ plt.plot(I[:-1], Parray[:-1])
 plt.xlabel('Tid [s]')
 plt.ylabel('|u^2|')
 plt.title(f'1 - P , sz = {sz}')
-plt.savefig(f'../Images/P{sz}.pdf')
+plt.savefig(f'../Images/P{sz}{sl}.pdf')

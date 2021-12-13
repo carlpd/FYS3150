@@ -9,7 +9,7 @@ plt.rcParams.update({
     "font.size": 20})
 
 U=arma.cx_cube()
-sl=3
+sl=2
 sz=199
 U.load(f"../Txt/U1{sz}{sl}.bin")
 file=open(f"../Txt/U1{sz}{sl}.bin", "rb")

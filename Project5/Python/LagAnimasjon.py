@@ -6,8 +6,9 @@ import pyarma as arma
 
 U=arma.cx_cube()
 sz=199
-U.load(f"../Txt/U1{sz}.bin")
-file=open(f"../Txt/U1{sz}.bin", "rb")
+sl=2
+U.load(f"../Txt/U1{sz}{sl}.bin")
+file=open(f"../Txt/U1{sz}{sl}.bin", "rb")
 Ubs=arma.cube()
 Ubs=arma.abs(U)
 t_points = np.arange(0, Ubs.n_slices, 1)
