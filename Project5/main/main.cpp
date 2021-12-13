@@ -5,22 +5,22 @@ int main(){
   arma::vec sl2={0., 0.425, 0.475, 0.525, 0.575, 1.0};
   arma::vec sl3={0.0, 0.375, 0.425, 0.475, 0.525, 0.575, 0.625, 1.0};
   std::vector<arma::vec> sls={sl1, sl2, sl3};
-  int sln=2;
+  int sln = 2;
   double h=0.005;
   double dt=2.5e-5;
-  double T=0.008;
+  double T=0.002;
   double xc=0.25;
   double sigx=0.05;
   double px=200;
   double yc=0.5;
-  double sigy=0.05;
+  double sigy=0.1;
   double py=0;
   double v0=std::pow(10.,10.);
   int sz=1/h-1;
   //int sz=4;
   std::cout<<"sz"<<sz<<std::endl;
   int sz2=sz*sz;
-  int sl=2;
+  int sl=sln;
   int Nt=T/dt;
   arma::cx_double r = arma::cx_double(0., dt / (2*h*h));
   std::cout << "main1" << std::endl;
@@ -66,7 +66,7 @@ int main(){
   }
   //std::cout<<Ut<<std::endl;
 
-  P.save("./txt/P1"+std::to_string(sz)+std::to_string(sln)+".bin");
-  Ut.save("./txt/U1"+std::to_string(sz)+std::to_string(sln)+".bin");
+  P.save("./txt/7s1P1"+std::to_string(sz)+std::to_string(sln)+".bin");
+  Ut.save("./txt/7s1U1"+std::to_string(sz)+std::to_string(sln)+".bin");
   return 0;
 }
