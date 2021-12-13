@@ -8,6 +8,7 @@ plt.rcParams.update({
     "font.sans-serif": ["Helvetica"],
     "font.size": 20})
 
+fig = plt.figure(figsize=(10, 8))
 Pebs=arma.mat()
 sz=199
 sl=2
@@ -24,6 +25,12 @@ for i in range(P.n_rows):
 print(np.size(I))
 plt.plot(I[:-1], Parray[:-1])
 plt.xlabel('Tid [s]')
+<<<<<<< HEAD
 plt.ylabel('|u^2|')
 plt.title(f'1 - P , sz = {sz}')
 plt.savefig(f'../Images/P{sz}{sl}.pdf')
+=======
+plt.ylabel('$|u^2|$')
+plt.title(f'$1 - P $, $sz = {sz}$')
+plt.savefig(f'../Images/P{sz}.pdf')
+>>>>>>> 35cb7919b0677f22fcf91948fc714a33278fdb02

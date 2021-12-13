@@ -75,7 +75,7 @@
 %% [terminal]$ pdflatex template.tex
 %%
 %% Don't ask me why, I don't know.
-
+\setlength{\parindent}{0pt}
 \begin{document}
 \title{This is a Very Important Title!}   % self-explanatory
 \author{Person McSomething}               % self-explanatory
@@ -95,6 +95,14 @@ If you are familiar with \LaTeX\ and you want to learn more about the REVTeX4-1 
 
 % the fundamental components of scientific reports:
 \section{Introdukson}
+
+Et viktig eksperiment gjennom historien har vært to-spalte eksperimentet, først introdusert av Thomas Young på 1800-tallet \footnote{\url{https://www.aps.org/publications/apsnews/200805/physicshistory.cfm}}. Young sitt eksperiment gikk ut på hvordan lys oppfører seg som en bølge. Senere har det blitt vist hvordan partikler, som for eksempel elektroner også kan oppføre seg som bølger ved hjelp av to-spalte eksperimentet. Forståelsen på hvordan en partikkel interferer med seg selv er gitt av Schrödingerlikningen fra kvantefysikken:
+
+\begin{equation}
+i \hbar \frac{d}{dt} |\Psi\rangle = \hat{H} |\Psi\rangle,
+\end{equation}
+
+For å kunne se hvordan en kvantetilstand vil oppføre seg i et slikt eksperiment så skal vi bruke Schrödingers likning til å simulere et ett-spalte, to-spalte og tre-spalte system innad i en boks. Ved å gjøre dette kan vi finne sannsylighetsfordelingen til en tenkt partikkel og sammenlikne med tidligere teoretiske og eksperimentelle resultater. I teori delen ser vi på det teoretiske grunnlaget fro det vi gjør, som beskrevet i metode delen. Vi representer resultatene så i resultatskapittelet og diskuterer de separat i diskusjonsdelen. Til slutt summerer vi opp og kommer med en konklusjon.
 
 \section{Teori}   % (optional)
 
@@ -151,31 +159,114 @@ slik at for $\theta=1$ har vi bakovertilnærmingen og for $\theta=0$ har vi foro
 \section{Metode}
 \section{Resultater}
 
-For to-spalte system så fikk vi \autoref{Fig:s2u2t0} for $t = 0 \; s$
+Avviket til den totale sannsyigheten er vist i \autoref{Fig:ToTP}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{../Images/P199.pdf}
+\caption{Avviket til den totale sannsynligheten $1 - P$.}
+\label{Fig:ToTP}
+
+\end{figure}
+
+For to-spalte system så fikk vi \autoref{Fig:s2u2t0} for $t = 0 \; s$, med den reelle delen vist i \autoref{Fig:s2u2t0Re} og imaginær i \autoref{Fig:s2u2t0Im}:
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowUt00.pdf}
+\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowUt00sl1.pdf}
 \caption{$|u|^2 $ i tiden $t = 0 \; s$.}
 \label{Fig:s2u2t0}
 \end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowRe00sl1.pdf}
+\caption{$Re(u) $ i tiden $t = 0 \; s$.}
+\label{Fig:s2u2t0Re}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowIm00sl1.pdf}
+\caption{$Im(u) $ i tiden $t = 0 \; s$.}
+\label{Fig:s2u2t0Im}
+\end{figure}
+
 
 Ved tiden $t = 0,001 \; s$ fikk vi \autoref{Fig:s2u2t01}:
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowUt0001.pdf}
+\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowUt0001sl1.pdf}
 \caption{$|u|^2 $ i tiden $t = 0,001 \; s$.}
 \label{Fig:s2u2t01}
 \end{figure}
 
-Ved tiden $t = 0,002 \; s$ fikk vi \autoref{Fig:s2u2t02}:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowRe0001sl1.pdf}
+\caption{$Re(u) $ i tiden $t = 0,001 \; s$.}
+\label{Fig:s2Ret01}
+\end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.45, trim={0 0 0 0}]{../Images/ImshowUt0002.pdf}
+\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowIm0001sl1.pdf}
+\caption{$Im(u) $ i tiden $t = 0,001 \; s$.}
+\label{Fig:s2Imt01}
+\end{figure}
+
+
+Ved tiden $t = 0,002 \; s$ fikk vi \autoref{Fig:s2u2t02} for sannsynlighetsfordelingen og \autoref{s2Ret02} for den relle delen og \autoref{Fig:s2Imt01} for den imaginære:
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowUt0002sl1.pdf}
 \caption{$|u|^2 $ i tiden $t = 0,002 \; s$.}
 \label{Fig:s2u2t02}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowRe0002sl1.pdf}
+\caption{$Re(u) $ i tiden $t = 0,002 \; s$.}
+\label{Fig:s2Ret02}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowIm0002sl1.pdf}
+\caption{$Im(u) $ i tiden $t = 0,002 \; s$.}
+\label{Fig:s2Imt02}
+\end{figure}
+
+Med en spalte så fikk vi sannsynlighetstettheten langs y-aksen for $x = 0.8$ i \autoref{Fig:Ps1}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{../Images/ScreenProb1Slit.pdf}
+\caption{Sannsnynlighetstettheten ved $x = 0.8$ og $t = 0.002 \; s$ for en spalte}
+\label{Fig:Ps1}
+\end{figure}
+
+For to spalter fikk vi \autoref{Fig:Ps2} og for tre fikk vi \autoref{Fig:Ps3}
+
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{../Images/ScreenProb2Slit.pdf}
+\caption{Sannsnynlighetstettheten ved $x = 0.8$ og $t = 0.002 \; s$ for to spalter}
+\label{Fig:Ps1}
+\end{figure}
+
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{../Images/ScreenProb3Slit.pdf}
+\caption{Sannsnynlighetstettheten ved $x = 0.8$ og $t = 0.002 \; s$ for tre spalter}
+\label{Fig:Ps1}
 \end{figure}
 
 \section{Diskusjon}
