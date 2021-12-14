@@ -23,7 +23,7 @@ for sl in [1, 2, 3]:
     print(arma.size(Ubs))
 
     n = Ubs.n_slices
-    tt = [0, int(n/2), n-1]
+    tt = [0, 40, 80]
     for t in tt:
         Ut = U[:,:,t]
         n = int(U.n_rows)
@@ -57,7 +57,7 @@ for sl in [1, 2, 3]:
         plt.savefig(f'../Images/ImshowIm{t*2.5e-5}sl{sl}.pdf')
 
 
-    t = 79
+    t = 80
     i = int(0.8*n)
     Vec = np.zeros(n)
     for k in range(n):
