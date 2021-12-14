@@ -87,16 +87,9 @@ Vi har sett på hvordan en kvantetilstand vil oppføre seg i en boks med en, to 
 \end{abstract}                            % marks the end of the abstract
 \maketitle                                % creates the title, author, date & abstract
 
-If you want to learn more about using \LaTeX, you should check UiO's official tutorials:
-\url{https://www.mn.uio.no/ifi/tjenester/it/hjelp/latex/}
 
-If you are familiar with \LaTeX\ and you want to learn more about the REVTeX4-1 document class, check:
-\url{http://www.physics.csbsju.edu/370/papers/Journal_Style_Manuals/auguide4-1.pdf}
-
-
-% the fundamental components of scientific reports:
 \section{Introdukson}
-Et viktig eksperiment gjennom historien har vært to-spalte eksperimentet, først introdusert av Thomas Young på 1800-tallet (Referanse 1). Young sitt eksperiment gikk ut på hvordan lys oppfører seg som en bølge. Senere har det blitt vist hvordan partikler, som for eksempel elektroner også kan oppføre seg som bølger ved hjelp av to-spalte eksperimentet. Forståelsen på hvordan en partikkel interferer med seg selv er gitt av Schrödingerlikningen fra kvantefysikken:
+Et viktig eksperiment gjennom historien har vært dobbelt-spalte eksperimentet, først introdusert av Thomas Young på 1800-tallet (Referanse 1). Young sitt eksperiment gikk ut på hvordan lys oppfører seg som en bølge. Senere har det blitt vist hvordan partikler, som for eksempel elektroner også kan oppføre seg som bølger ved hjelp av det samme eksperimentet. Forståelsen på hvordan en partikkel interferer med seg selv er gitt av Schrödingerlikningen fra kvantefysikken:
 
 \begin{equation}
 	i \hbar \frac{d}{dt} |\Psi\rangle = \hat{H} |\Psi\rangle,
@@ -144,12 +137,13 @@ $$
 Å normalisere slikt gjør vi kun i initialtilstanden, men dersom systemet er nøyaktig nok, vil $\sum_{i,j}p$ holde seg ganske nærme 1. Imens vi tidsutvikler koden vår vil vi summere opp alle $p_{i,j}$ for å se om den totale sansynligheten holder seg jevnt rundt $1$ og dermed også kontrollere at vi gjør riktig.
 \newline Vår matrise vil være på størrelsen $M\cross M$ og dimensjonene vil være normalisert så laveste verdiene av $x $ og $y$ vil være $0$ og høyeste $1$. Vi vil fortsatt bruke Dirichlet grensebetingelser så vi setter $u(x=0,y, t)=u(x=1,y, t)=u(x, y=0, t)=u(x,y=1, t)=0$ uansett tidssteg. Det gjør at vi egentlig ikke trenger å finne tidsutviklingen i grensene så for når begrenser vi $U$ til å være en $(M-2)\cross (M-2)$-matrise, med $u_{0,0}^n=u(x=0+h,y=0+h, t)$ og $u_{M-3,M-3}=u(x=1-h,y=1-h)$. Hvor $h$ da er steglengden.
 \subsection{Lage spalten} \label{ssec:Spalte}
-Så trenger vi å lage en vegg og en spalteåpning. Vi skal sette spalten i midten av systemet vårt, altså har den et midtpunkt i $x=0,5$. Så skal tykkelsen på veggen være $0,02$ i x-retning. I y-retning har vi da hullene og veggene. Vi vil i starten bruke to spalte, men vil også variere mellom å bruke én spalte, tre spalte og ikke ha noen vegg i det hele tatt. Vi tar først eksempelet med to åpninger. Da har vi først en vegg, så en åpning på $0,05$, deretter et en vegg også på $0,05$, så en ny åpning på $0,05$ og til slutt en vegg som er like lang som den første veggen. Lengden på åpningene og veggene mellom åpningene vil ikke forandre seg når vi endrer antall åpninger, men veggene på sidene vil endre seg avhengig av antall åpninger vi har. For å finne lengden for endeveggene kan vi da bruke
+Så trenger vi å lage en vegg og en spalteåpning. Vi skal sette spalten i midten av systemet vårt, altså har den et midtpunkt i $x=0,5$. Så skal tykkelsen på veggen være $0,02$ i x-retning. I y-retning har vi da hullene og veggene. Vi vil i starten bruke to spalter, men vil også variere mellom å bruke én spalte, tre spalter og å ikke ha noen vegg i det hele tatt. Vi tar først eksempelet med to åpninger. Da har vi først en vegg, så en åpning på $0,05$, deretter en vegg også på $0,05$, så en ny åpning på $0,05$ og til slutt en vegg som er like lang som den første veggen. Lengden på åpningene og veggene mellom åpningene vil ikke forandre seg når vi endrer antall åpninger, men veggene på sidene vil endre seg avhengig av antall åpninger vi har. For å finne lengden for endeveggene kan vi da bruke
 $$
 l_{endevegg}=\frac{1-(n_{slits}+n_{mellomvegger})\cdot 0.05}{2}
 $$
 Vi får da at
 \begin{table}[H]
+\centering 
 	\begin{tabular}{|c|c|}
 		\hline
 		Antall åpninger & Endevegg \\
@@ -160,6 +154,7 @@ Vi får da at
 		3& $0,375$ \\ \hline
 		
 	\end{tabular}
+	\caption{Lengden til endeveggen til barrieren basert på antall spalter.}
 \end{table}
 Vi går da fra 0 opp til den tilhørende vegglengden og finner høyden åpningen starter i, så går vi $0,05$ opp for å finne hvor skilleveggen starter, så går vi enda $0,05$ opp for å finne hvor neste åpning starter og fortsetter slik for å få til vi når endeveggen. Vi finner da y-verdiene vi trenger og får vegger som i \autoref{fig:Wall1}, \autoref{fig:Wall2} og \autoref{fig:Wall3}.
 
@@ -193,7 +188,7 @@ eller
 $$
 \frac{\delta u}{\delta t}=i\frac{\delta^2 u}{\delta x^2}+i\frac{\delta^2 u}{\delta y^2}-iv(x,y)
 $$
-Vi skal så bruke Crank-Nicolson tilnærming så vi starter med å approksimere den venstre-siden
+Vi skal så bruke Crank-Nicolson tilnærming så vi starter med å approksimere venstre-siden
 $$
 \frac{d u}{dt}=\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}
 $$
@@ -268,7 +263,7 @@ $$
 \end{matrix}
 $$
 \subsection{Matriseform}
-FOr å gjøre det litt raskere skal vi konvertere om til matriseform som i Kilde 1. Denne gangen har vi imedlertid to dimensjoner så det blir litt annerledes. Første forskjellen er at vi har en todimensjonal matrise med elementer $u_{i,j}$ hvor radene er y-aksen og kollonnene y-aksen, mens vi trenger en vektor for å tidsuvikle ved hjelp av matriser. Vi vil derfor lage en vektor $\vec{u}$ som organiserer matrisen slik
+For å gjøre det litt raskere skal vi konvertere om til matriseform som i Kilde 1. Denne gangen har vi imedlertid to dimensjoner så det blir litt annerledes. Første forskjellen er at vi har en todimensjonal matrise med elementer $u_{i,j}$ hvor radene er y-aksen og kollonnene y-aksen, mens vi trenger en vektor for å tidsuvikle ved hjelp av matriser. Vi vil derfor lage en vektor $\vec{u}$ som organiserer matrisen slik
 $$
 \vec{u}=(u_{0,0}, u_{1,0}, u_{2,0} (...) u_{M-2, 0} u_{0,1},(...) u_{0, M-2}, (...) u_{M-2, M-2})
 $$
@@ -289,7 +284,7 @@ A=\begin{pmatrix}
 	-r & a_1 & -r & 0 & -r& 0&0&0&0 \\
 	0 &-r &a_2&0&0&-r&0&0&0 \\
 	-r &0&0&a_3&-r&0&-r&0&0 \\
-	0&-r&0&-r&a_4&&-r&0&-r&0 \\
+	0&-r&0&-r&a_4&-r&-r&0&0 \\
 	0&0&-r&0&-r&a_5&0&0&-r \\
 	0&0&0&-r&0&0&a_6&-r&0 \\
 	0&0&0&0&-r&0&-r&a_7&-r \\
@@ -303,7 +298,7 @@ B=\begin{pmatrix}
 	r & b_1 & r & 0 & r& 0&0&0&0 \\
 	0 &r &b_2&0&0&r&0&0&0 \\
 	r &0&0&b_3&r&0&r&0&0 \\
-	0&r&0&r&b_4&&r&0&r&0 \\
+	0&r&0&r&b_4&r&r&r&0 \\
 	0&0&r&0&r&b_5&0&0&r \\
 	0&0&0&r&0&0&b_6&r&0 \\
 	0&0&0&0&r&0&r&b_7&r \\
@@ -346,7 +341,8 @@ Legger vi så til vektorene $\vec{a}$ og $\vec{b}$ langs diagonalene har vi matr
 \subsection{Startverdier og tilhørende simuleringer}
 Vi har nå laget en funksjon som gir oss en del resultater og er avhengig av en del verdier. En forklaring for alle instillingene finnes i \ref{table:Initverdier}
 \begin{table}[H]
-	\begin{tabular}{|c|p{20mm}|}
+\centering
+	\begin{tabular}{|c|p{40mm}|}
 		\hline
 		$h$ & Steglengden over x og y-aksen \\\hline 
 		$\Delta t$ & Tidsstegene \\\hline 
@@ -367,10 +363,10 @@ $$
 P^n=\sum_{i,j}p_{i,j}=1
 $$
 Siden vi dette er numerisk så kan vi få litt avvik fra dette, men jo større dette avviket er, jo verre er modellen vår.  Vi vil derfor som en kontrolltest, sette $v_0=0$ slik at vi ikke har en vegg. Så tester vi med $\sigma_y=0,05$, altså lik som $\sigma_x$. Vi vil da ta $P^n$ for hvert tidssteg og etterpå plotte avviket, altså $P^n-1$. Vi plotter opp til $T=0,008$. Slik har vi en kontrolltest uten noe, så vi ser om sansynligheten holder seg konstant uten en vegg.
-\newline Vi legger så til en dobbeltspaltevegg, så $s_l=2$ og $v_0=10^10$. Hvis vi nå fortsetter å ha $\sigma_y=0,05$ vil det meste av bølgefunksjonen gå rett på veggen med samme bredde. Vi setter derfor opp $\sigma_y$ til $0,1$ så en større del av bølgefunksjonen går gjennom spalten. Så kjører vi simulasjonen på nytt og plotter igjen avviket.
+\newline Vi legger så til en dobbeltspaltevegg, så $s_l=2$ og $v_0=10^{10}$. Hvis vi nå fortsetter å ha $\sigma_y=0,05$ vil det meste av bølgefunksjonen gå rett på veggen med samme bredde. Vi setter derfor opp $\sigma_y$ til $0,1$ så en større del av bølgefunksjonen går gjennom spalten. Så kjører vi simulasjonen på nytt og plotter igjen avviket.
 \subsection{Simulasjonen i det to dimensjonale tommet}\label{ssec:sim2}
-Vi skal så se på $p_{i,j}$ og $u_{i,j}$ i planet. Vi vil her se på noen øyblikksbilder i $t=0$, $t=0,001$ og $t=0,002$. Vi har fortsatt en dobbeltspaltevegg med $v_0=10^10$, men denne gangen har vi $\sigma_y=0,2$.
-Vi vil for disse tidstegene plotte den reelle og den imaginære delen av $u_{i,j}$ i planet, og deretter $p_{i,j}=u*_{i,j}u_{i,j}$.
+Vi skal så se på $p_{i,j}$ og $u_{i,j}$ i planet. Vi vil her se på noen øyblikksbilder i $t=0$, $t=0,001$ og $t=0,002$. Vi har fortsatt en dobbeltspaltevegg med $v_0=10^{10}$, men denne gangen har vi $\sigma_y=0,2$.
+Vi vil for disse tidsstegene plotte den reelle og den imaginære delen av $u_{i,j}$ i planet, og deretter $p_{i,j}=u*_{i,j}u_{i,j}$.
 \subsection{Sansynligheten over på en gitt x-verdi}
 Vi har også nå de samme startverdiene som fra \autoref{ssec:sim2}. La oss nå anta at ved $t=0,002$ så måler at partikkelen posisjon på x-aksen er $x=0,8$, men vi vet fremdeles ikke partikkelens posisjon på y-aksen. Altså bryter tilstanden sammen til at $p(x=0,5)=1$. Vi vil så finne ut hvordan sansynlighetsfordelingen på y-aksen ved $x=0,5$. Vi bruker forrige simulasjons verdier i $x=0,5$ og normaliserer disse slik at $\sum_{i}u*_iu_i=1$. Så plotter vi over y-aksen. Vi kjører så simulasjonen igjen, $sl=1$ og $sl=3$ og finner sansynlighetsfordelingen over y-aksen i $x=0,8$ for disse også. 
 \section{Resultater}
@@ -379,14 +375,14 @@ Avviket til den totale sannsyigheten er vist i \autoref{Fig:ToTP} og \autoref{Fi
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.4, trim={2cm 0 0 0}]{../Images/7P199.pdf}
-	\caption{Avviket til den totale sannsynligheten $1 - P$ for $v_0 = 0 \; m/s$.}
+	\caption{Avviket til den totale sannsynligheten $1 - P$ for $v_0 = 0 $.}
 	\label{Fig:ToTP}
 \end{figure}
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.4, trim={2cm 0 0 0}]{../Images/7s1P199.pdf}
-	\caption{Avviket til den totale sannsynligheten $1 - P$ for $v_0 = 10^10 \; m/s$.}
+	\includegraphics[scale=0.4, trim={0 0 0 0}]{../Images/7s1P199.pdf}
+	\caption{Avviket til den totale sannsynligheten $1 - P$ for $v_0 = 10^10$.}
 	\label{Fig:ToTPs1}
 \end{figure}
 
@@ -394,7 +390,7 @@ For to-spalte system så fikk vi \autoref{Fig:s2u2t0} for $t = 0 \; s$, med den 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowUt00sl2.pdf}
+	\includegraphics[scale=0.45, trim={1cm 0 0 0}]{../Images/ImshowUt00sl2.pdf}
 	\caption{$|u|^2 $ i tiden $t = 0 \; s$.}
 	\label{Fig:s2u2t0}
 \end{figure}
@@ -402,7 +398,7 @@ For to-spalte system så fikk vi \autoref{Fig:s2u2t0} for $t = 0 \; s$, med den 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowRe00sl2.pdf}
+	\includegraphics[scale=0.45, trim={4cm 0 0 0}]{../Images/ImshowRe00sl2.pdf}
 	\caption{$Re(u) $ i tiden $t = 0 \; s$.}
 	\label{Fig:s2u2t0Re}
 \end{figure}
@@ -410,7 +406,7 @@ For to-spalte system så fikk vi \autoref{Fig:s2u2t0} for $t = 0 \; s$, med den 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowIm00sl2.pdf}
+	\includegraphics[scale=0.45, trim={4cm 0 0 0}]{../Images/ImshowIm00sl2.pdf}
 	\caption{$Im(u) $ i tiden $t = 0 \; s$.}
 	\label{Fig:s2u2t0Im}
 \end{figure}
@@ -420,21 +416,21 @@ Ved tiden $t = 0,001 \; s$ fikk vi \autoref{Fig:s2u2t01}:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowUt0001sl2.pdf}
+	\includegraphics[scale=0.45, trim={1cm 0 0 0}]{../Images/ImshowUt0001sl2.pdf}
 	\caption{$|u|^2 $ i tiden $t = 0,001 \; s$.}
 	\label{Fig:s2u2t01}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowRe0001sl2.pdf}
+	\includegraphics[scale=0.45, trim={1cm 0 0 0}]{../Images/ImshowRe0001sl2.pdf}
 	\caption{$Re(u) $ i tiden $t = 0,001 \; s$.}
 	\label{Fig:s2Ret01}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowIm0001sl2.pdf}
+	\includegraphics[scale=0.45, trim={4cm 0 0 0}]{../Images/ImshowIm0001sl2.pdf}
 	\caption{$Im(u) $ i tiden $t = 0,001 \; s$.}
 	\label{Fig:s2Imt01}
 \end{figure}
@@ -444,14 +440,14 @@ Ved tiden $t = 0,002 \; s$ fikk vi \autoref{Fig:s2u2t02} for sannsynlighetsforde
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowUt0002sl2.pdf}
+	\includegraphics[scale=0.45, trim={4cm 0 0 0}]{../Images/ImshowUt0002sl2.pdf}
 	\caption{$|u|^2 $ i tiden $t = 0,002 \; s$.}
 	\label{Fig:s2u2t02}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowRe0002sl2.pdf}
+	\includegraphics[scale=0.45, trim={4cm 0 0 0}]{../Images/ImshowRe0002sl2.pdf}
 	\caption{$Re(u) $ i tiden $t = 0,002 \; s$.}
 	\label{Fig:s2Ret02}
 \end{figure}
