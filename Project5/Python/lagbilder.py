@@ -32,7 +32,7 @@ for sl in [1, 2, 3]:
             for k in range(1, n):
                 Mat[k][i] = Ut[i, k, 0]
         fig = plt.figure(figsize=(10,8))
-        plt.title(f'$ |u|, t = {t*2.5e-1} $')
+        plt.title(f'$ |u^2|, t = {t*2.5e-5} $')
         plt.xlabel('x')
         plt.ylabel('y')
         plt.imshow(abs(Mat)**2, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(abs(Mat)**2), extent=[0, 1, 0, 1])
@@ -40,7 +40,7 @@ for sl in [1, 2, 3]:
         plt.savefig(f'../Images/ImshowUt{t*2.5e-5}sl{sl}.pdf')
 
         fig = plt.figure(figsize=(10,8))
-        plt.title(f'$ Re(u), t = {t*2.5e-1} $')
+        plt.title(f'$ Re(u), t = {t*2.5e-5} $')
         plt.xlabel('x')
         plt.ylabel('y')
         plt.imshow(Mat.real, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(Mat.real), extent=[0, 1, 0, 1])
@@ -49,7 +49,7 @@ for sl in [1, 2, 3]:
 
 
         fig = plt.figure(figsize=(10,8))
-        plt.title(f'$ Im(u), t = {t*2.5e-1} $')
+        plt.title(f'$ Im(u), t = {t*2.5e-5} $')
         plt.xlabel('x')
         plt.ylabel('y')
         plt.imshow(Mat.imag, cmap=plt.get_cmap("viridis"), vmin=0.0, vmax=np.max(Mat.imag), extent=[0, 1, 0, 1])
@@ -57,7 +57,7 @@ for sl in [1, 2, 3]:
         plt.savefig(f'../Images/ImshowIm{t*2.5e-5}sl{sl}.pdf')
 
 
-    t = 79
+    t = 80
     i = int(0.8*n)
     Vec = np.zeros(n)
     for k in range(n):
