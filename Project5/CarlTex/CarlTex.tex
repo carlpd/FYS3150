@@ -119,7 +119,7 @@ Her er $u$ en normalisert og dimensjonsløs kvantetilstand. Siden den er normali
 $$
 \sum p_{i,j}=\sum u_{i,j}*u_{i,j}=1
 $$
-I tillegg er $u$ enhetsløs så vi setter $x$ og $y$ til å gå fra $0$ til $1$. Selve likningens tilstand vil bli videre diskutert i Metoder i \autoref{ssec:Init}. $v(x,y)$ er også innenfor det samme enhetsløse to-dimensjonale planet og vil også bli videre diskutert i Metodedelen i \autoref{ssec:Spalte}.
+I tillegg er $u$ enhetsløs så vi setter $x$ og $y$ til å gå fra $0$ til $1$. Selve likningens tilstand vil bli videre diskutert i \autoref{ssec:Init}. $v(x,y)$ er også innenfor det samme enhetsløse to-dimensjonale planet og vil også bli videre diskutert i \autoref{ssec:Spalte}.
 \subsection{Numerisk tillnærming} 
 V har da fra Schrödingerlikningen at
 $$
@@ -151,7 +151,6 @@ For Crank-Nicolson setter vi $\theta =\frac{1}{2}$ slik at vi får
 $$
 \frac{u^{n+1}_{i,j}-u^n_{i,j}}{\Delta t}=\frac{1}{2}(F^{n+1}_{i,j}-F^{n}_{i,j})
 $$
-\section{Metode}
 \subsection{Initialtilstand}
 \label{ssec:Init}
 Vi trenger en initialtilstand, altså tilstanden $u(x,y,t=0)=u^0_{i,j}$. Vi skal bruke en Gaussisk initialtilstand på formen
@@ -452,7 +451,7 @@ Ved tiden $t = 0,002 \; s$ fikk vi \autoref{Fig:s2u2t02} for sannsynlighetsforde
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.45, trim={3cm 0 0 0}]{../Images/ImshowIm0002sl2.pdf}
-	\caption{$Im(u) $ i tiden $t = 0,001975 \; s$.}
+	\caption{$Im(u) $ i tiden $t = 0,002 \; s$.}
 	\label{Fig:s2Imt02}
 \end{figure}
 
@@ -489,7 +488,9 @@ Av \autoref{ToTP} og \autoref{Fig:ToTPs1} ser vi at avviket for den totale sanns
 \subsection{Målingene av u i planet}
 Av \autoref{Fig:s2u2t0} ser vi en ganske normal todimensjonal sansynlighetsfordeling med et toppunkt i $x_c, y_c$. Ser vi imedlertid på den relle delen og den imaganiære delen for seg som i \autoref{Fig:s2u2t0Re} og \autoref{Fig:s2u2t0Im}, ser vi $|u|^2=p$ egentlig er satt sammen av to bølgefunksjoner som ser ut til å sirkulere på $x$-aksen og har en bredde på $y$-aksen. Ser vi kun på $p$ ser vi at i $t=0,001$ så går noe av $p$ gjennom åpningene, mens noe blir reflektert i veggen og går motsatt vei, som bølger. Til slutt ved $t=0,002$ ser vi i \autoref{Fig:s2u2t02} at $p$ har blitt splittet opp til mindre toppunkter rundt om i planet. De fleste og mest sannsynlige punktene er igjen på venstre side, mens noe har fortsatt gått over til høyre side.
 \newline
-Ser vi derimot på den reelle og den imaginære delen i 
+Ser vi derimot på den reelle og den imaginære delen i \autoref{Fig:s2Ret01} og \autoref{Fig:s2Imt01} ser vi her at det ikke bare er en stråle som $p$ på samme tidspunkt, men at det faktisk her er som bølger som går gjennom en åpning. Når vi også ser på den relle delen og den imaginære delen til $u$ for $t=0,002$ i \autoref{Fig:s2Ret02} og \autoref{Fig:s2Imt02}, så ser vi at det er bølger som har spredd seg, med noen ressonanspunkter som er de som synes i \autoref{Fig:s2u2t02}.
+\subsection{Sannsynligheten i $x=0,8$}
+Vi ser at \autoref{Fig:Ps1} har ett toppunkt, \autoref{Fig:Ps2} har tre og \autoref{Fig:Ps3} har 5. Disse ligner veldig mye på ressonansspektere til bølger gjennom tilhørende spalter. For $sl=1$ er det kanskje ikke en spalte, men 
 \section{Conklusjon}
 % acknowledgements (optional)
 \begin{acknowledgments}  % if you disagree with the spelling, blame Americans
