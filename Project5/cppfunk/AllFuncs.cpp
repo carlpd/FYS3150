@@ -23,17 +23,10 @@ arma::cx_vec makeinit(int sz, double sigx, double sigy, double mux, double muy, 
       u_in(k)=fx*fy;
     }
   }
+  //Normaliserer
   arma::vec P=arma::real(u_in)%arma::real(u_in) + arma::imag(u_in)%arma::imag(u_in);
   u_in=u_in/sqrt(arma::accu(P));
   P=arma::real(u_in)%arma::real(u_in) + arma::imag(u_in)%arma::imag(u_in);
-  //std::cout<<"P"<<arma::accu(P)<<std::endl;
-
-  /*
-  arma::vec absu=arma::abs(u_in);
-  double usum=arma::sum(absu);
-  arma::cx_double p = arma::cdot(u_in, u_in);
-  arma::cx_vec unorm=u_in/std::sqrt(p);
-  */
   return u_in;
 }
 //Lager diagonalen til A
@@ -64,22 +57,18 @@ arma::cx_vec makeb(int sz, arma::vec v, arma::cx_double r, double dt){
 void MakeAB(arma::sp_cx_mat& A,  arma::sp_cx_mat& B, arma::cx_vec a, arma::cx_vec b, arma::cx_double r){
   int sz2=a.n_elem;
   int sz=sqrt(sz2);
+  //Lager matrisen som settes under og til høyre for P
   arma::cx_mat R=arma::cx_mat(sz, sz).fill(0.);
   for(int j=0; j<sz; j++){
     R(j,j)=r;
   }
-  //std::cout<<"Lagde R"<<std::endl;
-  //std::cout<<R<<std::endl;
+  //Lager matrisen på som settes diagonalt nedover
   arma::cx_mat P=arma::cx_mat(sz, sz).fill(0.);
   for(int j=0; j<(sz-1);j++){
-    //std::cout<<"P"<<P(j+1,j)<<std::endl;
     P(j+1,j)=r;
     P(j,j+1)=r;
   }
-  //P.print("P");
-  //R.print("R");
-  //std::cout<<"Lagde P"<<std::endl;
-  //std::cout<<P<<std::endl;
+  //Setter inn P
   for(int h=0; h<sz;h++){
     for(int i=0; i<sz;i++){
       for(int j=0; j<sz;j++){
@@ -88,8 +77,7 @@ void MakeAB(arma::sp_cx_mat& A,  arma::sp_cx_mat& B, arma::cx_vec a, arma::cx_ve
       }
     }
   }
-  //std::cout<<"Satte inn R"<<std::endl;
-  //std::cout<<A<<std::endl;
+  //Setter inn R
   for(int h=0; h<(sz-1);h++){
     for(int i=0; i<sz;i++){
       for(int j=0; j<sz;j++){
@@ -100,8 +88,7 @@ void MakeAB(arma::sp_cx_mat& A,  arma::sp_cx_mat& B, arma::cx_vec a, arma::cx_ve
       }
     }
   }
-  //std::cout<<"Satte inn P"<<std::endl;
-  //std::cout<<A<<std::endl;
+  //Setter inn diagonalene i A og B
   for(int i=0; i<sz2; i++){
     A(i,i)=a(i);
     B(i,i)=b(i);
@@ -128,7 +115,6 @@ arma::vec findWall(int sl){
     next+=0.05;
     wall(j)=next;
   }
-  //std::cout<<"wall"<<wall<<std::endl;
   return wall;
 }
 //Lager veggen med potensialet.
@@ -144,32 +130,18 @@ arma::vec makeV(int sz, int sl, arma::vec sln, double v0){
   int o=1;
   for(int a=0;a<(wally.n_elem-1);a++){
     int wallys=int(std::round(wally(a)*sz));
-    std::cout<<"wallys1"<<wallys<<std::endl;
-    std::cout<<"o"<<o<<std::endl;
     int wallye=int(std::round(wally(a+1)*sz));
-    //std::cout<<"wallys1"<<wallys<<std::endl;
-    std::cout<<"wallyse"<<wallye<<std::endl;
     if(o>0){
       for(int i=wxs;i<=wxe;i++){
         for(int j=wallys; j<wallye; j++){
-          //std::cout << "makeVn" << std::endl;
           Vmat(i,j)=VStor;
         }
       }
     }
-    //std::cout<<"wallys"<<wallys<<std::endl;
     o=(o*(-1));
   }
-  /*
-  int wallye=sz-1;
-  for(int i=wxs;i<=wxe;i++){
-    for(int j=wallys; j<=wallye; j++){
-      //std::cout << "makeVn" << std::endl;
-      Vmat(i,j)=VStor;
-    }
-  }*/
+  //Gjør den om til en vektor som u.
   arma::vec Vvec=arma::vec(sz*sz).fill(0.);
-  //std::cout << "makeV2" << std::endl;
   for(int i=0;i<sz;i++){
     for(int j=0; j<sz;j++){
       int k=FindK(i,j,sz);

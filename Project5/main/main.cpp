@@ -4,8 +4,9 @@ int main(){
   arma::vec sl1={0., 0.475, 0.525, 1.0};
   arma::vec sl2={0., 0.425, 0.475, 0.525, 0.575, 1.0};
   arma::vec sl3={0.0, 0.375, 0.425, 0.475, 0.525, 0.575, 0.625, 1.0};
-  std::vector<arma::vec> sls={sl1, sl2, sl3};
+  std::vector<arma::vec> sls={sl1, sl2, sl3}; //Vektorer for hver slit
   for (int sln = 1; sln < 4; sln++){
+    //Verdier vi trenger for å starte alt
     double h=0.005;
     double dt=2.5e-5;
     double T=0.002+2*dt;
@@ -16,23 +17,23 @@ int main(){
     double sigy=0.2;
     double py=0;
     double v0=std::pow(10.,10.);
-    int sz=1/h-1;
+    int sz=1/h-1; //M-2
     //int sz=4;
     std::cout<<"sz"<<sz<<std::endl;
     int sz2=sz*sz;
     int sl=sln;
-    int Nt=T/dt;
+    int Nt=T/dt; //Antall tidssteg
     arma::cx_double r = arma::cx_double(0., dt / (2*h*h));
     arma::vec v=makeV(sz, sl, sls[sln-1], v0);
-    arma::mat V=BackToRealMat(v);
+    arma::mat V=BackToRealMat(v); //Mest for å teste at V var riktig
     arma::cx_vec u=makeinit(sz, sigx, sigy, xc, yc, px, py, h);
     arma::sp_cx_mat A=arma::sp_cx_mat(sz2,sz2);
     arma::sp_cx_mat B=arma::sp_cx_mat(sz2,sz2);
-    arma::cx_vec aa=makea(sz, v, r, dt);
-    arma::cx_vec bb=makeb(sz, v, r, dt);
+    arma::cx_vec aa=makea(sz, v, r, dt); //Diagonalen til A
+    arma::cx_vec bb=makeb(sz, v, r, dt); //Diagonalen til B
     MakeAB(A,  B, aa, bb, r);
     arma::cx_cube Ut=arma::cx_cube(sz, sz, Nt);
-    arma::vec P=arma::vec(Nt).fill(0.);
+    arma::vec P=arma::vec(Nt).fill(0.); //Totalsannsynligheten over tid
     Ut.slice(0)=BackToMat(u);
     for(int nt=0; nt<(Nt-1); nt++){
       P(nt)=FindP(u);
