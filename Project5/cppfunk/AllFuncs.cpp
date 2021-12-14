@@ -36,7 +36,7 @@ arma::cx_vec makeinit(int sz, double sigx, double sigy, double mux, double muy, 
   */
   return u_in;
 }
-
+//Lager diagonalen til A
 arma::cx_vec makea(int sz, arma::vec v, arma::cx_double r, double dt){
   int sz2=sz*sz;
   arma::cx_vec a=arma::cx_vec(sz2).fill(0.);
@@ -48,6 +48,7 @@ arma::cx_vec makea(int sz, arma::vec v, arma::cx_double r, double dt){
   }
   return a;
 }
+//Lager diagonalen til B
 arma::cx_vec makeb(int sz, arma::vec v, arma::cx_double r, double dt){
   int sz2=sz*sz;
   arma::cx_vec b=arma::cx_vec(sz2).fill(0.);
@@ -117,10 +118,8 @@ arma::cx_vec findu_new(arma::sp_cx_mat A, arma::cx_colvec b){
   arma::cx_vec u_new=arma::spsolve(A,b);
   return u_new;
 }
-//Ble ubrukt til slutt
+//Ble ubrukt til slutt, men skulle hvor endene av veggene lå
 arma::vec findWall(int sl){
-  //std::cout<<"Lager veggen"<<std::endl;
-  //std::cout << sl << std::endl;
   arma::vec wall=arma::vec(sl*2).fill(0.);
   double endwalls=(1-(sl-1)*0.05)/2;
   wall(0)=endwalls;
@@ -132,6 +131,7 @@ arma::vec findWall(int sl){
   //std::cout<<"wall"<<wall<<std::endl;
   return wall;
 }
+//Lager veggen med potensialet.
 arma::vec makeV(int sz, int sl, arma::vec sln, double v0){
   arma::vec wally=sln;
   std::cout << "wally" <<wally<< std::endl;
@@ -178,12 +178,13 @@ arma::vec makeV(int sz, int sl, arma::vec sln, double v0){
   }
   return Vvec;
 }
+//Finner sannsynligheten for å finne partikkelen inni systemet som burde være nærme 1
 double FindP(arma::cx_vec u_in){
   arma::vec P=arma::real(u_in)%arma::real(u_in) + arma::imag(u_in)%arma::imag(u_in);
   double p=arma::accu(P);
   return p;
 }
-//Konverterer en vektor av størrelse k tilbake til en ixj matrise
+//Konverterer en kompleks vektor av størrelse k tilbake til en M-2xM-2 matrise
 arma::cx_mat BackToMat(arma::cx_vec u){
   int sz2=u.n_elem;
   int sz=std::sqrt(sz2);
@@ -196,6 +197,7 @@ arma::cx_mat BackToMat(arma::cx_vec u){
   }
   return U;
 }
+//Konverterer en reell vektor fra vektor tilbake til en M-2xM-2 matrise
 arma::mat BackToRealMat(arma::vec u){
   int sz2=u.n_elem;
   int sz=std::sqrt(sz2);
