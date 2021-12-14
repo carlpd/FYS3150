@@ -1,0 +1,19 @@
+Vi har simulert hvordan en kvantetilstand vil oppføre seg i en boks med en dobbeltspalte barriere.
+
+main/main: Kjører simulasjonen og lagrer verdiene for hvert tidssteg til en fil. Kjøres via
+
+	$make Main
+
+Python/LagAnimasjon.py: Lager en animasjon av kvantetilstanden i bevegelse. Laster inn en binærfil fra main/main.cpp så
+simuleringen må ha vært kjørt først. Kjøres via 
+
+	$python Python/LagAnimasjon.py
+
+Python/lagbilder.py: Lager plots for |u^2|, Re(u) og Im(u) for t=0, 0.001 og 0.002 for 1, 2 og 3 spalter. 
+Lager også plots av sannsynlioghetstettheten ved x=0.8 for 1, 2 og 3 spalter. Kjøres via:
+	
+	$python Pythin/lagbilder.py
+
+Python/PlotP.py: Plotter avviket til den totale sannsynligheten, altsp 1 - P. Kjøres via
+
+	$python Python/PlotP.py
