@@ -8,7 +8,7 @@ int main(){
   int sln = 2;
   double h=0.005;
   double dt=2.5e-5;
-  double T=0.002;
+  double T=0.008;
   double xc=0.25;
   double sigx=0.05;
   double px=200;
