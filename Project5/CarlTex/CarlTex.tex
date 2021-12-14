@@ -77,12 +77,13 @@
 %% Don't ask me why, I don't know.
 
 \begin{document}
-\title{This is a Very Important Title!}   % self-explanatory
-\author{Person McSomething}               % self-explanatory
+\title{Kvantetilstand i et dobbelt-spalte system}   % self-explanatory
+\author{Carl Petter Duedahl}               % self-explanatory
+\author{Henrik Modahl Breitenstein}        % self-explanatory
 \date{\today}                             % self-explanatory
 \noaffiliation                            % ignore this
 \begin{abstract}                          % marks the beginning of the abstract
-This abstract is abstract.                % the body of the abstract
+Vi har sett på hvordan en kvantetilstand vil oppføre seg i en boks med en, to og tre spalter ved å gjøre numeriske beregninger. Avviket til den totale sannsynligheten fikk vi til å være på størrelsesordenen $10^{-14}$. Ved to spalter ser vi hvordan kvantetilstanden tidsutvikler seg, ved at noe reflekteres og noe går igjennom splatene. For en, to og tre splater ser vi på sannsynlighetstettheten ved $x=0.8$ og finner at sannsynlighetstetteheten ligner mye på fordelingen til interferenslinjene til bølger igjennom splater.              % the body of the abstract
 \end{abstract}                            % marks the end of the abstract
 \maketitle                                % creates the title, author, date & abstract
 
@@ -95,7 +96,13 @@ If you are familiar with \LaTeX\ and you want to learn more about the REVTeX4-1 
 
 % the fundamental components of scientific reports:
 \section{Introdukson}
+Et viktig eksperiment gjennom historien har vært to-spalte eksperimentet, først introdusert av Thomas Young på 1800-tallet (Referanse 1). Young sitt eksperiment gikk ut på hvordan lys oppfører seg som en bølge. Senere har det blitt vist hvordan partikler, som for eksempel elektroner også kan oppføre seg som bølger ved hjelp av to-spalte eksperimentet. Forståelsen på hvordan en partikkel interferer med seg selv er gitt av Schrödingerlikningen fra kvantefysikken:
 
+\begin{equation}
+	i \hbar \frac{d}{dt} |\Psi\rangle = \hat{H} |\Psi\rangle,
+\end{equation}
+
+For å kunne se hvordan en kvantetilstand vil oppføre seg i et slikt eksperiment så skal vi bruke Schrödingers likning til å simulere et ett-spalte, to-spalte og tre-spalte system innad i en boks. Ved å gjøre dette kan vi finne sannsylighetsfordelingen til en tenkt partikkel og sammenlikne med tidligere teoretiske og eksperimentelle resultater. I teori delen går igjennom Schrödingerlikningen og Crank-Nicolson likningen. I metode delen viser vi hvordan vi setter opp systemet og ser på hvordan vi tidsutvikler det. Vi representer resultatene så i resultatskapittelet og diskuterer de separat i diskusjonsdelen. Til slutt summerer vi opp og kommer med en konklusjon.
 \section{Teori}   % (optional)
 
 \subsection{Om Schrödinger-likningen}
@@ -107,50 +114,19 @@ Vi skal imidlertid se på en partikkel i et todimensjonalt system med en vegg me
 $$
 i\hbar \frac{d}{dt}\Psi(x,y,t)=-\frac{\hbar^2}{2m}(\frac{\delta^2}{\delta x^2}+\frac{\delta^2}{\delta y^2})+V(x,y)\Psi(x,y,t)
 $$
-I denne oppgaven vil vi være mest opptatt av hvordan sannsynligheten for å finne partikkelen i på spesifike posisjoner i systemet utvikler seg over tiden. Av Borns regel har vi at sansyligheten for å finne partikkelen i en tilstand eller i vårt tilfelle posisjon på et gitt tidspunkt er
+I denne oppgaven vil vi være mest opptatt av hvordan sannsynligheten for å finne partikkelen på spesifike posisjoner i systemet utvikler seg over tid. Av Borns regel har vi at sansyligheten for å finne partikkelen i en tilstand eller i vårt tilfelle posisjon på et gitt tidspunkt er
 $$
-p(x,y;t)=|\Psi(x,y,t)|^2=\Psi*(x,y,t)\Psi(x,y,t)
+p(x,y;t)=|\Psi(x,y,t)|^2=\Psi^*(x,y,t)\Psi(x,y,t)
 $$
-I denne simuleringen skal vi forenkle denne moddellen slik at vi nå har
+I denne simuleringen skal vi forenkle denne modellen slik at vi nå har
 $$
 i\frac{d u}{dt}=-\frac{\delta u}{\delta x}-\frac{\delta u}{\delta y}+v(x,y)u
 $$
 Her er $u$ en normalisert og dimensjonsløs kvantetilstand. Siden den er normalisert og vi går over et gitter vil da
 $$
-\sum p_{i,j}=\sum u_{i,j}*u_{i,j}=1
+\sum p_{i,j}=\sum u_{i,j}^*u_{i,j}=1
 $$
-I tillegg er $u$ enhetsløs så vi setter $x$ og $y$ til å gå fra $0$ til $1$. Selve likningens tilstand vil bli videre diskutert i \autoref{ssec:Init}. $v(x,y)$ er også innenfor det samme enhetsløse to-dimensjonale planet og vil også bli videre diskutert i \autoref{ssec:Spalte}.
-\subsection{Numerisk tillnærming} 
-V har da fra Schrödingerlikningen at
-$$
-i\frac{\delta u}{\delta t}=-\frac{\delta^2 u}{\delta x^2}-\frac{\delta^2 u}{\delta y^2}+v(x,y)
-$$
-eller 
-$$
-\frac{\delta u}{\delta t}=i\frac{\delta^2 u}{\delta x^2}+i\frac{\delta^2 u}{\delta y^2}-iv(x,y)
-$$
-Vi skal så bruke Crank-Nicolson tilnærming så vi starter med å approksimere den venstre-siden
-$$
-\frac{d u}{dt}=\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}
-$$
-Hvor $n$ er tidstegt vi er i.
-Crank-Nicolson baser seg på forover og bakover tilnærminger. For forover har vi at
-$$
-\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}=F^{n}_{i,j}
-$$ 
-mens bakover har vi
-$$
-\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}=F^{n+1}_{i,j}
-$$
-Så kombinerer vi disse forover og bakover
-$$
-\frac{u^{n+1}_{i,j}-u^n_{i,j}}{\Delta t}=\theta F^{n+1}_{i,j}-(1-\theta)F^{n}_{i,j}
-$$
-slik at for $\theta=1$ har vi bakovertilnærmingen og for $\theta=0$ har vi forovertilnærmingen.
-For Crank-Nicolson setter vi $\theta =\frac{1}{2}$ slik at vi får
-$$
-\frac{u^{n+1}_{i,j}-u^n_{i,j}}{\Delta t}=\frac{1}{2}(F^{n+1}_{i,j}-F^{n}_{i,j})
-$$
+I tillegg er $u$ i et dimensjonsløst plan så vi setter $x$ og $y$ til å gå fra $0$ til $1$. Selve likningens tilstand vil bli videre diskutert i \autoref{ssec:Init}. $v(x,y)$ er også innenfor det samme enhetsløse to-dimensjonale planet og vil bli videre diskutert i \autoref{ssec:Spalte}.
 \subsection{Initialtilstand}
 \label{ssec:Init}
 Vi trenger en initialtilstand, altså tilstanden $u(x,y,t=0)=u^0_{i,j}$. Vi skal bruke en Gaussisk initialtilstand på formen
@@ -208,6 +184,38 @@ Vi går da fra 0 opp til den tilhørende vegglengden og finner høyden åpningen
 \end{figure}
 Vi kan fortsatt ikke generelt anta at slike posisjoner ligger nøyaktig på et punkt på posisjonsgitteret vårt, så vi vil avrunde til det nærmeste punktet. 
 \newline Idéelt sett burde veggen hatt et uendelig stort potensial for at veggdelen skulle vært helt ugjennomtrengelig. Dessverre er uendelig et altfor stort tall for maskinen å regne med. Vi setter derfor potensialet der veggen er til å være $10^{10}$, og over resten av systemet vil potensialet være $0$.
+\subsection{Numerisk tillnærming} 
+V har da fra Schrödingerlikningen at
+$$
+i\frac{\delta u}{\delta t}=-\frac{\delta^2 u}{\delta x^2}-\frac{\delta^2 u}{\delta y^2}+v(x,y)
+$$
+eller 
+$$
+\frac{\delta u}{\delta t}=i\frac{\delta^2 u}{\delta x^2}+i\frac{\delta^2 u}{\delta y^2}-iv(x,y)
+$$
+Vi skal så bruke Crank-Nicolson tilnærming så vi starter med å approksimere den venstre-siden
+$$
+\frac{d u}{dt}=\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}
+$$
+Hvor $n$ er tidstegt vi er i.
+Crank-Nicolson baser seg på forover og bakover tilnærminger. For forover har vi at
+$$
+\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}=F^{n}_{i,j}
+$$ 
+mens bakover har vi
+$$
+\frac{u^{n+1}_{i,j}-u^{n}_{i,j}}{\Delta t}=F^{n+1}_{i,j}
+$$
+Så kombinerer vi disse forover og bakover
+$$
+\frac{u^{n+1}_{i,j}-u^n_{i,j}}{\Delta t}=\theta F^{n+1}_{i,j}-(1-\theta)F^{n}_{i,j}
+$$
+slik at for $\theta=1$ har vi bakovertilnærmingen og for $\theta=0$ har vi forovertilnærmingen.
+For Crank-Nicolson setter vi $\theta =\frac{1}{2}$ slik at vi får
+$$
+\frac{u^{n+1}_{i,j}-u^n_{i,j}}{\Delta t}=\frac{1}{2}(F^{n+1}_{i,j}-F^{n}_{i,j})
+$$
+
 \subsection{Bruke Crank-Nicolson}
 Vi hadde fra Crank-Nicolson at
 $$
@@ -491,7 +499,8 @@ Av \autoref{Fig:s2u2t0} ser vi en ganske normal todimensjonal sansynlighetsforde
 Ser vi derimot på den reelle og den imaginære delen i \autoref{Fig:s2Ret01} og \autoref{Fig:s2Imt01} ser vi her at det ikke bare er en stråle som $p$ på samme tidspunkt, men at det faktisk her er som bølger som går gjennom en åpning. Når vi også ser på den relle delen og den imaginære delen til $u$ for $t=0,002$ i \autoref{Fig:s2Ret02} og \autoref{Fig:s2Imt02}, så ser vi at det er bølger som har spredd seg, med noen interferenslinjer som er de som synes i \autoref{Fig:s2u2t02}.
 \subsection{Sannsynligheten i $x=0,8$}
 Vi ser at \autoref{Fig:Ps1} har ett toppunkt, \autoref{Fig:Ps2} har tre og \autoref{Fig:Ps3} har 5. Disse ligner veldig mye på interferenslinjene til bølger som går gjennom spalter som kan forsterke påstanden om at simulasjonen er korrekt, siden vi så at $u$ var satt sammen av bølger. 
-\section{Conklusjon}
+\section{Konklusjon}
+Vi har simulert oppførelsen til en kvantetilstand i en boks. Ved å gi en initialhastighet så har vi sett hvordan en, to og tre spalter gjør med kvantetilstanden. Avviket til den totale sannsnyligheten i beregningene er på $10^{-14}$. I en boks med dobbeltspalte har vi sett hvordan den imaginære og relle delen av kvantetilstanden er to bølgefunksjoner som kavntetilstanden besttår av. Sannsynlighetstettheten i dobbeltspalte-oppsettet har vi sett splitter seg opp ved at noe går igjennom spaltene imens en annen del blir reflektert av barrieren. For en, to og tre spalter har vi sett nærmere på sannsynlighetstetteheten ved $x = 0.8$, hvor vi får en fordeling som ligner mye på interferensmønsteret for vanlige bølger igjennom spalter.
 % acknowledgements (optional)
 \begin{acknowledgments}  % if you disagree with the spelling, blame Americans
 I would like thank myself for writing this beautiful document.
